@@ -96,42 +96,16 @@ The project uses a combination of Tailwind CSS and custom CSS variables for styl
    pnpm install
    ```
 
-3. Set up local environment:
-   ```bash
-   cp .env.example .env.local
-   ```
-
-4. Configure hosts file for subdomain support:
-   
-   **On macOS/Linux**:
-   ```bash
-   sudo nano /etc/hosts
-   ```
-   
-   **On Windows**:
-   ```
-   C:\Windows\System32\drivers\etc\hosts
-   ```
-   
-   Add the following line:
-   ```
-   127.0.0.1 app.localhost
-   ```
-
-5. Start the development server:
+3. Start the development server:
    ```bash
    npm run dev
-   # or
-   yarn dev
-   # or
-   pnpm dev
-   # or
-   bun dev
    ```
 
-6. Open your browser:
+4. Open your browser:
    - Marketing site: [http://localhost:3000](http://localhost:3000)
    - App dashboard: [http://app.localhost:3000](http://app.localhost:3000)
+
+> **Note**: For subdomain routing to work locally, you'll need to configure your hosts file. See [HOSTS_SETUP.md](HOSTS_SETUP.md) for detailed instructions.
 
 ## 🌐 Subdomain Routing
 
