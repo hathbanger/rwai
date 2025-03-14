@@ -1,0 +1,45 @@
+/* Custom text gradient effect */
+.chaos-strike {
+  position: relative;
+  display: inline-block;
+  background: linear-gradient(
+    135deg,
+    rgb(124, 58, 237) 0%,
+    rgb(80, 70, 230) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Gradient text effect */
+.gradient-text {
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.gradient-orange {
+  background-image: linear-gradient(
+    to right,
+    var(--primary),
+    #ff7a45
+  );
+}
+
+.gradient-purple {
+  background-image: linear-gradient(
+    to right,
+    #9333ea,
+    #c084fc
+  );
+}
+
+/* Animation utilities */
+.hover-scale {
+  transition: transform 0.3s ease;
+}
+
+.hover-scale:hover {
+  transform: scale(1.05);
+} 

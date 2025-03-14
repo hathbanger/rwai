@@ -1,0 +1,68 @@
+[
+  {
+    "id": "rtx-5090",
+    "name": "GeForce RTX 5090",
+    "architecture": "Blackwell",
+    "specs": {
+      "cudaCores": 21760,
+      "tensorCores": 680,
+      "rayTracingCores": 170,
+      "baseClockSpeed": "2.01 GHz",
+      "boostClockSpeed": "2.41 GHz",
+      "memoryType": "GDDR7",
+      "memorySize": "32 GB",
+      "memoryBusWidth": "512-bit",
+      "memoryBandwidth": "1,792 GB/s",
+      "transistorCount": "92 billion",
+      "dieSize": "750 mm²",
+      "tdp": "575 W"
+    },
+    "launchDate": "2025-01-30",
+    "launchMsrp": "$1,999",
+    "keyFeatures": [
+      "GDDR7 memory",
+      "PCIe 5.0 interface",
+      "DisplayPort 2.1b connectors supporting up to 8K at 165Hz",
+      "DLSS 4 technology with Multi Frame Generation and AI enhancements"
+    ],
+    "performance": "Offers twice the performance of the RTX 4090",
+    "description": "NVIDIA's flagship consumer GPU, targeting gamers and content creators, featuring advanced ray tracing and AI capabilities.",
+    "category": "consumer",
+    "tags": ["gaming", "content-creation", "ray-tracing", "AI"],
+    "image": "/images/logo-rent-server.png",
+    "featured": true
+  },
+  {
+    "id": "h-200",
+    "name": "NVIDIA H-200",
+    "architecture": "Hopper",
+    "specs": {
+      "cudaCores": 17000,
+      "tensorCores": 680,
+      "rayTracingCores": "N/A",
+      "baseClockSpeed": "1.8 GHz",
+      "boostClockSpeed": "2.3 GHz",
+      "memoryType": "HBM3",
+      "memorySize": "80 GB",
+      "memoryBusWidth": "5120-bit",
+      "memoryBandwidth": "3,276 GB/s",
+      "transistorCount": "80 billion",
+      "dieSize": "814 mm²",
+      "tdp": "700 W"
+    },
+    "launchDate": "2024-11-01",
+    "launchMsrp": "$10,000",
+    "keyFeatures": [
+      "HBM3 memory",
+      "PCIe 5.0 interface",
+      "NVLink support",
+      "Enhanced AI and HPC capabilities"
+    ],
+    "performance": "Designed for high-performance computing and AI workloads, delivering significant performance improvements over its predecessor, the H-100.",
+    "description": "Part of NVIDIA's data center lineup, optimized for high-performance computing (HPC) and artificial intelligence (AI) workloads, offering substantial memory and computational power.",
+    "category": "datacenter",
+    "tags": ["HPC", "AI", "data-center", "enterprise"],
+    "image": "/images/logo-rent-server.png",
+    "featured": true
+  }
+] 
