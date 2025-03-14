@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-// This is a test comment to see if Git detects the change
-
 export const config = {
   matcher: [
     // Match all request paths
