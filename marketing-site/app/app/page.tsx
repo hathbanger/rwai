@@ -23,7 +23,7 @@ export default function AppPage() {
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-foreground">$5.87</div>
+            <div className="text-2xl font-bold text-foreground">$489.12</div>
             <div className="flex items-center mt-1 text-xs">
               <span className="flex items-center text-green-600">
                 <ArrowUpRight className="w-3 h-3 mr-1" />

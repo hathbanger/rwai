@@ -111,11 +111,11 @@ export default function AppLayout({
             </div>
             
             <div className="flex items-center space-x-4">
-              {/* Balance display */}
-              <div className="hidden sm:flex items-center gap-1.5 py-1.5 px-4 bg-muted rounded-full border border-border hover:bg-muted/80 transition-colors">
+              {/* Balance display with link to usage & billing page */}
+              <Link href="/usage" className="hidden sm:flex items-center gap-1.5 py-1.5 px-4 bg-muted rounded-full border border-border hover:bg-muted/80 transition-colors">
                 <DollarSign className="h-4 w-4 text-muted-foreground" />
-                <span className="text-sm font-medium text-green-500 dark:text-green-400">5.87</span>
-              </div>
+                <span className="text-sm font-medium text-green-500 dark:text-green-400">489.12</span>
+              </Link>
               
               {/* Notification bell with dropdown */}
               <DropdownMenu>
@@ -161,7 +161,7 @@ export default function AppLayout({
               <UserAccountDropdown 
                 userName="John Doe"
                 userEmail="john@example.com"
-                balance="$5.87"
+                balance="$489.12"
                 hideBalance={true}
               />
             </div>

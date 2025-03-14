@@ -39,7 +39,7 @@ export function UserAccountDropdown({
   userName = "User",
   userEmail = "user@example.com",
   userImageUrl,
-  balance = "$5.87",
+  balance = "$489.12",
   hideBalance = false
 }: UserAccountDropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
@@ -62,28 +62,28 @@ export function UserAccountDropdown({
     <div className="flex items-center gap-3 sm:gap-5">
       {/* Balance Display - styled to match the screenshot */}
       {!hideBalance && (
-        <div className="hidden sm:flex items-center gap-1.5 py-1.5 px-4 bg-[#232836] rounded-full border border-gray-700 hover:bg-gray-800 transition-colors">
-          <DollarSign className="h-4 w-4 text-gray-400" />
-          <span className="text-sm font-medium text-green-400">{balance.replace('$', '')}</span>
+        <div className="hidden sm:flex items-center gap-1.5 py-1.5 px-4 bg-muted dark:bg-[#232836] rounded-full border border-border dark:border-gray-700 hover:bg-muted/80 dark:hover:bg-gray-800 transition-colors">
+          <DollarSign className="h-4 w-4 text-muted-foreground dark:text-gray-400" />
+          <span className="text-sm font-medium text-green-600 dark:text-green-400">{balance.replace('$', '')}</span>
         </div>
       )}
 
       {/* User Dropdown */}
       <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
         <DropdownMenuTrigger asChild>
-          <button className="flex items-center gap-2 focus:outline-none p-1.5 rounded-full hover:bg-gray-800 transition-colors border border-transparent hover:border-gray-700">
+          <button className="flex items-center gap-2 focus:outline-none p-1.5 rounded-full hover:bg-muted dark:hover:bg-gray-800 transition-colors border border-transparent hover:border-border dark:hover:border-gray-700">
             {userImageUrl ? (
               <img
                 src={userImageUrl}
                 alt={userName}
-                className="h-8 w-8 rounded-full object-cover border border-gray-700"
+                className="h-8 w-8 rounded-full object-cover border border-muted dark:border-gray-700"
               />
             ) : (
-              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-700 text-gray-300">
+              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-muted dark:bg-gray-700 text-muted-foreground dark:text-gray-300">
                 <User className="h-5 w-5" />
               </div>
             )}
-            <ChevronDown className="h-4 w-4 text-gray-400 hidden sm:block" />
+            <ChevronDown className="h-4 w-4 text-muted-foreground dark:text-gray-400 hidden sm:block" />
           </button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-64 p-0 overflow-hidden rounded-xl shadow-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100">
@@ -107,26 +107,26 @@ export function UserAccountDropdown({
           </DropdownMenuLabel>
           <div className="py-1">
             <DropdownMenuItem asChild>
-              <Link href="/app/profile" className="flex items-center gap-3 px-4 py-2.5 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700">
-                <User className="h-4 w-4" />
+              <Link href="/profile" className="flex items-center gap-3 px-4 py-2.5 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 text-foreground dark:text-white">
+                <User className="h-4 w-4 text-muted-foreground dark:text-gray-400" />
                 <span>Profile</span>
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
-              <Link href="/app/billing" className="flex items-center gap-3 px-4 py-2.5 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700">
-                <CreditCard className="h-4 w-4" />
-                <span>Billing</span>
+              <Link href="/usage" className="flex items-center gap-3 px-4 py-2.5 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 text-foreground dark:text-white">
+                <CreditCard className="h-4 w-4 text-muted-foreground dark:text-gray-400" />
+                <span>Usage & Billing</span>
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
-              <Link href="/app/settings" className="flex items-center gap-3 px-4 py-2.5 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700">
-                <Settings className="h-4 w-4" />
+              <Link href="/settings" className="flex items-center gap-3 px-4 py-2.5 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 text-foreground dark:text-white">
+                <Settings className="h-4 w-4 text-muted-foreground dark:text-gray-400" />
                 <span>Settings</span>
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
-              <Link href="/app/help" className="flex items-center gap-3 px-4 py-2.5 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700">
-                <HelpCircle className="h-4 w-4" />
+              <Link href="/help" className="flex items-center gap-3 px-4 py-2.5 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 text-foreground dark:text-white">
+                <HelpCircle className="h-4 w-4 text-muted-foreground dark:text-gray-400" />
                 <span>Help & Support</span>
               </Link>
             </DropdownMenuItem>
@@ -135,15 +135,17 @@ export function UserAccountDropdown({
           <div className="py-1">
             {mounted && (
               <DropdownMenuItem asChild>
-                <ThemeToggle variant="button" className="w-full justify-start" />
+                <ThemeToggle variant="button" className="w-full justify-start text-foreground dark:text-white" />
               </DropdownMenuItem>
             )}
           </div>
           <DropdownMenuSeparator className="my-0 dark:border-gray-700" />
           <div className="py-1 bg-muted dark:bg-muted">
-            <DropdownMenuItem className="flex items-center gap-3 px-4 py-2.5 cursor-pointer text-red-600 dark:text-red-400 focus:text-red-600 dark:focus:text-red-300 hover:bg-muted/80 dark:hover:bg-muted/80">
-              <LogOut className="h-4 w-4" />
-              <span>Log out</span>
+            <DropdownMenuItem asChild>
+              <Link href="/" className="flex items-center gap-3 px-4 py-2.5 cursor-pointer text-foreground dark:text-white hover:bg-muted/80 dark:hover:bg-muted/80">
+                <LogOut className="h-4 w-4 text-muted-foreground dark:text-gray-400" />
+                <span>Log out</span>
+              </Link>
             </DropdownMenuItem>
           </div>
         </DropdownMenuContent>
@@ -184,47 +186,47 @@ export function UserAccountDropdown({
             <div className="flex-1 overflow-auto p-5">
               <nav className="space-y-1">
                 <Link 
-                  href="/app" 
-                  className="flex items-center gap-3 p-3.5 rounded-lg hover:bg-muted border border-transparent hover:border-border"
+                  href="/" 
+                  className="flex items-center gap-3 p-3.5 rounded-lg hover:bg-muted border border-transparent hover:border-border text-foreground dark:text-white"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  <BarChart3 className="h-5 w-5 text-muted-foreground" />
-                  <span className="text-foreground">Dashboard</span>
+                  <BarChart3 className="h-5 w-5 text-muted-foreground dark:text-gray-400" />
+                  <span>Dashboard</span>
                 </Link>
                 <Link 
-                  href="/app/profile" 
-                  className="flex items-center gap-3 p-3.5 rounded-lg hover:bg-muted border border-transparent hover:border-border"
+                  href="/profile" 
+                  className="flex items-center gap-3 p-3.5 rounded-lg hover:bg-muted border border-transparent hover:border-border text-foreground dark:text-white"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  <User className="h-5 w-5 text-muted-foreground" />
-                  <span className="text-foreground">Profile</span>
+                  <User className="h-5 w-5 text-muted-foreground dark:text-gray-400" />
+                  <span>Profile</span>
                 </Link>
                 <Link 
-                  href="/app/billing" 
-                  className="flex items-center gap-3 p-3.5 rounded-lg hover:bg-muted border border-transparent hover:border-border"
+                  href="/usage" 
+                  className="flex items-center gap-3 p-3.5 rounded-lg hover:bg-muted border border-transparent hover:border-border text-foreground dark:text-white"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  <CreditCard className="h-5 w-5 text-muted-foreground" />
-                  <span className="text-foreground">Billing</span>
+                  <CreditCard className="h-5 w-5 text-muted-foreground dark:text-gray-400" />
+                  <span>Usage & Billing</span>
                 </Link>
                 <Link 
-                  href="/app/settings" 
-                  className="flex items-center gap-3 p-3.5 rounded-lg hover:bg-muted border border-transparent hover:border-border"
+                  href="/settings" 
+                  className="flex items-center gap-3 p-3.5 rounded-lg hover:bg-muted border border-transparent hover:border-border text-foreground dark:text-white"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  <Settings className="h-5 w-5 text-muted-foreground" />
-                  <span className="text-foreground">Settings</span>
+                  <Settings className="h-5 w-5 text-muted-foreground dark:text-gray-400" />
+                  <span>Settings</span>
                 </Link>
                 <Link 
-                  href="/app/help" 
-                  className="flex items-center gap-3 p-3.5 rounded-lg hover:bg-muted border border-transparent hover:border-border"
+                  href="/help" 
+                  className="flex items-center gap-3 p-3.5 rounded-lg hover:bg-muted border border-transparent hover:border-border text-foreground dark:text-white"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  <HelpCircle className="h-5 w-5 text-muted-foreground" />
-                  <span className="text-foreground">Help & Support</span>
+                  <HelpCircle className="h-5 w-5 text-muted-foreground dark:text-gray-400" />
+                  <span>Help & Support</span>
                 </Link>
                 {mounted && (
-                  <ThemeToggle variant="button" className="w-full justify-start text-left" />
+                  <ThemeToggle variant="button" className="w-full justify-start text-left text-foreground dark:text-white" />
                 )}
               </nav>
             </div>
@@ -233,13 +235,14 @@ export function UserAccountDropdown({
                 <span className="text-sm text-muted-foreground">Balance</span>
                 <span className={`text-lg font-medium ${balanceColor} dark:text-green-400`}>{balance}</span>
               </div>
-              <button 
-                className="flex w-full items-center justify-center gap-2 p-3 rounded-lg bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/30 border border-red-200 dark:border-red-800/30"
+              <Link 
+                href="/" 
+                className="flex w-full items-center justify-center gap-2 p-3 rounded-lg bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-white hover:bg-red-100 dark:hover:bg-red-900/30 border border-red-200 dark:border-red-800/30"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                <LogOut className="h-5 w-5" />
+                <LogOut className="h-5 w-5 text-red-600 dark:text-white" />
                 <span className="font-medium">Log out</span>
-              </button>
+              </Link>
             </div>
           </div>
         </div>

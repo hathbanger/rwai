@@ -5,17 +5,19 @@ import React from 'react';
 interface LogoProps {
   className?: string;
   height?: number;
+  width?: string | number;
 }
 
-export function Logo({ className, height = 28 }: LogoProps) {
+export function Logo({ className, height = 28, width = "100%" }: LogoProps) {
   return (
     <svg 
-      width="auto" 
+      width={width} 
       height={height} 
       viewBox="0 0 797 259" 
       fill="currentColor"
       className={`logo-svg ${className || ''}`}
       xmlns="http://www.w3.org/2000/svg"
+      preserveAspectRatio="xMidYMid meet"
     >
       <path 
         fillRule="evenodd" 

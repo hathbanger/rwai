@@ -106,7 +106,7 @@ export function SidebarNav({ navigationLinks }: SidebarNavProps) {
               <p className="text-xs font-medium text-sidebar-foreground/60 uppercase tracking-wider mb-2">ACCOUNT</p>
               <nav className="space-y-1">
                 <Link 
-                  href="/app/usage" 
+                  href="/usage" 
                   className="flex items-center px-3 py-2 text-sm font-medium text-sidebar-foreground/80 rounded-md hover:bg-sidebar-accent/50 hover:text-sidebar-foreground group"
                   onClick={toggleSidebar}
                 >
@@ -114,7 +114,7 @@ export function SidebarNav({ navigationLinks }: SidebarNavProps) {
                   Usage
                 </Link>
                 <Link 
-                  href="/app/billing" 
+                  href="/billing" 
                   className="flex items-center px-3 py-2 text-sm font-medium text-sidebar-foreground/80 rounded-md hover:bg-sidebar-accent/50 hover:text-sidebar-foreground group"
                   onClick={toggleSidebar}
                 >

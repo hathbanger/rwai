@@ -120,7 +120,7 @@ const ModelCard = ({ id, name, description, tags, parameters, image }: ModelCard
       
       {/* Content section */}
       <div className="p-4 flex flex-col flex-grow">
-        <h3 className="font-medium text-foreground">{name}</h3>
+        <CardTitle className="text-lg">{name}</CardTitle>
         <div className="flex flex-wrap gap-1 mt-1">
           {tags.slice(0, 3).map((tag) => (
             <span key={tag} className="px-1.5 py-0.5 text-xs rounded-full bg-muted text-muted-foreground">
@@ -221,7 +221,7 @@ export default function ModelsPage() {
 
       {/* Featured models cards */}
       <div className="mb-16 w-full px-4">
-        <h2 className="text-xl font-bold mb-6 text-foreground">Featured Models</h2>
+        <div className="text-2xl mb-6">Featured Models</div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 w-full">
           {models.filter(model => model.featured).map(model => (
             <ModelCard
@@ -271,7 +271,7 @@ export default function ModelsPage() {
 
       {/* All Models Table */}
       <div className="w-full px-4">
-        <h2 className="text-xl font-bold mb-6 text-foreground">All Models</h2>
+        <div className="text-2xl mb-6">All Models</div>
         <Card>
           <CardHeader className="pb-2">
             <div className="flex justify-between items-center">
