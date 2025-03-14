@@ -20,34 +20,6 @@ const features = [
   }
 ];
 
-const testimonials = [
-  {
-    quote: "As AI becomes more efficient and accessible, we will see usage skyrocket—and that means we'll need exponentially more GPUs to keep up with the demand for inference compute.",
-    author: 'Satya Nadella',
-    title: 'CEO of Microsoft'
-  },
-  {
-    quote: "As AI becomes more efficient and accessible, we will see usage skyrocket—and that means we'll need exponentially more GPUs to keep up with the demand for inference compute.",
-    author: 'Satya Nadella',
-    title: 'CEO of Microsoft'
-  },
-  {
-    quote: "As AI becomes more efficient and accessible, we will see usage skyrocket—and that means we'll need exponentially more GPUs to keep up with the demand for inference compute.",
-    author: 'Satya Nadella',
-    title: 'CEO of Microsoft'
-  },
-  {
-    quote: "As AI becomes more efficient and accessible, we will see usage skyrocket—and that means we'll need exponentially more GPUs to keep up with the demand for inference compute.",
-    author: 'Satya Nadella',
-    title: 'CEO of Microsoft'
-  },
-  {
-    quote: "As AI becomes more efficient and accessible, we will see usage skyrocket—and that means we'll need exponentially more GPUs to keep up with the demand for inference compute.",
-    author: 'Satya Nadella',
-    title: 'CEO of Microsoft'
-  }
-];
-
 const Features = () => {
   return (
     <section id="features" className="py-24 bg-gradient-to-b from-background/90 to-background">
@@ -60,11 +32,11 @@ const Features = () => {
           </h2>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-24">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {features.map((feature, index) => (
             <Card 
               key={feature.title}
-              className="border-none shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out animate-slide-up"
+              className="border-none shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out animate-slide-up dark:bg-gray-800/80"
               style={{ animationDelay: `${index * 100}ms` }}
             >
               <CardContent className="p-8">
@@ -73,30 +45,6 @@ const Features = () => {
               </CardContent>
             </Card>
           ))}
-        </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {testimonials.map((testimonial, index) => (
-            <Card 
-              key={index}
-              className="border-none shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out animate-fade-in"
-              style={{ animationDelay: `${index * 150}ms` }}
-            >
-              <CardContent className="p-8">
-                <blockquote className="text-lg italic mb-4">"{testimonial.quote}"</blockquote>
-                <div className="font-bold">{testimonial.author}</div>
-                <div className="text-sm text-muted-foreground">{testimonial.title}</div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-        
-        <div className="text-center mt-24">
-          <h2 className="text-3xl md:text-5xl font-bold mb-6">
-            industry growth <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-orange-700">
-              AI workloads is doubling every 3.4 months.
-            </span>
-          </h2>
         </div>
       </div>
     </section>

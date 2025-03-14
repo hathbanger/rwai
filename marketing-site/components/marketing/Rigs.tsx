@@ -15,15 +15,17 @@ const Rigs = () => {
         />
         
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          <div className="relative h-[500px] animate-float">
-            <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 to-purple-600/10 rounded-xl animate-pulse animation-duration-4000" />
-            <Image
-              src="/images/RWAi_00060_.png"
-              alt="AI Rig"
-              fill
-              sizes="(max-width: 768px) 100vw, 50vw"
-              className="object-contain"
-            />
+          <div className="relative h-[500px] overflow-hidden rounded-3xl">
+            <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 to-purple-600/10 rounded-3xl animate-pulse animation-duration-4000" />
+            <div className="relative w-full h-full overflow-hidden rounded-3xl">
+              <Image
+                src="/images/RWAi_00060_.png"
+                alt="AI Rig"
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-cover"
+              />
+            </div>
           </div>
           
           <div className="space-y-8">

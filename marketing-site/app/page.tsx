@@ -16,9 +16,9 @@ export default function Home() {
       <Navbar />
       <main>
         <Hero />
+        <Models />
         <Partners />
         <Rigs />
-        <Models />
         <Whitelist />
         <Features />
         <FAQ />

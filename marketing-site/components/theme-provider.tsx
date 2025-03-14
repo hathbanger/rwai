@@ -33,14 +33,23 @@ export function ThemeProvider({
 
   // Initialize theme from localStorage or default
   useEffect(() => {
-    const savedTheme = localStorage.getItem(storageKey) as Theme | null;
-    if (savedTheme) {
-      setTheme(savedTheme);
-    } else if (defaultTheme === "system") {
-      const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches
-        ? "dark"
-        : "light";
-      setTheme(systemTheme);
+    // Check if we're on the home page (/) and not on a subdomain
+    const isHomePage = window.location.pathname === "/" && !window.location.host.startsWith("app.");
+    
+    if (isHomePage) {
+      // For home page, always use the defaultTheme (which is "light" in the main layout)
+      setTheme(defaultTheme);
+    } else {
+      // For other pages, use the saved theme from localStorage if available
+      const savedTheme = localStorage.getItem(storageKey) as Theme | null;
+      if (savedTheme) {
+        setTheme(savedTheme);
+      } else if (defaultTheme === "system") {
+        const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches
+          ? "dark"
+          : "light";
+        setTheme(systemTheme);
+      }
     }
     setMounted(true);
   }, [defaultTheme, storageKey]);

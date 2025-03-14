@@ -1,74 +1,144 @@
 import React from 'react';
-import { Card, CardContent } from '../ui/card';
-import { Button } from '../ui/button';
 import Link from 'next/link';
+import Image from 'next/image';
+import { Button } from '../ui/button';
+import { ChevronRight } from 'lucide-react';
 
-const models = [
+// Define model type
+interface ModelType {
+  name: string;
+  description: string;
+  image: string;
+  href: string;
+}
+
+// Model data without className property
+const models: ModelType[] = [
   { 
     name: 'DeepSeek LLM', 
     description: 'Decentralize AI compute ownership.',
-    date: 'April 2024',
-    color: 'from-blue-500 to-cyan-400'
-  },
-  { 
-    name: 'Flux', 
-    description: 'Decentralize AI compute ownership.',
-    date: 'April 2024',
-    color: 'from-purple-500 to-pink-400'
+    image: '/images/logo_deepseek.png',
+    href: 'http://app.localhost:3000/models/deepseek'
   },
   { 
     name: 'Llama LLM', 
     description: 'Decentralize AI compute ownership.',
-    date: 'April 2024',
-    color: 'from-orange-500 to-amber-400'
+    image: '/images/logo-llama_2.png',
+    href: 'http://app.localhost:3000/models/llama'
+  },
+  { 
+    name: 'Black Forest', 
+    description: 'Decentralize AI compute ownership.',
+    image: '/images/logo_black-forest.png',
+    href: 'http://app.localhost:3000/models/black-forest'
   },
   { 
     name: 'Mistral', 
     description: 'Decentralize AI compute ownership.',
-    date: 'April 2024',
-    color: 'from-green-500 to-emerald-400'
+    image: '/images/logo_mistral.png',
+    href: 'http://app.localhost:3000/models/mistral'
   },
   { 
     name: 'GPU Rental', 
     description: 'Decentralize AI compute ownership.',
-    date: 'April 2024',
-    color: 'from-red-500 to-rose-400'
-  },
+    image: '/images/logo-rent-server.png',
+    href: 'http://app.localhost:3000/models/gpu-rental'
+  }
 ];
+
+// Card component for model items
+const ModelCard = ({ model, priority = false, className = "" }: { model: ModelType; priority?: boolean; className?: string }) => (
+  <Link 
+    href={model.href}
+    className={`group block relative rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-xl ${className}`}
+  >
+    <div className="absolute inset-0 w-full h-full bg-gray-900">
+      <Image
+        src={model.image}
+        alt={model.name}
+        fill
+        className="object-cover"
+        priority={priority}
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+    </div>
+    
+    <div className="absolute bottom-0 left-0 p-6 w-full flex justify-between items-center">
+      <h3 className="text-xl md:text-2xl font-bold text-white">{model.name}</h3>
+      <div className="bg-gray-800/60 dark:bg-gray-900/60 rounded-full p-2 backdrop-blur-sm group-hover:bg-primary/80 transition-colors duration-300">
+        <ChevronRight className="h-5 w-5 text-white" />
+      </div>
+    </div>
+  </Link>
+);
 
 const Models = () => {
   return (
-    <section id="models" className="py-24 bg-gradient-to-b from-background/90 to-background">
+    <section id="models" className="py-16 md:py-24 bg-gray-50 dark:bg-gray-900">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-5xl font-bold mb-6 animate-fade-in">
-            Models & <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-orange-700">
-              Real World Assets
-            </span> that Power the AI Revolution
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 md:mb-16">
+          <h2 className="text-3xl md:text-5xl font-bold mb-6 md:mb-0">
+            <span className="text-gray-900 dark:text-white">Real World Assets that</span>
+            <br />
+            <span className="text-gray-900 dark:text-white">Power the </span>
+            <span className="text-primary">AI Revolution</span>
           </h2>
-          <Button asChild size="lg" className="bg-primary hover:bg-primary/90 text-white animate-bounce-subtle">
-            <Link href="/whitelist">
+          
+          <Button asChild variant="outline" className="self-start md:self-auto border-gray-300 dark:border-gray-700 rounded-full px-6">
+            <Link href="/whitelist" className="flex items-center gap-2">
               Join Whitelist
+              <ChevronRight className="h-4 w-4" />
             </Link>
           </Button>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* Desktop layout */}
+        <div className="hidden lg:grid grid-cols-12 gap-5 auto-rows-[180px]">
+          {/* Top row */}
+          <div className="col-span-4">
+            <ModelCard model={models[0]} priority className="h-full aspect-auto" />
+          </div>
+          <div className="col-span-4">
+            <ModelCard model={models[1]} priority className="h-full aspect-auto" />
+          </div>
+          <div className="col-span-4 row-span-2">
+            <ModelCard model={models[4]} priority className="h-full aspect-auto" />
+          </div>
+          
+          {/* Bottom row */}
+          <div className="col-span-4">
+            <ModelCard model={models[2]} className="h-full aspect-auto" />
+          </div>
+          <div className="col-span-4">
+            <ModelCard model={models[3]} className="h-full aspect-auto" />
+          </div>
+        </div>
+        
+        {/* Tablet layout */}
+        <div className="hidden md:grid lg:hidden grid-cols-2 gap-5">
+          <div className="aspect-[4/3]">
+            <ModelCard model={models[0]} priority className="h-full" />
+          </div>
+          <div className="aspect-[4/3]">
+            <ModelCard model={models[1]} priority className="h-full" />
+          </div>
+          <div className="aspect-[4/3]">
+            <ModelCard model={models[2]} className="h-full" />
+          </div>
+          <div className="aspect-[4/3]">
+            <ModelCard model={models[3]} className="h-full" />
+          </div>
+          <div className="aspect-[4/3] col-span-2">
+            <ModelCard model={models[4]} className="h-full" />
+          </div>
+        </div>
+        
+        {/* Mobile layout */}
+        <div className="grid md:hidden grid-cols-1 gap-5">
           {models.map((model, index) => (
-            <Card 
-              key={model.name}
-              className="overflow-hidden border-none shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out animate-slide-up"
-              style={{ animationDelay: `${index * 100}ms` }}
-            >
-              <CardContent className="p-0">
-                <div className={`h-2 bg-gradient-to-r ${model.color}`} />
-                <div className="p-6">
-                  <h5 className="text-lg font-bold mb-2">{model.name}</h5>
-                  <p className="text-muted-foreground mb-4">{model.description}</p>
-                  <div className="text-xs text-muted-foreground">{model.date}</div>
-                </div>
-              </CardContent>
-            </Card>
+            <div key={model.name} className="aspect-[4/3]">
+              <ModelCard model={model} priority={index < 1} className="h-full" />
+            </div>
           ))}
         </div>
       </div>
@@ -76,4 +146,4 @@ const Models = () => {
   );
 };
 
-export default Models; 
+export default Models;

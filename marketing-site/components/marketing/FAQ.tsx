@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import { Card, CardContent } from '../ui/card';
-import SectionHeading from '../ui/SectionHeading';
 import { faqs } from '../../data/faqs';
 
 const FAQ = () => {
@@ -15,17 +14,18 @@ const FAQ = () => {
   return (
     <section id="faq" className="py-24 bg-gradient-to-b from-background/90 to-background">
       <div className="container mx-auto px-4">
-        <SectionHeading 
-          title="FAQ Everything you need to know about RWAi"
-          highlightedText="FAQ"
-          gradientDirection="diagonal"
-        />
+        <div className="text-center mb-16">
+          <h3 className="text-xl md:text-2xl font-bold mb-3 text-primary">FAQ</h3>
+          <h2 className="text-3xl md:text-5xl font-bold">
+            Everything you need to know about RWAi
+          </h2>
+        </div>
         
         <div className="max-w-3xl mx-auto">
           {faqs.map((faq, index) => (
             <Card 
               key={index} 
-              className="mb-4 border-none shadow-sm hover:shadow-md transition-all duration-300 animate-slide-up"
+              className="mb-4 border-none shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out animate-slide-up dark:bg-gray-800/80"
               style={{ animationDelay: `${index * 100}ms` }}
             >
               <CardContent className="p-0">

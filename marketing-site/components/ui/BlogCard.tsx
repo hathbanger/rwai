@@ -10,7 +10,7 @@ interface BlogCardProps {
 
 const BlogCard = ({ post, className = '' }: BlogCardProps) => {
   return (
-    <div className={`bg-card rounded-xl overflow-hidden shadow-sm hover-scale ${className}`}>
+    <div className={`bg-card rounded-xl overflow-hidden border-none shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out dark:bg-gray-800/80 ${className}`}>
       <div className="relative h-48">
         <Image
           src={post.image}

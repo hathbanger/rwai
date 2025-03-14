@@ -67,13 +67,22 @@ export default function RootLayout({
             __html: `
               // This script runs before React hydration to prevent flash of unstyled content
               try {
-                const savedTheme = localStorage.getItem('theme') || 'dark';
-                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                // Check if we're on the home page (/) and not on a subdomain
+                const isHomePage = window.location.pathname === "/" && !window.location.host.startsWith("app.");
                 
-                if (savedTheme === 'dark' || (savedTheme === 'system' && prefersDark)) {
-                  document.documentElement.classList.add('dark');
-                } else {
+                if (isHomePage) {
+                  // For home page, always use light mode
                   document.documentElement.classList.remove('dark');
+                } else {
+                  // For other pages, check localStorage or system preference
+                  const savedTheme = localStorage.getItem('theme') || 'light';
+                  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                  
+                  if (savedTheme === 'dark' || (savedTheme === 'system' && prefersDark)) {
+                    document.documentElement.classList.add('dark');
+                  } else {
+                    document.documentElement.classList.remove('dark');
+                  }
                 }
               } catch (e) {
                 // Fail silently if localStorage is not available
@@ -84,7 +93,7 @@ export default function RootLayout({
         />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} ${sora.variable} font-sans antialiased`}>
-        <ThemeProvider defaultTheme="dark">
+        <ThemeProvider defaultTheme="light">
           {children}
         </ThemeProvider>
       </body>
