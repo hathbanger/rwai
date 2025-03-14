@@ -4,6 +4,7 @@ import { useState } from "react";
 import { CreditBalance } from "../usage/components/CreditBalance";
 import { InvoiceHistory } from "../usage/components/InvoiceHistory";
 import { PaymentOptions } from "../usage/components/PaymentOptions";
+import { WhitelistOverlay } from "../../../components/app-dashboard/whitelist-overlay";
 
 // Mock data for the billing page
 const mockCardInfo = {
@@ -108,6 +109,9 @@ export default function BillingPage() {
         onDownload={handleDownloadInvoice}
         onView={handleViewInvoice}
       />
+
+      {/* Whitelist Overlay */}
+      <WhitelistOverlay />
     </div>
   );
 } 

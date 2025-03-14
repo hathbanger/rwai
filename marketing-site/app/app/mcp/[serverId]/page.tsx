@@ -3,10 +3,11 @@
 import { useState } from "react";
 import { ArrowLeft, Server, Clock, Zap, Calendar, Code, CheckCircle, Copy, ExternalLink } from "lucide-react";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, useParams } from "next/navigation";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import mcpServersData from "../../../../src/data/mcp-servers.json";
+import { WhitelistOverlay } from "../../../../components/app-dashboard/whitelist-overlay";
 
 // Base path for static assets in subdomains
 const IMAGE_BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || "http://localhost:3000";
@@ -57,9 +58,10 @@ const formatDate = (isoDate: string) => {
   }).format(date);
 };
 
-export default function MCPServerDetailPage({ params }: { params: { serverId: string } }) {
-  const { serverId } = params;
-
+export default function MCPServerDetailPage() {
+  // Use the useParams hook to get the serverId
+  const params = useParams();
+  const serverId = params.serverId as string;
 
   console.log({ mcpServersData })
 
@@ -304,6 +306,9 @@ export default function MCPServerDetailPage({ params }: { params: { serverId: st
           Connect to Server
         </button>
       </div>
+
+      {/* Whitelist Overlay */}
+      <WhitelistOverlay />
     </div>
   );
 } 

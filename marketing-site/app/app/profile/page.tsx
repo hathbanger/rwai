@@ -9,6 +9,7 @@ import { UsageStats } from "./components/UsageStats";
 import { QuickActions } from "./components/QuickActions";
 import { ActivityList } from "./components/ActivityList";
 import { SecuritySettings } from "./components/SecuritySettings";
+import { WhitelistOverlay } from "../../../components/app-dashboard/whitelist-overlay";
 import { 
   CreditCard,
   BarChart3,
@@ -157,6 +158,9 @@ export default function ProfilePage() {
           </Tabs>
         </div>
       </div>
+
+      {/* Whitelist Overlay */}
+      <WhitelistOverlay />
     </div>
   );
 } 

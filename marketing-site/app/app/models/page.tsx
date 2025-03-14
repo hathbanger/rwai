@@ -12,6 +12,9 @@ import modelsData from "../../../src/data/models.json";
 // Base path for static assets in subdomains
 const IMAGE_BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || "http://localhost:3000";
 
+// Default image path
+const DEFAULT_IMAGE_PATH = "/texture_3.png";
+
 // Define Model interface
 interface Model {
   id: string;
@@ -71,22 +74,17 @@ interface ModelLogoProps {
 const ModelLogo = ({ src, alt, className = "", width = 96, height = 96 }: ModelLogoProps) => {
   const [imgError, setImgError] = useState(false);
   
-  // Use the helper function for image URL
-  const imageUrl = src;
-  
-  if (imgError) {
-    return (
-      <div className={`flex items-center justify-center bg-muted rounded-full ${className}`} style={{ width, height }}>
-        <span className="text-3xl font-bold text-muted-foreground">{alt.charAt(0)}</span>
-      </div>
-    );
-  }
+  // Use the helper function for image URL with default fallback
+  const imageUrl = imgError || !src || src === ""
+    ? `${IMAGE_BASE_PATH}${DEFAULT_IMAGE_PATH}`
+    : src;
   
   return (
     <div className={className}>
       <div 
         className="w-full h-full bg-contain bg-center bg-no-repeat" 
         style={{ width, height, backgroundImage: `url(${imageUrl})` }}
+        onError={() => setImgError(true)}
       />
     </div>
   );
@@ -95,27 +93,23 @@ const ModelLogo = ({ src, alt, className = "", width = 96, height = 96 }: ModelL
 const ModelCard = ({ id, name, description, tags, parameters, image }: ModelCardProps) => {
   const [imgError, setImgError] = useState(false);
   
-  // Create an absolute URL
-  const imageUrl = image.startsWith('/') 
-    ? `http://localhost:3000${image}`
-    : image;
+  // Create an absolute URL with default fallback
+  const imageUrl = name === "Bark" || imgError || !image || image === "" 
+    ? `${IMAGE_BASE_PATH}${DEFAULT_IMAGE_PATH}`
+    : image.startsWith('/') 
+      ? `http://localhost:3000${image}`
+      : image;
 
   return (
     <div className="flex flex-col rounded-xl border border-border bg-card hover:border-primary/50 transition-colors overflow-hidden w-full h-full">
       {/* Full-width top half image with absolutely no padding */}
       <div className="h-48 w-full bg-muted/50 overflow-hidden">
-        {imgError ? (
-          <div className="flex items-center justify-center bg-muted h-full w-full">
-            <span className="text-3xl font-bold text-muted-foreground">{name.charAt(0)}</span>
-          </div>
-        ) : (
-          <img 
-            src={imageUrl} 
-            alt={name}
-            className="h-full w-full object-cover"
-            onError={() => setImgError(true)}
-          />
-        )}
+        <img 
+          src={imageUrl} 
+          alt={name}
+          className="h-full w-full object-cover"
+          onError={() => setImgError(true)}
+        />
       </div>
       
       {/* Content section */}

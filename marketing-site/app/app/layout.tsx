@@ -94,7 +94,7 @@ export default function AppLayout({
   return (
     <div className={`${geistSans.variable} ${geistMono.variable} ${sora.variable} min-h-screen flex flex-col bg-background text-foreground`}>
       {/* Top header with logo and user dropdown */}
-      <header className="bg-card border-b border-border sticky top-0 z-30">
+      <header className="bg-card border-b border-border sticky top-0 z-50">
         <div className="mx-auto max-w-7xl px-4 py-3 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between">
             {/* Logo and mobile menu */}
@@ -170,7 +170,7 @@ export default function AppLayout({
       </header>
 
       {/* Main navigation - only visible on medium screens and up */}
-      <nav className="hidden md:block bg-background border-b border-border">
+      <nav className="hidden md:block bg-background border-b border-border sticky top-[57px] z-50">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex space-x-8">
             {navigationLinks.map((link) => (
@@ -194,7 +194,7 @@ export default function AppLayout({
       </nav>
 
       {/* Main content */}
-      <main className="flex-grow mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+      <main className="flex-grow mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8 relative">
         {children}
       </main>
 

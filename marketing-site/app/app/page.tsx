@@ -1,6 +1,9 @@
+"use client";
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
 import { BarChart3, CreditCard, Server, Users, ArrowUpRight, ArrowDownRight, Activity, Clock, ExternalLink, MoreVertical } from "lucide-react";
+import { WhitelistOverlay } from "../../components/app-dashboard/whitelist-overlay";
 
 export default function AppPage() {
   return (
@@ -240,6 +243,9 @@ export default function AppPage() {
           </CardContent>
         </Card>
       </div>
+      
+      {/* Whitelist Overlay */}
+      <WhitelistOverlay />
     </div>
   );
 } 

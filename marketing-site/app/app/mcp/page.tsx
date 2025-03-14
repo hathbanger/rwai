@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { MCPServerCard } from "../../../components/ui/mcp-server-card";
 import mcpServersData from "../../../src/data/mcp-servers.json";
+import { WhitelistOverlay } from "../../../components/app-dashboard/whitelist-overlay";
 
 // Base path for static assets in subdomains
 const IMAGE_BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || "http://localhost:3000";
@@ -212,6 +213,9 @@ export default function MCPPage() {
           <p className="text-muted-foreground">No MCP servers found matching your criteria.</p>
         </div>
       )}
+      
+      {/* Whitelist Overlay */}
+      <WhitelistOverlay />
     </div>
   );
 } 

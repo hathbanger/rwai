@@ -6,6 +6,7 @@ import { UsageSummary } from "./components/UsageSummary";
 import { CreditBalance } from "./components/CreditBalance";
 import { InvoiceHistory } from "./components/InvoiceHistory";
 import { PaymentOptions } from "./components/PaymentOptions";
+import { WhitelistOverlay } from "../../../components/app-dashboard/whitelist-overlay";
 
 // Mock data for the usage page
 const mockUsageData = [
@@ -185,6 +186,9 @@ export default function UsageBillingPage() {
           />
         </TabsContent>
       </Tabs>
+
+      {/* Whitelist Overlay */}
+      <WhitelistOverlay />
     </div>
   );
 } 

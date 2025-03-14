@@ -3,10 +3,11 @@
 import { useState } from "react";
 import { ArrowLeft, Cpu, Database, Zap, Clock, Layers, Maximize2, Calendar, DollarSign, CheckCircle } from "lucide-react";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, useParams } from "next/navigation";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "../../../../components/ui/badge";
 import gpusData from "../../../../src/data/gpus.json";
+import { WhitelistOverlay } from "../../../../components/app-dashboard/whitelist-overlay";
 
 // Base path for static assets in subdomains
 const IMAGE_BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || "http://localhost:3000";
@@ -51,8 +52,10 @@ const formatDate = (isoDate: string) => {
   }).format(date);
 };
 
-export default function GPUDetailPage({ params }: { params: { gpuId: string } }) {
-  const { gpuId } = params;
+export default function GPUDetailPage() {
+  // Use the useParams hook to get the gpuId
+  const params = useParams();
+  const gpuId = params.gpuId as string;
   
   // Find the GPU by ID
   const gpu = gpusData.find((g: any) => g.id === gpuId);
@@ -234,6 +237,9 @@ export default function GPUDetailPage({ params }: { params: { gpuId: string } })
           </CardContent>
         </Card>
       </div>
+      
+      {/* Whitelist Overlay */}
+      <WhitelistOverlay />
     </div>
   );
 } 

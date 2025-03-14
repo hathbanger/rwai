@@ -4,10 +4,11 @@ import { useState, useEffect } from "react";
 import { ArrowLeft, Calendar, Tag, Database, FileCode, Info, ExternalLink } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import { notFound } from "next/navigation";
+import { notFound, useParams } from "next/navigation";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "../../../../components/ui/badge";
 import modelsData from "../../../../src/data/models.json";
+import { WhitelistOverlay } from "../../../../components/app-dashboard/whitelist-overlay";
 
 // Add debug logging
 console.log("Dynamic model page loaded");
@@ -19,6 +20,9 @@ if (modelsData && modelsData.length > 0) {
 
 // Base path for static assets in subdomains
 const IMAGE_BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || "http://localhost:3000";
+
+// Default image path
+const DEFAULT_IMAGE_PATH = "/images/texture_3.png";
 
 // Define Model interface
 interface Model {
@@ -64,20 +68,22 @@ const ModelLogo = ({ src, alt, className = "", width = 120, height = 120 }: {
   height?: number; 
 }) => {
   return (
-    <div className={`relative overflow-hidden rounded-lg bg-white dark:bg-gray-800 ${className}`} style={{ width, height }}>
+    <div className={`relative overflow-hidden rounded-lg bg-black ${className}`} style={{ width, height }}>
       <Image
         src={src}
         alt={alt}
         fill
-        style={{ objectFit: 'contain' }}
-        className="p-2"
+        style={{ objectFit: 'cover' }}
+        className="p-0"
       />
     </div>
   );
 };
 
-export default function ModelDetailPage({ params }: { params: { modelId: string } }) {
-  const { modelId } = params;
+export default function ModelDetailPage() {
+  // Use useParams hook instead of accessing params directly
+  const params = useParams();
+  const modelId = params.modelId as string;
   const [model, setModel] = useState<Model | null>(null);
   const [loading, setLoading] = useState(true);
   
@@ -108,9 +114,7 @@ export default function ModelDetailPage({ params }: { params: { modelId: string 
   }
   
   // Fix image path
-  const imagePath = model.image.startsWith('/') 
-    ? `${IMAGE_BASE_PATH}${model.image}` 
-    : model.image;
+  const imagePath = `${IMAGE_BASE_PATH}${DEFAULT_IMAGE_PATH}`;
   
   // Get category display name
   const getCategoryDisplay = (category: string) => {
@@ -265,6 +269,9 @@ export default function ModelDetailPage({ params }: { params: { modelId: string 
           </div>
         </CardContent>
       </Card>
+      
+      {/* Whitelist Overlay */}
+      <WhitelistOverlay />
     </div>
   );
 } 
