@@ -5,7 +5,7 @@ import { ArrowLeft, Server, Clock, Zap, Calendar, Code, CheckCircle, Copy, Exter
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "../../../../components/ui/badge";
+import { Badge } from "@/components/ui/badge";
 import mcpServersData from "../../../../src/data/mcp-servers.json";
 
 // Base path for static assets in subdomains
@@ -48,9 +48,9 @@ interface MCPServer {
 // Format date function
 const formatDate = (isoDate: string) => {
   const date = new Date(isoDate);
-  return new Intl.DateTimeFormat('en-US', { 
-    year: 'numeric', 
-    month: 'long', 
+  return new Intl.DateTimeFormat('en-US', {
+    year: 'numeric',
+    month: 'long',
     day: 'numeric',
     hour: 'numeric',
     minute: 'numeric'
@@ -59,23 +59,26 @@ const formatDate = (isoDate: string) => {
 
 export default function MCPServerDetailPage({ params }: { params: { serverId: string } }) {
   const { serverId } = params;
-  
+
+
+  console.log({ mcpServersData })
+
   // Find the MCP server by ID
   const server = mcpServersData.find((s: any) => s.id === serverId);
-  
+
   // If server not found, return 404
   if (!server) {
     notFound();
   }
-  
+
   // Fix image path
-  const imageUrl = server.image.startsWith('/') 
-    ? `${IMAGE_BASE_PATH}${server.image}` 
+  const imageUrl = server.image.startsWith('/')
+    ? `${IMAGE_BASE_PATH}${server.image}`
     : server.image;
-  
+
   const [imgError, setImgError] = useState(false);
   const [copiedConfig, setCopiedConfig] = useState(false);
-  
+
   // Generate configuration for connecting to the server
   const serverConfig = {
     name: server.name,
@@ -83,21 +86,21 @@ export default function MCPServerDetailPage({ params }: { params: { serverId: st
     url: server.connectionDetails.url,
     authMethod: server.connectionDetails.authMethod
   };
-  
+
   const copyConfig = () => {
     navigator.clipboard.writeText(JSON.stringify(serverConfig, null, 2));
     setCopiedConfig(true);
     setTimeout(() => setCopiedConfig(false), 2000);
   };
-  
+
   return (
     <div className="space-y-8">
       <div>
-        <Link href="/app/mcp" className="flex items-center text-sm text-muted-foreground hover:text-foreground mb-6">
+        <Link href="/mcp" className="flex items-center text-sm text-muted-foreground hover:text-foreground mb-6">
           <ArrowLeft className="mr-1 h-4 w-4" />
           Back to MCP Servers
         </Link>
-        
+
         <div className="flex flex-col gap-8">
           {/* Hero section with full-width image */}
           <div className="w-full h-64 md:h-80 bg-muted/50 rounded-xl overflow-hidden relative">
@@ -106,14 +109,14 @@ export default function MCPServerDetailPage({ params }: { params: { serverId: st
                 <span className="text-6xl font-bold text-muted-foreground">{server.name.charAt(0)}</span>
               </div>
             ) : (
-              <img 
-                src={imageUrl} 
-                alt={server.name} 
+              <img
+                src={imageUrl}
+                alt={server.name}
                 className="w-full h-full object-cover"
                 onError={() => setImgError(true)}
               />
             )}
-            
+
             {/* Overlay with server info */}
             <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6">
               <div className="flex items-center gap-3 mb-2">
@@ -125,7 +128,7 @@ export default function MCPServerDetailPage({ params }: { params: { serverId: st
               <p className="text-lg text-white/80">{server.type}</p>
             </div>
           </div>
-          
+
           <div className="flex flex-col gap-6">
             <div className="flex gap-2 flex-wrap">
               {server.tags.map(tag => (
@@ -134,9 +137,9 @@ export default function MCPServerDetailPage({ params }: { params: { serverId: st
                 </Badge>
               ))}
             </div>
-            
+
             <p className="text-muted-foreground">{server.description}</p>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="flex items-center gap-2">
                 <Calendar className="h-5 w-5 text-muted-foreground" />
@@ -145,7 +148,7 @@ export default function MCPServerDetailPage({ params }: { params: { serverId: st
                   <p className="font-medium">{formatDate(server.createdAt)}</p>
                 </div>
               </div>
-              
+
               <div className="flex items-center gap-2">
                 <Clock className="h-5 w-5 text-muted-foreground" />
                 <div>
@@ -153,7 +156,7 @@ export default function MCPServerDetailPage({ params }: { params: { serverId: st
                   <p className="font-medium">{formatDate(server.updatedAt)}</p>
                 </div>
               </div>
-              
+
               <div className="flex items-center gap-2">
                 <Clock className="h-5 w-5 text-muted-foreground" />
                 <div>
@@ -165,7 +168,7 @@ export default function MCPServerDetailPage({ params }: { params: { serverId: st
           </div>
         </div>
       </div>
-      
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Card>
           <CardHeader>
@@ -178,24 +181,24 @@ export default function MCPServerDetailPage({ params }: { params: { serverId: st
                 <span className="text-sm text-muted-foreground">Type:</span>
               </div>
               <span className="font-medium">{server.connectionDetails.type}</span>
-              
+
               <div className="flex items-center gap-2">
                 <ExternalLink className="h-4 w-4 text-muted-foreground" />
                 <span className="text-sm text-muted-foreground">URL:</span>
               </div>
               <span className="font-medium">{server.connectionDetails.url}</span>
-              
+
               <div className="flex items-center gap-2">
                 <Code className="h-4 w-4 text-muted-foreground" />
                 <span className="text-sm text-muted-foreground">Auth Method:</span>
               </div>
               <span className="font-medium capitalize">{server.connectionDetails.authMethod}</span>
             </div>
-            
+
             <div className="mt-6">
               <div className="flex justify-between items-center mb-2">
                 <h3 className="text-sm font-medium">Configuration</h3>
-                <button 
+                <button
                   onClick={copyConfig}
                   className="flex items-center text-xs text-primary hover:text-primary/80"
                 >
@@ -218,7 +221,7 @@ export default function MCPServerDetailPage({ params }: { params: { serverId: st
             </div>
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardHeader>
             <CardTitle className="text-lg">Statistics</CardTitle>
@@ -245,7 +248,7 @@ export default function MCPServerDetailPage({ params }: { params: { serverId: st
           </CardContent>
         </Card>
       </div>
-      
+
       <Card>
         <CardHeader>
           <CardTitle className="text-lg">Available Tools</CardTitle>
@@ -257,7 +260,7 @@ export default function MCPServerDetailPage({ params }: { params: { serverId: st
               <div key={tool.name} className={`${index > 0 ? "pt-6 border-t border-border" : ""}`}>
                 <h3 className="text-lg font-medium mb-1">{tool.name}</h3>
                 <p className="text-sm text-muted-foreground mb-3">{tool.description}</p>
-                
+
                 {tool.parameters.length > 0 && (
                   <div className="mb-3">
                     <h4 className="text-sm font-medium mb-2">Parameters:</h4>
@@ -283,7 +286,7 @@ export default function MCPServerDetailPage({ params }: { params: { serverId: st
                     </div>
                   </div>
                 )}
-                
+
                 <div className="flex items-center gap-2">
                   <span className="text-sm font-medium">Returns:</span>
                   <span className="font-mono text-xs bg-muted px-2 py-1 rounded">{tool.returnType}</span>
@@ -293,9 +296,9 @@ export default function MCPServerDetailPage({ params }: { params: { serverId: st
           </div>
         </CardContent>
       </Card>
-      
+
       <div className="flex justify-end">
-        <button 
+        <button
           className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2"
         >
           Connect to Server

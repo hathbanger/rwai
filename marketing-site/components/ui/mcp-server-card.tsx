@@ -25,30 +25,30 @@ interface MCPServerCardProps {
   image: string;
 }
 
-export function MCPServerCard({ 
-  id, 
-  name, 
-  type, 
-  description, 
-  status, 
-  stats, 
-  tools, 
-  tags, 
-  image 
+export function MCPServerCard({
+  id,
+  name,
+  type,
+  description,
+  status,
+  stats,
+  tools,
+  tags,
+  image
 }: MCPServerCardProps) {
   const [imgError, setImgError] = useState(false);
-  
+
   // Format the last connected date
   const formatDate = (isoDate: string) => {
     const date = new Date(isoDate);
-    return new Intl.DateTimeFormat('en-US', { 
-      month: 'short', 
+    return new Intl.DateTimeFormat('en-US', {
+      month: 'short',
       day: 'numeric',
       hour: 'numeric',
       minute: 'numeric'
     }).format(date);
   };
-  
+
   return (
     <Card className="overflow-hidden hover:border-primary/50 transition-colors h-full">
       {/* Full-width top half image with no padding */}
@@ -58,15 +58,15 @@ export function MCPServerCard({
             <span className="text-3xl font-bold text-muted-foreground">{name.charAt(0)}</span>
           </div>
         ) : (
-          <img 
-            src={image} 
+          <img
+            src={image}
             alt={name}
             className="h-full w-full object-cover"
             onError={() => setImgError(true)}
           />
         )}
       </div>
-      
+
       <CardHeader className="pb-2">
         <div className="flex justify-between items-start">
           <CardTitle className="text-lg">{name}</CardTitle>
@@ -85,7 +85,7 @@ export function MCPServerCard({
           ))}
         </div>
         <p className="text-sm text-muted-foreground line-clamp-2 mb-4">{description}</p>
-        
+
         <div className="grid grid-cols-2 gap-2 text-xs">
           <div className="flex items-center gap-1">
             <Server className="h-3 w-3 text-muted-foreground" />
@@ -111,8 +111,8 @@ export function MCPServerCard({
       </CardContent>
       <CardFooter className="pt-0">
         <div className="w-full flex justify-end">
-          <Link 
-            href={`/app/mcp/${id}`}
+          <Link
+            href={`/mcp/${id}`}
             className="text-primary hover:text-primary/80 text-sm font-medium"
           >
             Connect →

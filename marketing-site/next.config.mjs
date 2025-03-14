@@ -28,21 +28,6 @@ const nextConfig = {
     loader: 'default'
   },
   // Enable hostname rewrites for development
-  async rewrites() {
-    return [
-      // Handle app subdomain
-      {
-        source: '/:path*',
-        has: [
-          {
-            type: 'host',
-            value: 'app.localhost',
-          },
-        ],
-        destination: '/app/:path*',
-      }
-    ];
-  },
   experimental: {
     turbo: {
       rules: {
