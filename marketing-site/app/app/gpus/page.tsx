@@ -14,6 +14,7 @@ const IMAGE_BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || "http://localhost:3
 interface GPU {
   id: string;
   name: string;
+  manufacturer: string;
   architecture: string;
   specs: {
     cudaCores: number;
@@ -187,6 +188,7 @@ export default function GPUsPage() {
             key={gpu.id}
             id={gpu.id}
             name={gpu.name}
+            manufacturer={gpu.manufacturer}
             architecture={gpu.architecture}
             description={gpu.description}
             specs={{

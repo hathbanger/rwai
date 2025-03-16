@@ -16,6 +16,7 @@ const IMAGE_BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || "http://localhost:3
 interface GPU {
   id: string;
   name: string;
+  manufacturer: string;
   architecture: string;
   specs: {
     cudaCores: number;
@@ -104,7 +105,7 @@ export default function GPUDetailPage() {
                   {gpu.category === "consumer" ? "Consumer" : "Data Center"}
                 </Badge>
               </div>
-              <p className="text-lg text-white/80">{gpu.architecture} Architecture</p>
+              <p className="text-lg text-white/80">{gpu.manufacturer} - {gpu.architecture} Architecture</p>
             </div>
           </div>
           

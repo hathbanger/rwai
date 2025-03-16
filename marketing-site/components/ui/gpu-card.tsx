@@ -9,6 +9,7 @@ import { Badge } from "./badge";
 interface GpuCardProps {
   id: string;
   name: string;
+  manufacturer: string;
   architecture: string;
   description: string;
   specs: {
@@ -27,6 +28,7 @@ interface GpuCardProps {
 export function GpuCard({ 
   id, 
   name, 
+  manufacturer,
   architecture, 
   description, 
   specs, 
@@ -61,7 +63,7 @@ export function GpuCard({
             {category === "consumer" ? "Consumer" : "Data Center"}
           </Badge>
         </div>
-        <CardDescription>{architecture} Architecture</CardDescription>
+        <CardDescription>{manufacturer} - {architecture} Architecture</CardDescription>
       </CardHeader>
       <CardContent className="pb-2">
         <div className="flex gap-1 mt-1 mb-3 flex-wrap">
