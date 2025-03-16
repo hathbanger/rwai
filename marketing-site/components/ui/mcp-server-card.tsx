@@ -51,8 +51,14 @@ export function MCPServerCard({
 
   return (
     <Card className="overflow-hidden hover:border-primary/50 transition-colors h-full">
-      {/* Full-width top half image with no padding */}
-      <div className="h-48 w-full bg-muted/50 overflow-hidden">
+      {/* 
+        TEMPORARILY HIDDEN: Server image section
+        The image URLs are currently broken. To fix this:
+        1. Update the image paths in src/data/mcp-servers.json
+        2. Ensure images are properly stored in the public directory
+        3. Verify the IMAGE_BASE_PATH environment variable is correctly set
+      */}
+      {/* <div className="h-48 w-full bg-muted/50 overflow-hidden">
         {imgError ? (
           <div className="flex items-center justify-center bg-muted h-full w-full">
             <span className="text-3xl font-bold text-muted-foreground">{name.charAt(0)}</span>
@@ -65,7 +71,7 @@ export function MCPServerCard({
             onError={() => setImgError(true)}
           />
         )}
-      </div>
+      </div> */}
 
       <CardHeader className="pb-2">
         <div className="flex justify-between items-start">

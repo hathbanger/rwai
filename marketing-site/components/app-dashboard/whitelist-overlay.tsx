@@ -63,14 +63,24 @@ interface WhitelistOverlayProps {
   topOffset?: string; // Optional prop to control the top offset of the overlay
 }
 
-export function WhitelistOverlay({ topOffset = "top-[105px]" }: WhitelistOverlayProps) {
+export function WhitelistOverlay({ topOffset = "top-0 md:top-[70px]" }: WhitelistOverlayProps) {
+  // Add useEffect to disable scrolling when overlay is mounted
+  useEffect(() => {
+    // Store the original overflow value
+    const originalOverflow = document.body.style.overflow;
+    // Prevent scrolling
+    document.body.style.overflow = 'hidden';
+    
+    // Cleanup function to restore scrolling when component unmounts
+    return () => {
+      document.body.style.overflow = originalOverflow;
+    };
+  }, []);
+
   return (
-    <div className={`fixed inset-0 ${topOffset} z-40 bg-gradient-to-br from-black/70 to-black/60 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-300`}>
-      <div className="bg-card/98 border border-border/50 rounded-xl max-w-md w-full p-8 shadow-2xl animate-in slide-in-from-bottom-8 fade-in duration-500 delay-150 relative">
+    <div className={`fixed inset-0 ${topOffset} z-40 bg-gradient-to-br from-white/80 to-gray-100/90 dark:from-black/70 dark:to-black/60 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-300`}>
+      <div className="bg-card/98 border border-border/50 rounded-xl max-w-md w-full p-8 shadow-2xl animate-in slide-in-from-bottom-8 fade-in duration-500 delay-150 relative mt-[-5vh]">
         <div className="text-center space-y-6">
-          <div className="inline-flex items-center justify-center p-3 bg-primary/10 rounded-full mb-2">
-            <CreditCard className="h-8 w-8 text-primary" />
-          </div>
           <h2 className="text-2xl font-bold text-foreground">Join the Future of Tokenized AI</h2>
           <p className="text-muted-foreground">
             Be part of the revolution in AI infrastructure. Join our whitelist to access exclusive tokenized AI resources and early investment opportunities.
@@ -81,7 +91,7 @@ export function WhitelistOverlay({ topOffset = "top-[105px]" }: WhitelistOverlay
             <CountdownTimer />
           </div>
           
-          <div className="space-y-3 py-2">
+          <div className="space-y-3 py-2 hidden md:block">
             <div className="flex items-center gap-2 text-sm text-left">
               <div className="h-5 w-5 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
                 <span className="text-xs text-primary font-medium">1</span>
@@ -102,7 +112,7 @@ export function WhitelistOverlay({ topOffset = "top-[105px]" }: WhitelistOverlay
             </div>
           </div>
           
-          <Link href="/" target="_blank" rel="noopener noreferrer">
+          <Link href="https://rwai.xyz/whitelist" target="_blank" rel="noopener noreferrer">
             <Button size="lg" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">
               Join the Whitelist
             </Button>
