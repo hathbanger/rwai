@@ -16,12 +16,12 @@ const Hero = () => {
   }, []);
 
   return (
-    <section className="relative w-full pt-24 pb-16 lg:pt-32 lg:pb-24 min-h-[calc(100vh-4rem)] flex flex-col justify-between overflow-visible bg-gray-50 dark:bg-gray-950">
+    <section className="relative w-full pt-24 pb-16 lg:pt-32 lg:pb-24 flex flex-col bg-gray-50 dark:bg-gray-950">
       {/* Main Content Grid */}
-      <div className="container grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 relative z-10 mb-8">
+      <div className="container grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 relative z-10 mb-12">
         {/* Left Column - Typography & Headings */}
-        <div className="flex flex-col justify-center space-y-4 overflow-visible">
-          <h1 className="tracking-tight animate-slide-up font-normal overflow-visible">
+        <div className="flex flex-col justify-center space-y-4">
+          <h1 className="tracking-tight animate-slide-up font-normal">
             <span className="block text-4xl md:text-5xl lg:text-6xl text-gray-800 dark:text-gray-200 leading-tight">
               Decentralizing
             </span>
@@ -68,8 +68,8 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* Bottom GPU Image - reduced spacing from text */}
-      <div className="w-full container px-4 md:px-6">
+      {/* Bottom GPU Image */}
+      <div className="w-full container px-4 md:px-6 mt-4">
         <div className="relative w-full h-[300px] lg:h-[400px]">
           <Image
             src="/images/RWAi_00060_.png"

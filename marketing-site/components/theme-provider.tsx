@@ -16,7 +16,7 @@ type ThemeProviderState = {
 };
 
 const initialState: ThemeProviderState = {
-  theme: "system",
+  theme: "dark",
   setTheme: () => null,
 };
 
@@ -24,7 +24,7 @@ const ThemeProviderContext = createContext<ThemeProviderState>(initialState);
 
 export function ThemeProvider({
   children,
-  defaultTheme = "system",
+  defaultTheme = "dark",
   storageKey = "theme",
   ...props
 }: ThemeProviderProps) {
@@ -33,26 +33,16 @@ export function ThemeProvider({
 
   // Initialize theme from localStorage or default
   useEffect(() => {
-    // Check if we're on the home page (/) and not on a subdomain
-    const isHomePage = window.location.pathname === "/" && !window.location.host.startsWith("app.");
-    
-    if (isHomePage) {
-      // For home page, always use the defaultTheme (which is "light" in the main layout)
-      setTheme(defaultTheme);
+    // Always use the saved theme from localStorage if available
+    const savedTheme = localStorage.getItem(storageKey) as Theme | null;
+    if (savedTheme) {
+      setTheme(savedTheme);
     } else {
-      // For other pages, use the saved theme from localStorage if available
-      const savedTheme = localStorage.getItem(storageKey) as Theme | null;
-      if (savedTheme) {
-        setTheme(savedTheme);
-      } else if (defaultTheme === "system") {
-        const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches
-          ? "dark"
-          : "light";
-        setTheme(systemTheme);
-      }
+      // If no saved theme, always default to dark mode
+      setTheme("dark");
     }
     setMounted(true);
-  }, [defaultTheme, storageKey]);
+  }, [storageKey]);
 
   // Update the class on the html element when theme changes
   useEffect(() => {
