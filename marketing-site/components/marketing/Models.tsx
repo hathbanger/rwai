@@ -4,12 +4,34 @@ import Image from 'next/image';
 import { Button } from '../ui/button';
 import { ChevronRight } from 'lucide-react';
 
+// Function to get the app subdomain URL dynamically
+const getAppSubdomainUrl = () => {
+  // Check if we're in the browser environment
+  if (typeof window !== 'undefined') {
+    const currentHost = window.location.host;
+    const protocol = window.location.protocol;
+    
+    // If we're already on the app subdomain
+    if (currentHost.startsWith('app.')) {
+      return `${protocol}//${currentHost}`;
+    }
+    
+    // If we're on the main domain, construct app subdomain
+    const mainDomain = currentHost.split(':')[0];
+    const port = currentHost.includes(':') ? `:${currentHost.split(':')[1]}` : '';
+    return `${protocol}//app.${mainDomain}${port}`;
+  }
+  
+  // Server-side rendering fallback - this will be replaced client-side
+  return '';
+};
+
 // Define model type
 interface ModelType {
   name: string;
   description: string;
   image: string;
-  href: string;
+  path: string; // Changed from href to path to make it clear it's a relative path
   category: 'model' | 'gpu'; // Add category to distinguish between models and GPUs
 }
 
@@ -19,64 +41,74 @@ const models: ModelType[] = [
     name: 'DeepSeek LLM', 
     description: 'Decentralize AI compute ownership.',
     image: '/images/logo_deepseek.png',
-    href: 'http://app.localhost:3000/models',
+    path: '/models',
     category: 'model'
   },
   { 
     name: 'Llama LLM', 
     description: 'Decentralize AI compute ownership.',
     image: '/images/logo-llama_2.png',
-    href: 'http://app.localhost:3000/models',
+    path: '/models',
     category: 'model'
   },
   { 
     name: 'Black Forest', 
     description: 'Decentralize AI compute ownership.',
     image: '/images/logo_black-forest.png',
-    href: 'http://app.localhost:3000/models',
+    path: '/models',
     category: 'model'
   },
   { 
     name: 'Mistral', 
     description: 'Decentralize AI compute ownership.',
     image: '/images/logo_mistral.png',
-    href: 'http://app.localhost:3000/models',
+    path: '/models',
     category: 'model'
   },
   { 
     name: 'GPU Rental', 
     description: 'Decentralize AI compute ownership.',
     image: '/images/logo-rent-server.png',
-    href: 'http://app.localhost:3000/gpus',
+    path: '/gpus',
     category: 'gpu'
   }
 ];
 
 // Card component for model items
-const ModelCard = ({ model, priority = false, className = "" }: { model: ModelType; priority?: boolean; className?: string }) => (
-  <Link 
-    href={model.href}
-    className={`group block relative rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-xl ${className}`}
-  >
-    <div className="absolute inset-0 w-full h-full bg-gray-900">
-      <Image
-        src={model.image}
-        alt={model.name}
-        fill
-        className="object-cover"
-        priority={priority}
-      />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
-    </div>
-    
-    <div className="absolute bottom-0 left-0 p-6 w-full flex justify-between items-center">
-      <h3 className="text-xl md:text-2xl font-bold text-white">{model.name}</h3>
-      <div className="bg-gray-800/60 dark:bg-gray-900/60 rounded-full p-2 backdrop-blur-sm group-hover:bg-primary/80 transition-colors duration-300">
-        <ChevronRight className="h-5 w-5 text-white" />
+const ModelCard = ({ model, priority = false, className = "" }: { model: ModelType; priority?: boolean; className?: string }) => {
+  // Construct the full URL dynamically on the client side
+  const href = React.useMemo(() => {
+    if (typeof window === 'undefined') return model.path; // SSR fallback
+    return `${getAppSubdomainUrl()}${model.path}`;
+  }, [model.path]);
+
+  return (
+    <a 
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={`group block relative rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-xl ${className}`}
+    >
+      <div className="absolute inset-0 w-full h-full bg-gray-900">
+        <Image
+          src={model.image}
+          alt={model.name}
+          fill
+          className="object-cover"
+          priority={priority}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
       </div>
-    </div>
-  </Link>
-);
+      
+      <div className="absolute bottom-0 left-0 p-6 w-full flex justify-between items-center">
+        <h3 className="text-xl md:text-2xl font-bold text-white">{model.name}</h3>
+        <div className="bg-gray-800/60 dark:bg-gray-900/60 rounded-full p-2 backdrop-blur-sm group-hover:bg-primary/80 transition-colors duration-300">
+          <ChevronRight className="h-5 w-5 text-white" />
+        </div>
+      </div>
+    </a>
+  );
+};
 
 const Models = () => {
   return (

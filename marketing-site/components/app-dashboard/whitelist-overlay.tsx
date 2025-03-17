@@ -5,6 +5,27 @@ import { CreditCard } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
+// Get the correct base URL for whitelist
+const getMainDomainUrl = () => {
+  // Check if we're in the browser environment
+  if (typeof window !== 'undefined') {
+    const currentHost = window.location.host;
+    const protocol = window.location.protocol;
+    
+    // If we're on app subdomain, extract the main domain
+    if (currentHost.startsWith('app.')) {
+      const mainDomain = currentHost.replace('app.', '');
+      return `${protocol}//${mainDomain}`;
+    }
+    
+    // If we're already on the main domain, just use the current protocol and host
+    return `${protocol}//${currentHost}`;
+  }
+  
+  // Server-side rendering fallback (this won't typically be used for client-side navigation)
+  return '';
+};
+
 // Countdown Timer Component
 function CountdownTimer() {
   // Set launch date to April 20, 2025
@@ -112,7 +133,18 @@ export function WhitelistOverlay({ topOffset = "top-0 md:top-[70px]" }: Whitelis
             </div>
           </div>
           
-          <Link href="https://rwai.xyz/whitelist" target="_blank" rel="noopener noreferrer">
+          <Link 
+            href="/whitelist" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            // Use dynamic URL for cross-subdomain navigation
+            onClick={(e) => {
+              e.preventDefault();
+              const mainDomainUrl = getMainDomainUrl();
+              // Open in new tab
+              window.open(`${mainDomainUrl}/whitelist`, '_blank', 'noopener,noreferrer');
+            }}
+          >
             <Button size="lg" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">
               Join the Whitelist
             </Button>

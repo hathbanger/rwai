@@ -1,11 +1,34 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '../ui/button';
 import { ThemeToggle } from '../ui/theme-toggle';
 import { SocialIcon } from 'react-social-icons';
+import { Moon, Sun, X, Menu, Twitter } from 'lucide-react';
+
+// Function to get the app subdomain URL dynamically
+const getAppSubdomainUrl = () => {
+  // Check if we're in the browser environment
+  if (typeof window !== 'undefined') {
+    const currentHost = window.location.host;
+    const protocol = window.location.protocol;
+    
+    // If we're already on the app subdomain
+    if (currentHost.startsWith('app.')) {
+      return `${protocol}//${currentHost}`;
+    }
+    
+    // If we're on the main domain, construct app subdomain
+    const mainDomain = currentHost.split(':')[0];
+    const port = currentHost.includes(':') ? `:${currentHost.split(':')[1]}` : '';
+    return `${protocol}//app.${mainDomain}${port}`;
+  }
+  
+  // Server-side rendering fallback
+  return '';
+};
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -41,7 +64,7 @@ const Navbar = () => {
                 alt="RWAi Logo" 
                 width={120} 
                 height={40} 
-                style={{ height: 'auto' }}
+                style={{ width: 'auto', height: 'auto' }}
                 priority
                 className="dark:invert"
               />
@@ -62,7 +85,7 @@ const Navbar = () => {
             {/* Launch App button - visible only on desktop */}
             <div className="hidden md:block">
               <Button asChild className="bg-primary hover:bg-primary/90 text-white">
-                <a href="http://app.localhost:3000/models" target="_blank" rel="noopener noreferrer">
+                <a href={`${getAppSubdomainUrl()}/models`} target="_blank" rel="noopener noreferrer">
                   Launch App
                 </a>
               </Button>
@@ -90,7 +113,7 @@ const Navbar = () => {
                 alt="RWAi Logo" 
                 width={100} 
                 height={32} 
-                style={{ height: 'auto' }} 
+                style={{ width: 'auto', height: 'auto' }}
                 className="dark:invert"
               />
             </div>
@@ -186,7 +209,7 @@ const Navbar = () => {
             {/* Launch App button - visible only on mobile (in drawer) */}
             <div className="md:hidden p-6 border-t border-gray-200 dark:border-gray-800">
               <Button asChild className="w-full bg-primary hover:bg-primary/90 text-white">
-                <a href="http://app.localhost:3000/models" target="_blank" rel="noopener noreferrer">
+                <a href={`${getAppSubdomainUrl()}/models`} target="_blank" rel="noopener noreferrer">
                   Launch App
                 </a>
               </Button>
