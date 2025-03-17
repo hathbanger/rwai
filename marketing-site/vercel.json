@@ -1,22 +1,6 @@
 {
   "version": 2,
   "framework": "nextjs",
-  "routes": [
-    {
-      "src": "/(.*)",
-      "headers": {
-        "x-vercel-deployment": "1"
-      },
-      "continue": true
-    }
-  ],
-  "rewrites": [
-    {
-      "source": "/:path*",
-      "has": [{ "type": "host", "value": "app.(?<domain>.*)" }],
-      "destination": "/app/:path*"
-    }
-  ],
   "headers": [
     {
       "source": "/(.*)",

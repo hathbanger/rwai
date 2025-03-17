@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '../ui/button';
 import { ChevronRight } from 'lucide-react';
-import { getAppUrl } from '../../lib/url-utils';
+import { getAppUrl, isVercel } from '../../lib/url-utils';
 
 // Define model type
 interface ModelType {
@@ -57,6 +57,17 @@ const models: ModelType[] = [
 const ModelCard = ({ model, priority = false, className = "" }: { model: ModelType; priority?: boolean; className?: string }) => {
   // Construct the full URL to the app subdomain
   const href = getAppUrl(model.path);
+  
+  // Add debug info
+  React.useEffect(() => {
+    if (typeof window !== 'undefined') {
+      console.log('ModelCard rendering:');
+      console.log('- Current location:', window.location.href);
+      console.log('- Model path:', model.path);
+      console.log('- Generated href:', href);
+      console.log('- Is Vercel:', isVercel());
+    }
+  }, [model.path, href]);
 
   return (
     <a 
@@ -64,6 +75,12 @@ const ModelCard = ({ model, priority = false, className = "" }: { model: ModelTy
       target="_blank"
       rel="noopener noreferrer"
       className={`group block relative rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-xl ${className}`}
+      onClick={(e) => {
+        // Log click for debugging
+        console.log('Link clicked:');
+        console.log('- Href:', href);
+        console.log('- Target URL:', e.currentTarget.href);
+      }}
     >
       <div className="absolute inset-0 w-full h-full bg-gray-900">
         <Image

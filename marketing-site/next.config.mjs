@@ -53,6 +53,33 @@ const nextConfig = {
       },
     },
   },
+  async rewrites() {
+    return {
+      beforeFiles: [
+        // Handle subdomain routing
+        {
+          source: '/:path*',
+          has: [
+            {
+              type: 'host',
+              value: 'app.rwai-eight.vercel.app',
+            },
+          ],
+          destination: '/app/:path*',
+        },
+        {
+          source: '/:path*',
+          has: [
+            {
+              type: 'host',
+              value: 'app.localhost:3000',
+            },
+          ],
+          destination: '/app/:path*',
+        },
+      ],
+    };
+  },
 };
 
 export default nextConfig; 
