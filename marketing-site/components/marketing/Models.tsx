@@ -16,13 +16,22 @@ const getAppSubdomainUrl = () => {
       return `${protocol}//${currentHost}`;
     }
     
-    // If we're on the main domain, construct app subdomain
-    const mainDomain = currentHost.split(':')[0];
+    // Determine the main domain (remove www. if present)
+    let mainDomain = currentHost.replace(/^www\./, '');
+    
+    // In production, we just need the domain without port
+    if (process.env.NODE_ENV === 'production') {
+      // Split by : to remove any port number
+      mainDomain = mainDomain.split(':')[0];
+      return `${protocol}//app.${mainDomain}`;
+    }
+    
+    // In development, preserve the port if it exists
     const port = currentHost.includes(':') ? `:${currentHost.split(':')[1]}` : '';
     return `${protocol}//app.${mainDomain}${port}`;
   }
   
-  // Server-side rendering fallback - this will be replaced client-side
+  // Server-side rendering fallback (this won't be used for client navigation)
   return '';
 };
 

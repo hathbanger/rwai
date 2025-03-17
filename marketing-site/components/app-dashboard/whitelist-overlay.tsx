@@ -12,10 +12,22 @@ const getMainDomainUrl = () => {
     const currentHost = window.location.host;
     const protocol = window.location.protocol;
     
-    // If we're on app subdomain, extract the main domain
+    // If we're on app subdomain, extract the main domain and remove port if any
     if (currentHost.startsWith('app.')) {
-      const mainDomain = currentHost.replace('app.', '');
+      // Remove 'app.' prefix and get the main domain
+      let mainDomain = currentHost.replace('app.', '');
+      
+      // In production, we don't need port numbers
+      if (process.env.NODE_ENV === 'production') {
+        mainDomain = mainDomain.split(':')[0];
+      }
+      
       return `${protocol}//${mainDomain}`;
+    }
+    
+    // Handle www prefix in production
+    if (currentHost.startsWith('www.') && process.env.NODE_ENV === 'production') {
+      return `${protocol}//${currentHost}`;
     }
     
     // If we're already on the main domain, just use the current protocol and host

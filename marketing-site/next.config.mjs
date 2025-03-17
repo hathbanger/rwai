@@ -13,7 +13,7 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
-    domains: ['app.localhost', 'localhost'],
+    domains: ['app.localhost', 'localhost', 'rwai.xyz', 'app.rwai.xyz', 'www.rwai.xyz'],
     dangerouslyAllowSVG: true,
     contentDispositionType: 'attachment',
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
@@ -28,6 +28,21 @@ const nextConfig = {
         protocol: 'http',
         hostname: 'app.localhost',
         port: '3000',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'rwai.xyz',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'app.rwai.xyz',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.rwai.xyz',
         pathname: '/**',
       }
     ],
