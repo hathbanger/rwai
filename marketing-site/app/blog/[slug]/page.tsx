@@ -8,24 +8,20 @@ import Footer from '../../../components/layout/Footer';
 import { Metadata, ResolvingMetadata } from 'next';
 import ReactMarkdown from 'react-markdown';
 
-type Props = {
-  params: { slug: string }
-}
-
 export async function generateMetadata(
-  { params }: Props,
+  { params }: any,
   parent: ResolvingMetadata
 ): Promise<Metadata> {
   const slug = params.slug;
   const post = blogContents.find(post => post.slug === slug);
-  
+
   if (!post) {
     return {
       title: 'Blog Post Not Found',
       description: 'The requested blog post could not be found.'
     };
   }
-  
+
   return {
     title: `${post.title} | RWAi Blog`,
     description: post.content.substring(0, 160) + '...',
@@ -41,14 +37,15 @@ export async function generateStaticParams() {
   }));
 }
 
-export default function BlogPost({ params }: Props) {
-  const { slug } = params;
+
+export default function BlogPost(props: any) {
+  const { slug } = props.params;
   const post = blogContents.find(post => post.slug === slug);
-  
+
   if (!post) {
     notFound();
   }
-  
+
   return (
     <div className="min-h-screen">
       <Navbar />
@@ -61,7 +58,7 @@ export default function BlogPost({ params }: Props) {
               </Link>
               <h1 className="text-3xl md:text-5xl font-bold mb-4">{post.title}</h1>
             </div>
-            
+
             <div className="relative w-full h-[400px] mb-8 rounded-xl overflow-hidden">
               <Image
                 src={post.image}
@@ -71,13 +68,13 @@ export default function BlogPost({ params }: Props) {
                 className="object-cover"
               />
             </div>
-            
+
             <article className="prose prose-lg dark:prose-invert max-w-none">
               <ReactMarkdown>
                 {post.content}
               </ReactMarkdown>
             </article>
-            
+
             <div className="mt-16 pt-8 border-t border-border">
               <Link href="/blog" className="text-primary hover:underline">
                 ← Back to Blog

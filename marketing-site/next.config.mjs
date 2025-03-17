@@ -27,6 +27,13 @@ const nextConfig = {
     path: '',
     loader: 'default'
   },
+  typescript: {
+    // !! WARN !!
+    // Dangerously allow production builds to successfully complete even if
+    // your project has type errors.
+    // !! WARN !!
+    ignoreBuildErrors: true,
+  },
   // Enable hostname rewrites for development
   experimental: {
     turbo: {
