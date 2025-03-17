@@ -1,11 +1,71 @@
-import React from 'react';
+'use client';
+
+import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '../../components/ui/button';
 import Navbar from '../../components/layout/Navbar';
 import Footer from '../../components/layout/Footer';
+import { createClient } from '@supabase/supabase-js';
+
+// Initialize Supabase client
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 export default function WhitelistPage() {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    wallet_address: ''
+  });
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState({ success: false, error: null });
+
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [id]: value
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus({ success: false, error: null });
+
+    try {
+      // Insert the data into your Supabase table
+      const { data, error } = await supabase
+        .from('whitelist_applications') // Replace with your actual table name
+        .insert([
+          {
+            name: formData.name,
+            email: formData.email,
+            wallet_address: formData.wallet_address || null,
+            // created_at will be handled by Supabase automatically
+          }
+        ]);
+
+      if (error) throw error;
+
+      setSubmitStatus({ success: true, error: null });
+      // Reset form after successful submission
+      setFormData({
+        name: '',
+        email: '',
+        wallet_address: '',
+      });
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      setSubmitStatus({ success: false, error: error.message });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div className="min-h-screen">
       <Navbar />
@@ -22,80 +82,81 @@ export default function WhitelistPage() {
                 Be among the first to access fractional ownership of high-performance AI rigs and earn passive income from AI compute services.
               </p>
             </div>
-            
             <div className="max-w-2xl mx-auto bg-card rounded-xl p-8 border border-border shadow-lg animate-slide-up animation-delay-300">
-              <form className="space-y-6">
-                <div className="space-y-2">
-                  <label htmlFor="name" className="block text-sm font-medium">
-                    Full Name
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    className="w-full px-4 py-3 rounded-lg border border-border bg-background focus:outline-none focus:ring-2 focus:ring-primary/50"
-                    placeholder="Enter your full name"
-                    required
-                  />
-                </div>
-                
-                <div className="space-y-2">
-                  <label htmlFor="email" className="block text-sm font-medium">
-                    Email Address
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    className="w-full px-4 py-3 rounded-lg border border-border bg-background focus:outline-none focus:ring-2 focus:ring-primary/50"
-                    placeholder="Enter your email address"
-                    required
-                  />
-                </div>
-                
-                <div className="space-y-2">
-                  <label htmlFor="investment" className="block text-sm font-medium">
-                    Estimated Investment Amount (USD)
-                  </label>
-                  <select
-                    id="investment"
-                    className="w-full px-4 py-3 rounded-lg border border-border bg-background focus:outline-none focus:ring-2 focus:ring-primary/50"
-                    required
+              {submitStatus.success ? (
+                <div className="text-center py-8">
+                  <h3 className="text-2xl font-bold text-green-500 mb-4">Application Submitted!</h3>
+                  <p className="mb-6">Thank you for your interest in RWAi. We'll be in touch soon.</p>
+                  <Button
+                    onClick={() => setSubmitStatus({ success: false, error: null })}
+                    className="bg-primary hover:bg-primary/90 text-white"
                   >
-                    <option value="">Select an amount</option>
-                    <option value="1000-5000">$1,000 - $5,000</option>
-                    <option value="5000-10000">$5,000 - $10,000</option>
-                    <option value="10000-50000">$10,000 - $50,000</option>
-                    <option value="50000-100000">$50,000 - $100,000</option>
-                    <option value="100000+">$100,000+</option>
-                  </select>
-                </div>
-                
-                <div className="space-y-2">
-                  <label htmlFor="experience" className="block text-sm font-medium">
-                    Crypto/Investment Experience
-                  </label>
-                  <select
-                    id="experience"
-                    className="w-full px-4 py-3 rounded-lg border border-border bg-background focus:outline-none focus:ring-2 focus:ring-primary/50"
-                    required
-                  >
-                    <option value="">Select your experience level</option>
-                    <option value="beginner">Beginner</option>
-                    <option value="intermediate">Intermediate</option>
-                    <option value="advanced">Advanced</option>
-                    <option value="professional">Professional</option>
-                  </select>
-                </div>
-                
-                <div className="pt-4">
-                  <Button type="submit" className="w-full bg-primary hover:bg-primary/90 text-white py-3 animate-bounce-subtle">
-                    Submit Application
+                    Submit Another Application
                   </Button>
                 </div>
-                
-                <p className="text-sm text-muted-foreground text-center pt-4">
-                  By submitting this form, you agree to our <Link href="/terms" className="text-primary hover:underline">Terms of Service</Link> and <Link href="/privacy" className="text-primary hover:underline">Privacy Policy</Link>.
-                </p>
-              </form>
+              ) : (
+                <form className="space-y-6" onSubmit={handleSubmit}>
+                  <div className="space-y-2">
+                    <label htmlFor="name" className="block text-sm font-medium">
+                      Full Name
+                    </label>
+                    <input
+                      type="text"
+                      id="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 rounded-lg border border-border bg-background focus:outline-none focus:ring-2 focus:ring-primary/50"
+                      placeholder="Enter your full name"
+                      required
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label htmlFor="email" className="block text-sm font-medium">
+                      Email Address
+                    </label>
+                    <input
+                      type="email"
+                      id="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 rounded-lg border border-border bg-background focus:outline-none focus:ring-2 focus:ring-primary/50"
+                      placeholder="Enter your email address"
+                      required
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label htmlFor="wallet_address" className="block text-sm font-medium">
+                      Wallet Address (Optional)
+                    </label>
+                    <input
+                      type="text"
+                      id="wallet_address"
+                      value={formData.wallet_address}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 rounded-lg border border-border bg-background focus:outline-none focus:ring-2 focus:ring-primary/50"
+                      placeholder="Enter your crypto wallet address"
+                    />
+                  </div>
+
+                  {submitStatus.error && (
+                    <div className="p-3 bg-red-100 text-red-700 rounded-lg">
+                      Error: {submitStatus.error}
+                    </div>
+                  )}
+                  <div className="pt-4">
+                    <Button
+                      type="submit"
+                      className="w-full bg-primary hover:bg-primary/90 text-white py-3 animate-bounce-subtle"
+                      disabled={isSubmitting}
+                    >
+                      {isSubmitting ? 'Submitting...' : 'Submit Application'}
+                    </Button>
+                  </div>
+                  <p className="text-sm text-muted-foreground text-center pt-4">
+                    By submitting this form, you agree to our <Link href="/terms" className="text-primary hover:underline">Terms of Service</Link> and <Link href="/privacy" className="text-primary hover:underline">Privacy Policy</Link>.
+                  </p>
+                </form>
+              )}
             </div>
           </div>
         </section>
@@ -103,4 +164,4 @@ export default function WhitelistPage() {
       <Footer />
     </div>
   );
-} 
+}
