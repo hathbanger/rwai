@@ -30,9 +30,47 @@ export default function AnimatedQuote({
   const [isLineAnimating, setIsLineAnimating] = useState(false);
   const [lineAnimationMode, setLineAnimationMode] = useState<'entry' | 'idle' | 'exit'>('entry');
   const [isPaused, setIsPaused] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [touchDirection, setTouchDirection] = useState<'left' | 'right' | null>(null);
   const lineOffsetRef = useRef(0);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
-  const lineAnimationDuration = 2000; // Duration of line animation in ms
+  const touchStartRef = useRef<number>(0);
+  const touchStartYRef = useRef<number>(0);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const lineAnimationDuration = isMobile ? 1800 : 2000; // Slightly faster on mobile
+  
+  // Detect mobile devices
+  useEffect(() => {
+    const checkMobile = () => {
+      const isMobileView = window.innerWidth < 768;
+      setIsMobile(isMobileView);
+      
+      // Adjust container height if needed based on content
+      if (containerRef.current && isMobileView) {
+        const contentHeight = containerRef.current.scrollHeight;
+        if (contentHeight > containerRef.current.clientHeight) {
+          containerRef.current.style.minHeight = `${contentHeight}px`;
+        }
+      }
+    };
+    
+    // Check on initial load
+    checkMobile();
+    
+    // Add resize listener with debounce
+    let resizeTimer: NodeJS.Timeout;
+    const handleResize = () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(checkMobile, 100);
+    };
+    
+    window.addEventListener('resize', handleResize);
+    
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      clearTimeout(resizeTimer);
+    };
+  }, []);
   
   // Auto-rotate quotes
   useEffect(() => {
@@ -70,7 +108,7 @@ export default function AnimatedQuote({
     }, lineAnimationDuration);
     
     return () => clearTimeout(timer);
-  }, []);
+  }, [lineAnimationDuration]);
   
   // Handle quote transition
   const changeQuote = (index: number) => {
@@ -89,7 +127,7 @@ export default function AnimatedQuote({
       // After entry animation completes, switch to idle
       setTimeout(() => {
         setLineAnimationMode('idle');
-        setIsAnimating(false);
+      setIsAnimating(false);
       }, lineAnimationDuration);
     }, lineAnimationDuration);
   };
@@ -100,65 +138,26 @@ export default function AnimatedQuote({
     const positionSets = [
       // Position set for quote 0
       {
-        topLines: [
-          { left: 0, width: 300 },
-          { right: 0, width: 250 },
-          { left: '45%', width: 100 },
-          { left: '30%', width: 180 },
-          { right: '25%', width: 200 }
-        ],
-        middleLines: [
-          { left: 0, width: 220 },
-          { right: 0, width: 240 },
-          { left: '20%', width: 180 }
-        ],
-        bottomLines: [
-          { left: 0, width: 280 },
-          { right: 0, width: 220 },
-          { left: '55%', width: 110 },
-          { left: '35%', width: 160 }
+        lines: [
+          { left: 0, width: isMobile ? 250 : 350, position: 'top' },
+          { right: 0, width: isMobile ? 150 : 250, position: 'bottom' },
+          { left: 0, width: isMobile ? 180 : 280, position: 'citation' }
         ]
       },
       // Position set for quote 1
       {
-        topLines: [
-          { left: '10%', width: 250 },
-          { right: '10%', width: 200 },
-          { left: '60%', width: 120 },
-          { left: '20%', width: 150 },
-          { right: '35%', width: 180 }
-        ],
-        middleLines: [
-          { left: '15%', width: 200 },
-          { right: '15%', width: 220 },
-          { left: '40%', width: 160 }
-        ],
-        bottomLines: [
-          { left: '5%', width: 260 },
-          { right: '5%', width: 240 },
-          { left: '65%', width: 100 },
-          { left: '25%', width: 180 }
+        lines: [
+          { left: 0, width: isMobile ? 220 : 320, position: 'top' },
+          { right: 0, width: isMobile ? 160 : 240, position: 'bottom' },
+          { left: 0, width: isMobile ? 150 : 220, position: 'citation' }
         ]
       },
       // Position set for quote 2
       {
-        topLines: [
-          { left: '5%', width: 280 },
-          { right: '20%', width: 230 },
-          { left: '50%', width: 90 },
-          { left: '25%', width: 170 },
-          { right: '15%', width: 190 }
-        ],
-        middleLines: [
-          { left: '10%', width: 210 },
-          { right: '25%', width: 230 },
-          { left: '35%', width: 170 }
-        ],
-        bottomLines: [
-          { left: '15%', width: 270 },
-          { right: '10%', width: 210 },
-          { left: '60%', width: 120 },
-          { left: '30%', width: 150 }
+        lines: [
+          { left: 0, width: isMobile ? 230 : 330, position: 'top' },
+          { right: 0, width: isMobile ? 140 : 210, position: 'bottom' },
+          { left: 0, width: isMobile ? 160 : 230, position: 'citation' }
         ]
       }
     ];
@@ -194,13 +193,62 @@ export default function AnimatedQuote({
     return highlightPhrase;
   };
   
-  // Handle touch events for mobile
-  const handleTouchStart = () => {
+  // Improved touch event handlers for mobile
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartRef.current = e.touches[0].clientX;
+    touchStartYRef.current = e.touches[0].clientY;
+    setTouchDirection(null);
     setIsPaused(true);
   };
   
-  const handleTouchEnd = () => {
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (touchDirection !== null || isAnimating) return;
+    
+    const touchX = e.touches[0].clientX;
+    const touchY = e.touches[0].clientY;
+    const diffX = touchStartRef.current - touchX;
+    const diffY = touchStartYRef.current - touchY;
+    
+    // Only handle horizontal swipes (prevent conflicts with page scrolling)
+    if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 20) {
+      // Determine swipe direction
+      setTouchDirection(diffX > 0 ? 'left' : 'right');
+      
+      // Prevent default to avoid page scrolling during swipe
+      e.preventDefault();
+    }
+  };
+  
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (isAnimating) {
+      setTouchDirection(null);
+      setTimeout(() => setIsPaused(false), 500);
+      return;
+    }
+    
+    const touchEnd = e.changedTouches[0].clientX;
+    const diff = touchStartRef.current - touchEnd;
+    
+    // Swipe detection for quote navigation
+    if (Math.abs(diff) > 50 && touchDirection !== null) { // Minimum swipe distance
+      if (diff > 0) {
+        // Swipe left - next quote
+        const nextIndex = (currentQuoteIndex + 1) % quotes.length;
+        changeQuote(nextIndex);
+      } else {
+        // Swipe right - previous quote
+        const prevIndex = (currentQuoteIndex - 1 + quotes.length) % quotes.length;
+        changeQuote(prevIndex);
+      }
+    }
+    
+    // Reset touch direction
+    setTouchDirection(null);
+    
+    // Small delay before resuming auto-rotation
+    setTimeout(() => {
     setIsPaused(false);
+    }, 1000);
   };
   
   // Get line animation based on mode and position
@@ -220,39 +268,47 @@ export default function AnimatedQuote({
         // Exit animation - from center to outside with rapid acceleration
         return {
           [axis]: fromLeft 
-            ? ['0%', '-150%'] 
-            : ['0%', '150%']
+            ? ['0%', '-180%'] 
+            : ['0%', '180%']
         };
       case 'idle':
       default:
         // More noticeable idle animation with smooth transitions
+        // Reduce animation range on mobile for better performance
+        const range = isMobile ? 2 : 3;
         return {
           [axis]: fromLeft 
-            ? ['0%', '3%', '-3%', '0%'] 
-            : ['0%', '-3%', '3%', '0%']
+            ? [`0%`, `${range}%`, `-${range}%`, `0%`] 
+            : [`0%`, `-${range}%`, `${range}%`, `0%`]
         };
     }
   };
   
   // Get line animation transition based on mode
   const getLineTransition = (index: number, mode: 'entry' | 'idle' | 'exit') => {
+    // Adjust timings for mobile
+    const mobileFactor = isMobile ? 0.8 : 1;
+    
     switch (mode) {
       case 'entry':
         return { 
-          duration: 1.6 + index * 0.08, 
+          duration: (1.6 + index * 0.08) * mobileFactor, 
           ease: [0.25, 0.1, 0.25, 1.0], // cubic-bezier for smoother entry
-          delay: index * 0.06 
+          delay: index * 0.06 * mobileFactor
         };
       case 'exit':
         return { 
-          duration: 1.2 + index * 0.05, // Faster exit
+          duration: (1.8 + index * 0.05) * mobileFactor, // Even longer exit motion
           ease: [0.36, 0, 0.66, -0.56], // Dramatic ease-out with overshoot
-          delay: index * 0.03 // Faster staggering
+          delay: index * 0.03 * mobileFactor // Faster staggering
         };
       case 'idle':
       default:
+        // Reduce duration on mobile for better performance
+        const baseDuration = isMobile ? 15 : 20;
+        const increment = isMobile ? 1.5 : 2;
         return { 
-          duration: 20 + index * 2, 
+          duration: baseDuration + index * increment, 
           ease: [0.37, 0, 0.63, 1], // pronounced ease-in-out for idle
           repeat: Infinity, 
           repeatType: "mirror" 
@@ -260,157 +316,102 @@ export default function AnimatedQuote({
     }
   };
   
+  // Get opacity transition based on mode - separate from motion transition
+  const getOpacityTransition = (mode: 'entry' | 'idle' | 'exit') => {
+    switch (mode) {
+      case 'entry':
+        return {
+          duration: 0.8,
+          ease: [0.25, 0.1, 0.25, 1.0]
+        };
+      case 'exit':
+        // Much faster opacity fade on exit - completes before motion ends
+        return {
+          duration: 0.3,
+          ease: [0.36, 0, 0.66, -0.56]
+        };
+      default:
+        return {
+          duration: 0.8,
+          ease: [0.25, 0.1, 0.25, 1.0]
+        };
+    }
+  };
+  
   return (
     <div 
-      className="relative w-full border-b border-gray-200 dark:border-gray-800 pb-16 mt-12 mb-16 overflow-hidden"
+      ref={containerRef}
+      className="relative w-full border-b border-gray-200 dark:border-gray-800 pb-12 sm:pb-16 mt-8 sm:mt-12 mb-12 sm:mb-16 overflow-hidden"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
       onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
-      {/* Horizontal lines - Top */}
-      <AnimatePresence mode="wait">
-        <motion.div 
-          key={`top-lines-${currentQuoteIndex}`}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ 
-            duration: lineAnimationMode === 'exit' ? 0.5 : 0.8, 
-            ease: lineAnimationMode === 'exit' ? [0.36, 0, 0.66, -0.56] : [0.25, 0.1, 0.25, 1.0]
-          }}
-          className="absolute top-0 left-0 right-0 h-32"
-        >
-          {currentPositions.topLines.map((pos, i) => (
-            <div 
-              key={`top-${i}`} 
-              className="absolute -top-16 h-1 overflow-visible"
-              style={{ 
-                left: pos.left !== undefined ? pos.left : 'auto', 
-                right: pos.right !== undefined ? pos.right : 'auto',
-                top: `${-16 - i * 4}px`
-              }}
-            >
-              <div 
-                className="absolute h-full z-10"
-                style={{ 
-                  left: pos.left !== undefined ? 0 : 'auto', 
-                  right: pos.right !== undefined ? 0 : 'auto',
-                  width: `${pos.width}px`
-                }}
-              >
-                <motion.div 
-                  className="bg-orange-500 w-full h-full"
-                  initial={{ x: pos.left !== undefined ? '-120%' : '120%' }}
-                  animate={getLineAnimation(pos)}
-                  transition={getLineTransition(i, lineAnimationMode)}
-                />
-              </div>
-            </div>
-          ))}
-        </motion.div>
-      </AnimatePresence>
+      {/* Visual swipe indicator for mobile */}
+      {isMobile && touchDirection && (
+        <div 
+          className={`absolute inset-0 z-10 bg-gradient-to-${touchDirection === 'left' ? 'l' : 'r'} from-transparent via-transparent to-orange-500/10 pointer-events-none`}
+          aria-hidden="true"
+        />
+      )}
       
-      {/* Horizontal lines in the middle section */}
-      <AnimatePresence mode="wait">
-        <motion.div 
-          key={`middle-lines-${currentQuoteIndex}`}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ 
-            duration: lineAnimationMode === 'exit' ? 0.5 : 0.8, 
-            ease: lineAnimationMode === 'exit' ? [0.36, 0, 0.66, -0.56] : [0.25, 0.1, 0.25, 1.0]
-          }}
-          className="absolute top-1/4 left-0 right-0 h-96"
-        >
-          {currentPositions.middleLines.map((pos, i) => (
-            <div 
-              key={`middle-${i}`} 
-              className="absolute h-1 overflow-visible"
-              style={{ 
-                left: pos.left !== undefined ? pos.left : 'auto', 
-                right: pos.right !== undefined ? pos.right : 'auto',
-                top: `${25 + i * 30}%`
-              }}
-            >
-              <div 
-                className="absolute h-full z-10"
-                style={{ 
-                  left: pos.left !== undefined ? 0 : 'auto', 
-                  right: pos.right !== undefined ? 0 : 'auto',
-                  width: `${pos.width}px`
-                }}
-              >
-                <motion.div 
-                  className="bg-orange-500 w-full h-full"
-                  initial={{ x: pos.left !== undefined ? '-120%' : '120%' }}
-                  animate={getLineAnimation(pos)}
-                  transition={getLineTransition(i + 3, lineAnimationMode)}
-                />
-              </div>
-            </div>
-          ))}
-        </motion.div>
-      </AnimatePresence>
-      
-      {/* Horizontal lines - Bottom */}
-      <AnimatePresence mode="wait">
-        <motion.div 
-          key={`bottom-lines-${currentQuoteIndex}`}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ 
-            duration: lineAnimationMode === 'exit' ? 0.5 : 0.8, 
-            ease: lineAnimationMode === 'exit' ? [0.36, 0, 0.66, -0.56] : [0.25, 0.1, 0.25, 1.0]
-          }}
-          className="absolute bottom-0 left-0 right-0 h-32"
-        >
-          {currentPositions.bottomLines.map((pos, i) => (
-            <div 
-              key={`bottom-${i}`} 
-              className="absolute h-1 overflow-visible"
-              style={{ 
-                left: pos.left !== undefined ? pos.left : 'auto', 
-                right: pos.right !== undefined ? pos.right : 'auto',
-                bottom: `${-8 - i * 4}px`
-              }}
-            >
-              <div 
-                className="absolute h-full z-10"
-                style={{ 
-                  left: pos.left !== undefined ? 0 : 'auto', 
-                  right: pos.right !== undefined ? 0 : 'auto',
-                  width: `${pos.width}px`
-                }}
-              >
-                <motion.div 
-                  className="bg-orange-500 w-full h-full"
-                  initial={{ x: pos.left !== undefined ? '-120%' : '120%' }}
-                  animate={getLineAnimation(pos)}
-                  transition={getLineTransition(i + 6, lineAnimationMode)}
-                />
-              </div>
-            </div>
-          ))}
-        </motion.div>
-      </AnimatePresence>
-      
-      {/* Quote content - fixed height container */}
-      <div className="pt-20 pb-16 px-8 md:px-16 text-center">
-        <div className="text-4xl md:text-5xl font-serif text-orange-500 mb-4 md:mb-6">"</div>
+      {/* Quote content with structured lines */}
+      <div className="relative pt-16 sm:pt-20 pb-12 sm:pb-16 px-4 sm:px-8 md:px-16 text-center">
+        {/* Line 1: Top line from left, positioned lower */}
+        <AnimatePresence mode="wait">
+          <motion.div 
+            key={`top-line-${currentQuoteIndex}`}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={getOpacityTransition(lineAnimationMode)}
+            className="absolute left-0 right-0 z-10"
+            style={{ top: isMobile ? '60px' : '70px' }} // Moved lower
+          >
+            {currentPositions.lines
+              .filter(line => line.position === 'top')
+              .map((pos, i) => (
+                <div 
+                  key={`top-${i}`} 
+                  className="absolute h-[3px] sm:h-[3px] overflow-visible"
+                  style={{ 
+                    left: pos.left !== undefined ? pos.left : 'auto', 
+                    right: pos.right !== undefined ? pos.right : 'auto',
+                  }}
+                >
+                  <div 
+                    className="absolute h-full z-10"
+                    style={{ 
+                      left: pos.left !== undefined ? 0 : 'auto', 
+                      right: pos.right !== undefined ? 0 : 'auto',
+                      width: `${pos.width}px`
+                    }}
+                  >
+                    <motion.div 
+                      className="bg-orange-500 w-full h-full"
+                      initial={{ x: pos.left !== undefined ? '-120%' : '120%' }}
+                      animate={getLineAnimation(pos)}
+                      transition={getLineTransition(0, lineAnimationMode)}
+                    />
+                  </div>
+                </div>
+            ))}
+          </motion.div>
+        </AnimatePresence>
         
-        <div className="h-[180px] md:h-[160px] flex items-center justify-center">
+        <div className="text-3xl sm:text-4xl md:text-5xl font-serif text-orange-500 mb-3 sm:mb-4 md:mb-6">"</div>
+        
+        <div className="min-h-[200px] sm:min-h-[180px] md:min-h-[160px] flex items-center justify-center">
           <AnimatePresence mode="wait">
             <motion.p
               key={currentQuoteIndex}
-              className="text-lg md:text-xl lg:text-2xl font-light leading-tight mb-6 md:mb-8 text-gray-900 dark:text-white max-w-4xl mx-auto"
+              className="text-base sm:text-lg md:text-xl lg:text-2xl font-light leading-tight mb-4 sm:mb-6 md:mb-8 text-gray-900 dark:text-white max-w-4xl mx-auto"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ 
-                duration: lineAnimationMode === 'exit' ? 0.4 : 0.8, 
+                duration: lineAnimationMode === 'exit' ? 0.3 : 0.8, 
                 ease: lineAnimationMode === 'exit' ? [0.36, 0, 0.66, -0.56] : [0.25, 0.1, 0.25, 1.0]
               }}
             >
@@ -424,13 +425,13 @@ export default function AnimatedQuote({
                 return (
                   <motion.span
                     key={`${currentQuoteIndex}-${i}`}
-                    className="inline-block mx-[0.15rem]"
+                    className="inline-block mx-[0.1rem] sm:mx-[0.15rem]"
                     initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     exit={{ y: -20, opacity: 0 }}
                     transition={{ 
-                      duration: lineAnimationMode === 'exit' ? 0.4 : 0.6, 
-                      delay: lineAnimationMode === 'entry' ? 0.6 + i * 0.025 : i * 0.015, // Faster exit staggering
+                      duration: lineAnimationMode === 'exit' ? 0.3 : 0.6, 
+                      delay: lineAnimationMode === 'entry' ? 0.6 + i * (isMobile ? 0.02 : 0.025) : i * (isMobile ? 0.01 : 0.015), // Faster staggering on mobile
                       ease: lineAnimationMode === 'exit' ? [0.36, 0, 0.66, -0.56] : [0.25, 0.1, 0.25, 1.0]
                     }}
                   >
@@ -444,28 +445,145 @@ export default function AnimatedQuote({
           </AnimatePresence>
         </div>
         
+        {/* Line 2: Right line, positioned higher */}
+        <AnimatePresence mode="wait">
+          <motion.div 
+            key={`bottom-line-${currentQuoteIndex}`}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={getOpacityTransition(lineAnimationMode)}
+            className="absolute left-0 right-0"
+            style={{ bottom: isMobile ? '120px' : '140px' }} // Positioned higher
+          >
+            {currentPositions.lines
+              .filter(line => line.position === 'bottom')
+              .map((pos, i) => (
+                <div 
+                  key={`bottom-${i}`} 
+                  className="absolute h-[2px] sm:h-1 overflow-visible"
+                  style={{ 
+                    left: pos.left !== undefined ? pos.left : 'auto', 
+                    right: pos.right !== undefined ? pos.right : 'auto',
+                  }}
+                >
+                  <div 
+                    className="absolute h-full z-10"
+                    style={{ 
+                      left: pos.left !== undefined ? 0 : 'auto', 
+                      right: pos.right !== undefined ? 0 : 'auto',
+                      width: `${pos.width}px`
+                    }}
+                  >
+                    <motion.div 
+                      className="bg-orange-500 w-full h-full"
+                      initial={{ x: pos.left !== undefined ? '-120%' : '120%' }}
+                      animate={getLineAnimation(pos)}
+                      transition={getLineTransition(1, lineAnimationMode)}
+                    />
+                  </div>
+                </div>
+            ))}
+          </motion.div>
+        </AnimatePresence>
+        
+        {/* Line 3: Bottom left line, positioned lower */}
+        <AnimatePresence mode="wait">
+          <motion.div 
+            key={`citation-line-${currentQuoteIndex}`}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={getOpacityTransition(lineAnimationMode)}
+            className="absolute left-0 right-0"
+            style={{ bottom: isMobile ? '30px' : '35px' }} // Positioned lower
+          >
+            {currentPositions.lines
+              .filter(line => line.position === 'citation')
+              .map((pos, i) => (
+                <div 
+                  key={`citation-${i}`} 
+                  className="absolute h-[2px] sm:h-1 overflow-visible"
+                  style={{ 
+                    left: pos.left !== undefined ? pos.left : 'auto', 
+                    right: pos.right !== undefined ? pos.right : 'auto',
+                  }}
+                >
+                  <div 
+                    className="absolute h-full z-10"
+                    style={{ 
+                      left: pos.left !== undefined ? 0 : 'auto', 
+                      right: pos.right !== undefined ? 0 : 'auto',
+                      width: `${pos.width}px`
+                    }}
+                  >
+                    <motion.div 
+                      className="bg-orange-500 w-full h-full"
+                      initial={{ x: pos.left !== undefined ? '-120%' : '120%' }}
+                      animate={getLineAnimation(pos)}
+                      transition={getLineTransition(2, lineAnimationMode)}
+                    />
+                  </div>
+                </div>
+            ))}
+          </motion.div>
+        </AnimatePresence>
+        
         <AnimatePresence mode="wait">
           <motion.div
             key={`attribution-${currentQuoteIndex}`}
-            className="flex items-center justify-center space-x-4"
+            className="flex items-center justify-center space-x-3 sm:space-x-4"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ 
-              duration: lineAnimationMode === 'exit' ? 0.35 : 0.6, 
+              duration: lineAnimationMode === 'exit' ? 0.3 : 0.6, 
               delay: lineAnimationMode === 'entry' ? 1.0 : 0.02,
               ease: lineAnimationMode === 'exit' ? [0.36, 0, 0.66, -0.56] : [0.25, 0.1, 0.25, 1.0]
             }}
           >
-            <div className="h-px w-12 bg-gray-300 dark:bg-gray-700"></div>
+            <div className="h-px w-8 sm:w-12 bg-gray-300 dark:bg-gray-700"></div>
             <div>
-              <p className="font-medium text-gray-900 dark:text-white">{quotes[currentQuoteIndex].author}</p>
-              <p className="text-sm text-gray-500 dark:text-gray-400">{quotes[currentQuoteIndex].title}</p>
+              <p className="font-medium text-sm sm:text-base text-gray-900 dark:text-white">{quotes[currentQuoteIndex].author}</p>
+              <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">{quotes[currentQuoteIndex].title}</p>
             </div>
-            <div className="h-px w-12 bg-gray-300 dark:bg-gray-700"></div>
+            <div className="h-px w-8 sm:w-12 bg-gray-300 dark:bg-gray-700"></div>
           </motion.div>
         </AnimatePresence>
       </div>
+      
+      {/* Navigation indicators - now showing on both mobile and desktop */}
+      <div className="absolute bottom-2 left-0 right-0 flex justify-center space-x-3">
+        {quotes.map((_, i) => (
+          <button
+            key={`nav-${i}`}
+            className={`w-2.5 h-2.5 rounded-full ${i === currentQuoteIndex ? 'bg-orange-500' : 'bg-gray-300 dark:bg-gray-700'} touch-manipulation`}
+            onClick={() => changeQuote(i)}
+            aria-label={`Go to quote ${i + 1}`}
+            aria-current={i === currentQuoteIndex ? 'true' : 'false'}
+          />
+        ))}
+      </div>
+      
+      {/* Mobile swipe hint - shows briefly on component mount */}
+      {isMobile && (
+        <motion.div 
+          className="absolute inset-x-0 bottom-10 flex justify-center items-center pointer-events-none"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: [0, 1, 1, 0] }}
+          transition={{ duration: 3, times: [0, 0.1, 0.9, 1], delay: 1 }}
+        >
+          <div className="bg-gray-800/70 dark:bg-gray-200/20 text-white dark:text-gray-200 px-3 py-1.5 rounded-full text-xs flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            <span>Swipe to navigate</span>
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            </svg>
+          </div>
+        </motion.div>
+      )}
     </div>
   );
 } 

@@ -10,7 +10,7 @@ export async function GET(
   console.log('API route for model ID:', modelId);
   
   // Find the model by ID
-  const model = modelsData.find((m: any) => m.id === modelId);
+  const model = modelsData.find((m: Record<string, unknown>) => m.id === modelId);
   
   // If model not found, return 404
   if (!model) {
