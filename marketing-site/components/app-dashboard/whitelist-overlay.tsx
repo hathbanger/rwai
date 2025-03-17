@@ -12,6 +12,19 @@ const getMainDomainUrl = () => {
     const currentHost = window.location.host;
     const protocol = window.location.protocol;
     
+    // Handle Vercel deployment URLs (containing vercel.app)
+    if (currentHost.includes('vercel.app')) {
+      // If we're on app.*, remove 'app.' prefix
+      if (currentHost.startsWith('app.')) {
+        // Get the base domain without 'app.'
+        return `${protocol}//${currentHost.replace('app.', '')}`;
+      }
+      
+      // If we're already on the main site, return as is
+      return `${protocol}//${currentHost}`;
+    }
+    
+    // Handle custom domain cases
     // If we're on app subdomain, extract the main domain and remove port if any
     if (currentHost.startsWith('app.')) {
       // Remove 'app.' prefix and get the main domain
@@ -34,7 +47,7 @@ const getMainDomainUrl = () => {
     return `${protocol}//${currentHost}`;
   }
   
-  // Server-side rendering fallback (this won't typically be used for client-side navigation)
+  // Server-side rendering fallback
   return '';
 };
 

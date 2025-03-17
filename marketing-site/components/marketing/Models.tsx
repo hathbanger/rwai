@@ -11,15 +11,27 @@ const getAppSubdomainUrl = () => {
     const currentHost = window.location.host;
     const protocol = window.location.protocol;
     
-    // If we're already on the app subdomain
+    // If we're already on the app subdomain, return the current URL
     if (currentHost.startsWith('app.')) {
       return `${protocol}//${currentHost}`;
     }
     
-    // Determine the main domain (remove www. if present)
+    // Handle Vercel deployment URLs (containing vercel.app)
+    if (currentHost.includes('vercel.app')) {
+      // If we're already on an app.* URL, return as is
+      if (currentHost.startsWith('app.')) {
+        return `${protocol}//${currentHost}`;
+      }
+      
+      // Otherwise, construct app.* URL
+      return `${protocol}//app.${currentHost.split('.').slice(0).join('.')}`;
+    }
+    
+    // Handle custom domains
+    // Remove www. if present
     let mainDomain = currentHost.replace(/^www\./, '');
     
-    // In production, we just need the domain without port
+    // In production, just need the domain without port
     if (process.env.NODE_ENV === 'production') {
       // Split by : to remove any port number
       mainDomain = mainDomain.split(':')[0];
@@ -31,7 +43,7 @@ const getAppSubdomainUrl = () => {
     return `${protocol}//app.${mainDomain}${port}`;
   }
   
-  // Server-side rendering fallback (this won't be used for client navigation)
+  // Server-side rendering fallback
   return '';
 };
 
