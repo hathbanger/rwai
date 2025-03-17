@@ -284,6 +284,7 @@ export default function AnimatedQuote({
     }
   };
   
+  
   // Get line animation transition based on mode
   const getLineTransition = (index: number, mode: 'entry' | 'idle' | 'exit') => {
     // Adjust timings for mobile
