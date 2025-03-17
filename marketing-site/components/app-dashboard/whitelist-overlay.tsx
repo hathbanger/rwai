@@ -38,22 +38,22 @@ function CountdownTimer() {
   }, []);
 
   return (
-    <div className="grid grid-cols-4 gap-2 my-4">
-      <div className="bg-muted/30 rounded-lg p-2 text-center">
-        <div className="text-xl font-bold">{timeLeft.days}</div>
-        <div className="text-xs text-muted-foreground">Days</div>
+    <div className="grid grid-cols-4 gap-1 sm:gap-2 my-4">
+      <div className="bg-muted/30 rounded-lg p-1 sm:p-2 text-center">
+        <div className="text-base sm:text-xl font-bold">{timeLeft.days}</div>
+        <div className="text-[10px] sm:text-xs text-muted-foreground">Days</div>
       </div>
-      <div className="bg-muted/30 rounded-lg p-2 text-center">
-        <div className="text-xl font-bold">{timeLeft.hours}</div>
-        <div className="text-xs text-muted-foreground">Hours</div>
+      <div className="bg-muted/30 rounded-lg p-1 sm:p-2 text-center">
+        <div className="text-base sm:text-xl font-bold">{timeLeft.hours}</div>
+        <div className="text-[10px] sm:text-xs text-muted-foreground">Hours</div>
       </div>
-      <div className="bg-muted/30 rounded-lg p-2 text-center">
-        <div className="text-xl font-bold">{timeLeft.minutes}</div>
-        <div className="text-xs text-muted-foreground">Minutes</div>
+      <div className="bg-muted/30 rounded-lg p-1 sm:p-2 text-center">
+        <div className="text-base sm:text-xl font-bold">{timeLeft.minutes}</div>
+        <div className="text-[10px] sm:text-xs text-muted-foreground">Minutes</div>
       </div>
-      <div className="bg-muted/30 rounded-lg p-2 text-center">
-        <div className="text-xl font-bold">{timeLeft.seconds}</div>
-        <div className="text-xs text-muted-foreground">Seconds</div>
+      <div className="bg-muted/30 rounded-lg p-1 sm:p-2 text-center">
+        <div className="text-base sm:text-xl font-bold">{timeLeft.seconds}</div>
+        <div className="text-[10px] sm:text-xs text-muted-foreground">Seconds</div>
       </div>
     </div>
   );
@@ -79,10 +79,10 @@ export function WhitelistOverlay({ topOffset = "top-0 md:top-[70px]" }: Whitelis
 
   return (
     <div className={`fixed inset-0 ${topOffset} z-40 bg-gradient-to-br from-white/80 to-gray-100/90 dark:from-black/70 dark:to-black/60 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-300`}>
-      <div className="bg-card/98 border border-border/50 rounded-xl max-w-md w-full p-8 shadow-2xl animate-in slide-in-from-bottom-8 fade-in duration-500 delay-150 relative mt-[-5vh]">
-        <div className="text-center space-y-6">
-          <h2 className="text-2xl font-bold text-foreground">Join the Future of Tokenized AI</h2>
-          <p className="text-muted-foreground">
+      <div className="bg-card/98 border border-border/50 rounded-xl max-w-md w-full p-4 sm:p-8 shadow-2xl animate-in slide-in-from-bottom-8 fade-in duration-500 delay-150 relative mt-[-5vh] mx-auto overflow-y-auto max-h-[90vh]">
+        <div className="text-center space-y-4 sm:space-y-6">
+          <h2 className="text-xl sm:text-2xl font-bold text-foreground">Join the Future of Tokenized AI</h2>
+          <p className="text-sm sm:text-base text-muted-foreground">
             Be part of the revolution in AI infrastructure. Join our whitelist to access exclusive tokenized AI resources and early investment opportunities.
           </p>
           
@@ -91,22 +91,22 @@ export function WhitelistOverlay({ topOffset = "top-0 md:top-[70px]" }: Whitelis
             <CountdownTimer />
           </div>
           
-          <div className="space-y-3 py-2 hidden md:block">
-            <div className="flex items-center gap-2 text-sm text-left">
-              <div className="h-5 w-5 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
-                <span className="text-xs text-primary font-medium">1</span>
+          <div className="space-y-2 sm:space-y-3 py-2">
+            <div className="flex items-center gap-2 text-xs sm:text-sm text-left">
+              <div className="h-4 w-4 sm:h-5 sm:w-5 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
+                <span className="text-[8px] sm:text-xs text-primary font-medium">1</span>
               </div>
               <p>Access to tokenized AI compute resources</p>
             </div>
-            <div className="flex items-center gap-2 text-sm text-left">
-              <div className="h-5 w-5 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
-                <span className="text-xs text-primary font-medium">2</span>
+            <div className="flex items-center gap-2 text-xs sm:text-sm text-left">
+              <div className="h-4 w-4 sm:h-5 sm:w-5 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
+                <span className="text-[8px] sm:text-xs text-primary font-medium">2</span>
               </div>
               <p>Early investment in AI infrastructure tokens</p>
             </div>
-            <div className="flex items-center gap-2 text-sm text-left">
-              <div className="h-5 w-5 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
-                <span className="text-xs text-primary font-medium">3</span>
+            <div className="flex items-center gap-2 text-xs sm:text-sm text-left">
+              <div className="h-4 w-4 sm:h-5 sm:w-5 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
+                <span className="text-[8px] sm:text-xs text-primary font-medium">3</span>
               </div>
               <p>Exclusive governance rights in the RWAi ecosystem</p>
             </div>

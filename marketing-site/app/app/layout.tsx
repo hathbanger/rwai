@@ -159,8 +159,9 @@ export default function AppLayout({
               
               {/* User account dropdown */}
               <UserAccountDropdown 
-                userName="John Doe"
-                userEmail="john@example.com"
+                userName="Rawina Dark"
+                userEmail="rawina@rwai.xyz"
+                userImageUrl="/images/RWAi - girl sm.png"
                 balance="$489.12"
                 hideBalance={true}
               />
@@ -170,7 +171,7 @@ export default function AppLayout({
       </header>
 
       {/* Main navigation - only visible on medium screens and up */}
-      <nav className="hidden md:block bg-background border-b border-border sticky top-[57px] z-50">
+      <nav className="hidden md:block bg-card border-b border-border sticky top-[57px] z-50">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex space-x-8">
             {navigationLinks.map((link) => (

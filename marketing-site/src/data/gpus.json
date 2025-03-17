@@ -101,5 +101,41 @@
     "tags": ["HPC", "AI", "data-center", "enterprise"],
     "image": "/images/GPU_H200-SGX.png",
     "featured": true
+  },
+  {
+    "id": "gb200-nvl4",
+    "name": "GB200 NVL4",
+    "manufacturer": "NVIDIA",
+    "architecture": "Blackwell",
+    "specs": {
+      "cudaCores": 18500,
+      "tensorCores": 720,
+      "rayTracingCores": "N/A",
+      "baseClockSpeed": "1.9 GHz",
+      "boostClockSpeed": "2.5 GHz",
+      "memoryType": "HBM3e",
+      "memorySize": "192 GB",
+      "memoryBusWidth": "6144-bit",
+      "memoryBandwidth": "8,000 GB/s",
+      "transistorCount": "208 billion",
+      "dieSize": "850 mm²",
+      "tdp": "1,200 W"
+    },
+    "launchDate": "2024-03-18",
+    "launchMsrp": "$40,000",
+    "keyFeatures": [
+      "HBM3e memory with unprecedented bandwidth",
+      "5th generation NVLink: 1.8TB/s",
+      "PCIe Gen6: 256GB/s",
+      "Second-generation Transformer Engine with FP4/FP8 precision",
+      "Dedicated decompression engines",
+      "Multi-Instance GPU (MIG) support"
+    ],
+    "performance": "Delivers 30X faster real-time LLM inference performance for trillion-parameter language models compared to H100, and 4X faster training for large language models at scale.",
+    "description": "NVIDIA's revolutionary Grace Blackwell Superchip that unlocks the future of converged HPC and AI, delivering exceptional performance through four NVIDIA NVLink-connected Blackwell GPUs unified with two Grace CPUs over NVLink-C2C.",
+    "category": "datacenter",
+    "tags": ["HPC", "AI", "data-center", "enterprise", "LLM", "supercomputing"],
+    "image": "/images/GPU_gb200-nvl4.png",
+    "featured": true
   }
 ] 

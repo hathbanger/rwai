@@ -8,7 +8,9 @@ import {
   Cpu, 
   Server, 
   Menu,
-  X
+  X,
+  Settings,
+  HelpCircle
 } from "lucide-react";
 import { ThemeToggle } from "../../components/ui/theme-toggle";
 
@@ -65,13 +67,13 @@ export function SidebarNav({ navigationLinks }: SidebarNavProps) {
       )}
 
       {/* Sidebar */}
-      <div className={`fixed inset-y-0 left-0 z-50 w-64 bg-sidebar transform transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+      <div className={`fixed inset-y-0 left-0 z-50 w-64 bg-card transform transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
         <div className="flex flex-col h-full">
           {/* Sidebar header */}
-          <div className="flex items-center justify-between p-4 border-b border-sidebar-border">
-            <div className="text-sidebar-foreground text-xl font-semibold">RWAI</div>
+          <div className="flex items-center justify-between p-4 border-b border-border">
+            <div className="text-foreground text-xl font-semibold">RWAI</div>
             <button
-              className="p-1 text-sidebar-foreground/60 hover:text-sidebar-foreground focus:outline-none"
+              className="p-1 text-muted-foreground hover:text-foreground focus:outline-none"
               onClick={toggleSidebar}
             >
               <span className="sr-only">Close sidebar</span>
@@ -82,7 +84,7 @@ export function SidebarNav({ navigationLinks }: SidebarNavProps) {
           {/* Sidebar content */}
           <div className="flex-1 overflow-y-auto py-4">
             <div className="px-4 mb-6">
-              <p className="text-xs font-medium text-sidebar-foreground/60 uppercase tracking-wider mb-2">NAVIGATION</p>
+              <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-2">NAVIGATION</p>
               <nav className="space-y-1">
                 {navigationLinks.map((link) => (
                   <Link 
@@ -90,8 +92,8 @@ export function SidebarNav({ navigationLinks }: SidebarNavProps) {
                     href={link.href} 
                     className={`flex items-center px-3 py-2 text-sm font-medium rounded-md group ${
                       link.active 
-                        ? "text-sidebar-foreground bg-sidebar-accent" 
-                        : "text-sidebar-foreground/80 hover:bg-sidebar-accent/50 hover:text-sidebar-foreground"
+                        ? "text-foreground bg-muted" 
+                        : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
                     }`}
                     onClick={toggleSidebar}
                   >
@@ -103,33 +105,55 @@ export function SidebarNav({ navigationLinks }: SidebarNavProps) {
             </div>
 
             <div className="px-4">
-              <p className="text-xs font-medium text-sidebar-foreground/60 uppercase tracking-wider mb-2">ACCOUNT</p>
+              <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-2">ACCOUNT</p>
               <nav className="space-y-1">
                 <Link 
                   href="/usage" 
-                  className="flex items-center px-3 py-2 text-sm font-medium text-sidebar-foreground/80 rounded-md hover:bg-sidebar-accent/50 hover:text-sidebar-foreground group"
+                  className="flex items-center px-3 py-2 text-sm font-medium text-muted-foreground rounded-md hover:bg-muted/50 hover:text-foreground group"
                   onClick={toggleSidebar}
                 >
-                  <Grid className="mr-3 h-5 w-5 text-sidebar-foreground/60 group-hover:text-sidebar-foreground" />
+                  <Grid className="mr-3 h-5 w-5 text-muted-foreground group-hover:text-foreground" />
                   Usage
                 </Link>
                 <Link 
                   href="/billing" 
-                  className="flex items-center px-3 py-2 text-sm font-medium text-sidebar-foreground/80 rounded-md hover:bg-sidebar-accent/50 hover:text-sidebar-foreground group"
+                  className="flex items-center px-3 py-2 text-sm font-medium text-muted-foreground rounded-md hover:bg-muted/50 hover:text-foreground group"
                   onClick={toggleSidebar}
                 >
-                  <Grid className="mr-3 h-5 w-5 text-sidebar-foreground/60 group-hover:text-sidebar-foreground" />
+                  <Grid className="mr-3 h-5 w-5 text-muted-foreground group-hover:text-foreground" />
                   Billing
+                </Link>
+              </nav>
+            </div>
+            
+            <div className="px-4 mt-6">
+              <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-2">PREFERENCES</p>
+              <nav className="space-y-1">
+                <Link 
+                  href="/settings" 
+                  className="flex items-center px-3 py-2 text-sm font-medium text-muted-foreground rounded-md hover:bg-muted/50 hover:text-foreground group"
+                  onClick={toggleSidebar}
+                >
+                  <Settings className="mr-3 h-5 w-5 text-muted-foreground group-hover:text-foreground" />
+                  Settings
+                </Link>
+                <Link 
+                  href="/help" 
+                  className="flex items-center px-3 py-2 text-sm font-medium text-muted-foreground rounded-md hover:bg-muted/50 hover:text-foreground group"
+                  onClick={toggleSidebar}
+                >
+                  <HelpCircle className="mr-3 h-5 w-5 text-muted-foreground group-hover:text-foreground" />
+                  Help & Support
                 </Link>
               </nav>
             </div>
           </div>
 
           {/* Sidebar footer */}
-          <div className="p-4 border-t border-sidebar-border">
+          <div className="p-4 border-t border-border">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-medium text-sidebar-foreground/60 uppercase tracking-wider">Theme</span>
-              <ThemeToggle variant="icon" className="text-sidebar-foreground/80 hover:text-sidebar-foreground" />
+              <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Theme</span>
+              <ThemeToggle variant="icon" className="text-muted-foreground hover:text-foreground" />
             </div>
           </div>
         </div>

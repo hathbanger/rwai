@@ -24,12 +24,12 @@ import {
 // Mock user data
 const userData = {
   id: "user-1",
-  name: "John Doe",
-  email: "john@example.com",
+  name: "Rawina Dark",
+  email: "rawina@rwai.xyz",
   location: "San Francisco, CA",
   joinDate: "January 2023",
   bio: "AI infrastructure enthusiast focused on optimizing inference performance. Passionate about leveraging open-source models for practical applications.",
-  avatarUrl: "/images/avatar-placeholder.jpg",
+  avatarUrl: "/images/RWAi - girl.png",
   tier: "Pro",
 };
 

@@ -76,7 +76,7 @@ export function UserAccountDropdown({
               <img
                 src={userImageUrl}
                 alt={userName}
-                className="h-8 w-8 rounded-full object-cover border border-muted dark:border-gray-700"
+                className="h-8 w-8 rounded-full object-cover"
               />
             ) : (
               <div className="flex h-8 w-8 items-center justify-center rounded-full bg-muted dark:bg-gray-700 text-muted-foreground dark:text-gray-300">
@@ -161,7 +161,7 @@ export function UserAccountDropdown({
                   <img
                     src={userImageUrl}
                     alt={userName}
-                    className="h-12 w-12 rounded-full object-cover border-2 border-muted shadow-sm"
+                    className="h-12 w-12 rounded-full object-cover"
                   />
                 ) : (
                   <div className="flex h-12 w-12 items-center justify-center rounded-full bg-muted text-muted-foreground border-2 border-muted shadow-sm">
