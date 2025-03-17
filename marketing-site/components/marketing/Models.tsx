@@ -5,49 +5,6 @@ import { Button } from '../ui/button';
 import { ChevronRight } from 'lucide-react';
 import { getAppUrl } from '../../lib/url-utils';
 
-// Function to get the app subdomain URL dynamically
-const getAppSubdomainUrl = () => {
-  // Check if we're in the browser environment
-  if (typeof window !== 'undefined') {
-    const currentHost = window.location.host;
-    const protocol = window.location.protocol;
-    
-    // If we're already on the app subdomain, return the current URL
-    if (currentHost.startsWith('app.')) {
-      return `${protocol}//${currentHost}`;
-    }
-    
-    // Handle Vercel deployment URLs (containing vercel.app)
-    if (currentHost.includes('vercel.app')) {
-      // If we're already on an app.* URL, return as is
-      if (currentHost.startsWith('app.')) {
-        return `${protocol}//${currentHost}`;
-      }
-      
-      // Otherwise, construct app.* URL
-      return `${protocol}//app.${currentHost.split('.').slice(0).join('.')}`;
-    }
-    
-    // Handle custom domains
-    // Remove www. if present
-    let mainDomain = currentHost.replace(/^www\./, '');
-    
-    // In production, just need the domain without port
-    if (process.env.NODE_ENV === 'production') {
-      // Split by : to remove any port number
-      mainDomain = mainDomain.split(':')[0];
-      return `${protocol}//app.${mainDomain}`;
-    }
-    
-    // In development, preserve the port if it exists
-    const port = currentHost.includes(':') ? `:${currentHost.split(':')[1]}` : '';
-    return `${protocol}//app.${mainDomain}${port}`;
-  }
-  
-  // Server-side rendering fallback
-  return '';
-};
-
 // Define model type
 interface ModelType {
   name: string;

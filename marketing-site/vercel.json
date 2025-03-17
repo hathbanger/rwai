@@ -1,0 +1,39 @@
+{
+  "version": 2,
+  "framework": "nextjs",
+  "routes": [
+    {
+      "src": "/(.*)",
+      "headers": {
+        "x-vercel-deployment": "1"
+      },
+      "continue": true
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "app.(?<domain>.*)" }],
+      "destination": "/app/:path*"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        }
+      ]
+    }
+  ]
+} 
