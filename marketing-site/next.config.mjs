@@ -13,24 +13,12 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
-    domains: [
-      // Local development
-      'app.localhost', 
-      'localhost',
-      // Production custom domains 
-      'rwai.xyz', 
-      'app.rwai.xyz', 
-      'www.rwai.xyz',
-      // Vercel domains
-      'vercel.app',
-      'rwai-eight.vercel.app',
-      'app.rwai-eight.vercel.app'
-    ],
+    domains: ['localhost', 'app.localhost'],
     dangerouslyAllowSVG: true,
     contentDispositionType: 'attachment',
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     remotePatterns: [
-      // Local development patterns
+      // Localhost patterns for development
       {
         protocol: 'http',
         hostname: 'localhost',
@@ -43,26 +31,10 @@ const nextConfig = {
         port: '3000',
         pathname: '/**',
       },
-      // Production custom domain patterns
+      // Wildcard pattern for all domains in production
       {
         protocol: 'https',
-        hostname: 'rwai.xyz',
-        pathname: '/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'app.rwai.xyz',
-        pathname: '/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'www.rwai.xyz',
-        pathname: '/**',
-      },
-      // Vercel deployment patterns
-      {
-        protocol: 'https',
-        hostname: '*.vercel.app',
+        hostname: '**',
         pathname: '/**',
       }
     ],

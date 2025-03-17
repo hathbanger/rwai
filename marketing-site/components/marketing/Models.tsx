@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '../ui/button';
 import { ChevronRight } from 'lucide-react';
+import { getAppUrl } from '../../lib/url-utils';
 
 // Function to get the app subdomain URL dynamically
 const getAppSubdomainUrl = () => {
@@ -52,11 +53,11 @@ interface ModelType {
   name: string;
   description: string;
   image: string;
-  path: string; // Changed from href to path to make it clear it's a relative path
-  category: 'model' | 'gpu'; // Add category to distinguish between models and GPUs
+  path: string; // Path relative to the app subdomain
+  category: 'model' | 'gpu';
 }
 
-// Model data without className property
+// Model data
 const models: ModelType[] = [
   { 
     name: 'DeepSeek LLM', 
@@ -97,11 +98,8 @@ const models: ModelType[] = [
 
 // Card component for model items
 const ModelCard = ({ model, priority = false, className = "" }: { model: ModelType; priority?: boolean; className?: string }) => {
-  // Construct the full URL dynamically on the client side
-  const href = React.useMemo(() => {
-    if (typeof window === 'undefined') return model.path; // SSR fallback
-    return `${getAppSubdomainUrl()}${model.path}`;
-  }, [model.path]);
+  // Construct the full URL to the app subdomain
+  const href = getAppUrl(model.path);
 
   return (
     <a 

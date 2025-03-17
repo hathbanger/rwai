@@ -4,52 +4,7 @@ import { useState, useEffect } from "react";
 import { CreditCard } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-
-// Get the correct base URL for whitelist
-const getMainDomainUrl = () => {
-  // Check if we're in the browser environment
-  if (typeof window !== 'undefined') {
-    const currentHost = window.location.host;
-    const protocol = window.location.protocol;
-    
-    // Handle Vercel deployment URLs (containing vercel.app)
-    if (currentHost.includes('vercel.app')) {
-      // If we're on app.*, remove 'app.' prefix
-      if (currentHost.startsWith('app.')) {
-        // Get the base domain without 'app.'
-        return `${protocol}//${currentHost.replace('app.', '')}`;
-      }
-      
-      // If we're already on the main site, return as is
-      return `${protocol}//${currentHost}`;
-    }
-    
-    // Handle custom domain cases
-    // If we're on app subdomain, extract the main domain and remove port if any
-    if (currentHost.startsWith('app.')) {
-      // Remove 'app.' prefix and get the main domain
-      let mainDomain = currentHost.replace('app.', '');
-      
-      // In production, we don't need port numbers
-      if (process.env.NODE_ENV === 'production') {
-        mainDomain = mainDomain.split(':')[0];
-      }
-      
-      return `${protocol}//${mainDomain}`;
-    }
-    
-    // Handle www prefix in production
-    if (currentHost.startsWith('www.') && process.env.NODE_ENV === 'production') {
-      return `${protocol}//${currentHost}`;
-    }
-    
-    // If we're already on the main domain, just use the current protocol and host
-    return `${protocol}//${currentHost}`;
-  }
-  
-  // Server-side rendering fallback
-  return '';
-};
+import { getMainUrl } from "../../lib/url-utils";
 
 // Countdown Timer Component
 function CountdownTimer() {
@@ -162,12 +117,10 @@ export function WhitelistOverlay({ topOffset = "top-0 md:top-[70px]" }: Whitelis
             href="/whitelist" 
             target="_blank" 
             rel="noopener noreferrer"
-            // Use dynamic URL for cross-subdomain navigation
             onClick={(e) => {
               e.preventDefault();
-              const mainDomainUrl = getMainDomainUrl();
-              // Open in new tab
-              window.open(`${mainDomainUrl}/whitelist`, '_blank', 'noopener,noreferrer');
+              // Use the getMainUrl utility function to navigate to the whitelist page
+              window.open(getMainUrl('whitelist'), '_blank', 'noopener,noreferrer');
             }}
           >
             <Button size="lg" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">

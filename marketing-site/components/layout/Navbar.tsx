@@ -7,49 +7,7 @@ import { Button } from '../ui/button';
 import { ThemeToggle } from '../ui/theme-toggle';
 import { SocialIcon } from 'react-social-icons';
 import { Moon, Sun, X, Menu, Twitter } from 'lucide-react';
-
-// Function to get the app subdomain URL dynamically
-const getAppSubdomainUrl = () => {
-  // Check if we're in the browser environment
-  if (typeof window !== 'undefined') {
-    const currentHost = window.location.host;
-    const protocol = window.location.protocol;
-    
-    // If we're already on the app subdomain, return the current URL
-    if (currentHost.startsWith('app.')) {
-      return `${protocol}//${currentHost}`;
-    }
-    
-    // Handle Vercel deployment URLs (containing vercel.app)
-    if (currentHost.includes('vercel.app')) {
-      // If we're already on an app.* URL, return as is
-      if (currentHost.startsWith('app.')) {
-        return `${protocol}//${currentHost}`;
-      }
-      
-      // Otherwise, construct app.* URL
-      return `${protocol}//app.${currentHost.split('.').slice(0).join('.')}`;
-    }
-    
-    // Handle custom domains
-    // Remove www. if present
-    let mainDomain = currentHost.replace(/^www\./, '');
-    
-    // In production, just need the domain without port
-    if (process.env.NODE_ENV === 'production') {
-      // Split by : to remove any port number
-      mainDomain = mainDomain.split(':')[0];
-      return `${protocol}//app.${mainDomain}`;
-    }
-    
-    // In development, preserve the port if it exists
-    const port = currentHost.includes(':') ? `:${currentHost.split(':')[1]}` : '';
-    return `${protocol}//app.${mainDomain}${port}`;
-  }
-  
-  // Server-side rendering fallback
-  return '';
-};
+import { getAppUrl } from '../../lib/url-utils';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -106,7 +64,7 @@ const Navbar = () => {
             {/* Launch App button - visible only on desktop */}
             <div className="hidden md:block">
               <Button asChild className="bg-primary hover:bg-primary/90 text-white">
-                <a href={`${getAppSubdomainUrl()}/models`} target="_blank" rel="noopener noreferrer">
+                <a href={getAppUrl('models')} target="_blank" rel="noopener noreferrer">
                   Launch App
                 </a>
               </Button>
@@ -230,7 +188,7 @@ const Navbar = () => {
             {/* Launch App button - visible only on mobile (in drawer) */}
             <div className="md:hidden p-6 border-t border-gray-200 dark:border-gray-800">
               <Button asChild className="w-full bg-primary hover:bg-primary/90 text-white">
-                <a href={`${getAppSubdomainUrl()}/models`} target="_blank" rel="noopener noreferrer">
+                <a href={getAppUrl('models')} target="_blank" rel="noopener noreferrer">
                   Launch App
                 </a>
               </Button>
