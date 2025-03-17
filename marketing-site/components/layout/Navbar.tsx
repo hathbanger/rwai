@@ -64,9 +64,9 @@ const Navbar = () => {
                 alt="RWAi Logo" 
                 width={120} 
                 height={40} 
-                style={{ width: 'auto', height: 'auto' }}
+                style={{ width: 'auto', height: 'auto', maxHeight: '32px' }}
                 priority
-                className="dark:invert"
+                className="dark:invert w-[90px] md:w-[110px] h-auto object-contain"
               />
             </Link>
           </div>
@@ -113,8 +113,8 @@ const Navbar = () => {
                 alt="RWAi Logo" 
                 width={100} 
                 height={32} 
-                style={{ width: 'auto', height: 'auto' }}
-                className="dark:invert"
+                style={{ width: 'auto', height: 'auto', maxHeight: '28px' }}
+                className="dark:invert w-[80px] h-auto object-contain"
               />
             </div>
             <Button
