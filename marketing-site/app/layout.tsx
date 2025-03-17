@@ -28,6 +28,7 @@ export const metadata: Metadata = {
     template: "%s | RWAI",
   },
   description: "Real World AI - Cutting-edge AI solutions for real-world applications",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://rwai.io'),
   icons: {
     icon: [
       { url: "/favicon_io/favicon.ico" },
