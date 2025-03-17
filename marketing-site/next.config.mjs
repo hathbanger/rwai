@@ -13,7 +13,7 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
-    domains: ['localhost', 'app.localhost'],
+    domains: ['localhost', 'app.localhost', 'rwai-eight.vercel.app', 'app.rwai-eight.vercel.app'],
     dangerouslyAllowSVG: true,
     contentDispositionType: 'attachment',
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
@@ -29,6 +29,17 @@ const nextConfig = {
         protocol: 'http',
         hostname: 'app.localhost',
         port: '3000',
+        pathname: '/**',
+      },
+      // Vercel patterns
+      {
+        protocol: 'https',
+        hostname: 'rwai-eight.vercel.app',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'app.rwai-eight.vercel.app',
         pathname: '/**',
       },
       // Wildcard pattern for all domains in production
@@ -53,32 +64,32 @@ const nextConfig = {
       },
     },
   },
+  // Subdomain configuration
   async rewrites() {
-    return {
-      beforeFiles: [
-        // Handle subdomain routing
-        {
-          source: '/:path*',
-          has: [
-            {
-              type: 'host',
-              value: 'app.rwai-eight.vercel.app',
-            },
-          ],
-          destination: '/app/:path*',
-        },
-        {
-          source: '/:path*',
-          has: [
-            {
-              type: 'host',
-              value: 'app.localhost:3000',
-            },
-          ],
-          destination: '/app/:path*',
-        },
-      ],
-    };
+    return [
+      // Handle app.rwai-eight.vercel.app subdomain
+      {
+        source: '/:path*',
+        has: [
+          {
+            type: 'host',
+            value: 'app.rwai-eight.vercel.app',
+          },
+        ],
+        destination: '/app/:path*',
+      },
+      // Handle app.localhost:3000 subdomain for local development
+      {
+        source: '/:path*',
+        has: [
+          {
+            type: 'host',
+            value: 'app.localhost:3000',
+          },
+        ],
+        destination: '/app/:path*',
+      }
+    ];
   },
 };
 
