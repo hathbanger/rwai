@@ -22,7 +22,7 @@ export default function middleware(request: NextRequest) {
   const currentHost = hostname.split(':')[0];
 
   // Handle app subdomain
-  if (currentHost === 'app.rwai-tan.vercel.app') {
+  if (currentHost === 'app.omnisat.org') {
     console.log(`App subdomain detected: ${hostname}`);
 
     // Don't rewrite static assets or API routes

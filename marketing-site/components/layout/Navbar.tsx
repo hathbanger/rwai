@@ -44,7 +44,7 @@ const Navbar = () => {
             <ThemeToggle variant="icon" />
           </div>
           <Button asChild className="bg-primary hover:bg-primary/90 text-white">
-            <a href={`http://app.rwai-tan.vercel.app/models`} target="_blank" rel="noopener noreferrer">
+            <a href={`http://app.localhost:3000/models`} target="_blank" rel="noopener noreferrer">
               Launch App
             </a>
           </Button>
