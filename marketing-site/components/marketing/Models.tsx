@@ -10,6 +10,7 @@ interface ModelType {
   description: string;
   image: string;
   href: string;
+  category: 'model' | 'gpu'; // Add category to distinguish between models and GPUs
 }
 
 // Model data without className property
@@ -18,31 +19,36 @@ const models: ModelType[] = [
     name: 'DeepSeek LLM', 
     description: 'Decentralize AI compute ownership.',
     image: '/images/logo_deepseek.png',
-    href: 'http://app.localhost:3000/models/deepseek'
+    href: 'http://app.localhost:3000/models',
+    category: 'model'
   },
   { 
     name: 'Llama LLM', 
     description: 'Decentralize AI compute ownership.',
     image: '/images/logo-llama_2.png',
-    href: 'http://app.localhost:3000/models/llama'
+    href: 'http://app.localhost:3000/models',
+    category: 'model'
   },
   { 
     name: 'Black Forest', 
     description: 'Decentralize AI compute ownership.',
     image: '/images/logo_black-forest.png',
-    href: 'http://app.localhost:3000/models/black-forest'
+    href: 'http://app.localhost:3000/models',
+    category: 'model'
   },
   { 
     name: 'Mistral', 
     description: 'Decentralize AI compute ownership.',
     image: '/images/logo_mistral.png',
-    href: 'http://app.localhost:3000/models/mistral'
+    href: 'http://app.localhost:3000/models',
+    category: 'model'
   },
   { 
     name: 'GPU Rental', 
     description: 'Decentralize AI compute ownership.',
     image: '/images/logo-rent-server.png',
-    href: 'http://app.localhost:3000/models/gpu-rental'
+    href: 'http://app.localhost:3000/gpus',
+    category: 'gpu'
   }
 ];
 
