@@ -7,7 +7,7 @@ import { Logo } from '../../components/ui/logo';
 import { ThemeProvider } from '../../components/theme-provider';
 import { ThemeToggle } from '../../components/ui/theme-toggle';
 import { SidebarNav } from '../../components/app-dashboard/sidebar-nav';
-import { Bell, CreditCard, Server, Users, BarChart3, DollarSign, Menu } from 'lucide-react';
+import { Bell, CreditCard, Server, Users, BarChart3, DollarSign, Menu, Twitter } from 'lucide-react';
 import { 
   DropdownMenu,
   DropdownMenuContent,
@@ -35,6 +35,14 @@ const sora = Sora({
   variable: "--font-sora",
   weight: ["400", "500", "600", "700"],
 });
+
+// Helper function to get main domain URL (used for cross-subdomain links)
+const getMainUrl = (path: string) => {
+  // In production, this will properly handle the subdomain
+  const isProduction = process.env.NODE_ENV === 'production';
+  const baseUrl = isProduction ? 'https://rwai.xyz' : 'http://localhost:3000';
+  return `${baseUrl}${path.startsWith('/') ? path : `/${path}`}`;
+};
 
 // Recent activity data for notifications
 const recentActivity = [
@@ -206,10 +214,12 @@ export default function AppLayout({
               <div className="text-sm text-muted-foreground">
                 &copy; {new Date().getFullYear()} RWAi. All rights reserved.
               </div>
-              <div className="flex space-x-6 mt-4 sm:mt-0">
-                <a href="/terms" className="text-sm text-muted-foreground hover:text-foreground">Terms</a>
-                <a href="/privacy" className="text-sm text-muted-foreground hover:text-foreground">Privacy</a>
-                <a href="/help" className="text-sm text-muted-foreground hover:text-foreground">Help</a>
+              <div className="flex space-x-6 items-center mt-4 sm:mt-0">
+                <a href="https://x.com/RWAi_xyz" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground">
+                  <Twitter className="h-4 w-4" />
+                </a>
+                <a href={getMainUrl('/terms-of-service')} className="text-sm text-muted-foreground hover:text-foreground">Terms</a>
+                <a href={getMainUrl('/privacy-policy')} className="text-sm text-muted-foreground hover:text-foreground">Privacy</a>
               </div>
             </div>
           </div>
