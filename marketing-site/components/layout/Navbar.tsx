@@ -50,7 +50,7 @@ const Navbar = () => {
             </Link>
           </div>
           
-          {/* Right section - X icon and Launch App button (hidden on mobile) */}
+          {/* Right section - X icon and Launch App button */}
           <div className="flex items-center space-x-4">
             <SocialIcon 
               url="https://x.com/rwai_xyz" 
@@ -62,14 +62,12 @@ const Navbar = () => {
               fgColor="currentColor"
               className="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors"
             />
-            {/* Launch App button - visible only on desktop */}
-            <div className="hidden md:block">
-              <Button asChild className="bg-primary hover:bg-primary/90 text-white">
-                <a href={getAppUrl('models')} target="_blank" rel="noopener noreferrer">
-                  Launch App
-                </a>
-              </Button>
-            </div>
+            {/* Launch App button - now visible on all screen sizes */}
+            <Button asChild className="bg-primary hover:bg-primary/90 text-white">
+              <a href={getAppUrl('models')} target="_blank" rel="noopener noreferrer">
+                <span className="hidden md:inline">Launch </span>App
+              </a>
+            </Button>
           </div>
         </div>
       </nav>
@@ -183,15 +181,6 @@ const Navbar = () => {
           
           {/* Bottom actions section */}
           <div className="absolute bottom-0 left-0 right-0">
-            {/* Launch App button - visible only on mobile (in drawer) */}
-            <div className="md:hidden p-6 border-t border-gray-200 dark:border-gray-800">
-              <Button asChild className="w-full bg-primary hover:bg-primary/90 text-white">
-                <a href={getAppUrl('models')} target="_blank" rel="noopener noreferrer">
-                  Launch App
-                </a>
-              </Button>
-            </div>
-            
             {/* Theme toggle section */}
             <div className="p-6 border-t border-gray-200 dark:border-gray-800">
               <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4">

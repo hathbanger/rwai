@@ -33,14 +33,22 @@ export function ThemeProvider({
 
   // Initialize theme from localStorage or default
   useEffect(() => {
-    // Always use the saved theme from localStorage if available
-    const savedTheme = localStorage.getItem(storageKey) as Theme | null;
-    if (savedTheme) {
-      setTheme(savedTheme);
-    } else {
-      // If no saved theme, always default to dark mode
+    try {
+      // Always use the saved theme from localStorage if available
+      const savedTheme = localStorage.getItem(storageKey) as Theme | null;
+      if (savedTheme && ["dark", "light", "system"].includes(savedTheme)) {
+        setTheme(savedTheme);
+      } else {
+        // If no saved theme or invalid value, always default to dark mode
+        setTheme("dark");
+        localStorage.setItem(storageKey, "dark");
+      }
+    } catch (e) {
+      // If localStorage is not available, default to dark
       setTheme("dark");
+      console.error('Failed to access localStorage:', e);
     }
+    
     setMounted(true);
   }, [storageKey]);
 
@@ -59,12 +67,15 @@ export function ThemeProvider({
         ? "dark"
         : "light";
       root.classList.add(systemTheme);
+      
+      // When using system theme, save the actual applied theme
+      localStorage.setItem(storageKey, systemTheme);
     } else {
       root.classList.add(theme);
+      
+      // Save to localStorage
+      localStorage.setItem(storageKey, theme);
     }
-    
-    // Save to localStorage
-    localStorage.setItem(storageKey, theme);
   }, [theme, mounted, storageKey]);
 
   // Listen for system theme changes

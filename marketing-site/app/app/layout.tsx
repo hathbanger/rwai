@@ -18,6 +18,10 @@ import {
 import Link from 'next/link';
 import '../globals.css';
 
+// Import Head and useEffect
+import Head from 'next/head';
+import { useEffect } from 'react';
+
 const geistSans = Geist({
   subsets: ["latin"],
   display: "swap",
@@ -92,8 +96,37 @@ export default function AppLayout({
     { href: "/mcp", label: "MCP", active: pathname.includes("/mcp") },
   ];
 
+  // Effect to ensure consistent theme across both layouts
+  useEffect(() => {
+    // This ensures the theme from localStorage is applied after the component mounts
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    
+    const root = window.document.documentElement;
+    root.classList.remove('light', 'dark');
+    
+    if (savedTheme === 'light') {
+      root.classList.add('light');
+    } else {
+      root.classList.add('dark');
+    }
+    
+    // Preload critical images
+    const preloadLogo = document.createElement('link');
+    preloadLogo.rel = 'preload';
+    preloadLogo.as = 'image';
+    preloadLogo.href = '/images/RWAi_logo-xs.png';
+    document.head.appendChild(preloadLogo);
+    
+    // Preload user avatar
+    const preloadAvatar = document.createElement('link');
+    preloadAvatar.rel = 'preload';
+    preloadAvatar.as = 'image';
+    preloadAvatar.href = '/images/RWAi - girl sm.png';
+    document.head.appendChild(preloadAvatar);
+  }, []);
+
   return (
-    <ThemeProvider defaultTheme="dark">
+    <ThemeProvider defaultTheme="dark" storageKey="theme">
       <div className={`${geistSans.variable} ${geistMono.variable} ${sora.variable} min-h-screen flex flex-col bg-background text-foreground`}>
         {/* Top header with logo and user dropdown */}
         <header className="bg-card border-b border-border sticky top-0 z-50">
@@ -118,6 +151,12 @@ export default function AppLayout({
                   <DollarSign className="h-4 w-4 text-muted-foreground" />
                   <span className="text-sm font-medium text-green-500 dark:text-green-400">489.12</span>
                 </Link>
+                
+                {/* Theme toggle */}
+                <ThemeToggle 
+                  variant="icon" 
+                  className="text-muted-foreground hover:text-foreground hover:bg-muted focus:outline-none rounded-full transition-colors"
+                />
                 
                 {/* Notification bell with dropdown */}
                 <DropdownMenu>

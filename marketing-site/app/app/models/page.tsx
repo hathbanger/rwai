@@ -94,14 +94,14 @@ const ModelCard = ({ id, name, description, tags, parameters, image }: ModelCard
   const [imgError, setImgError] = useState(false);
   
   // Create an absolute URL with default fallback
-  const imageUrl = name === "Bark" || imgError || !image || image === "" 
+  const imageUrl = imgError || !image || image === "" 
     ? `${IMAGE_BASE_PATH}${DEFAULT_IMAGE_PATH}`
     : image;
 
   return (
-    <div className="flex flex-col rounded-xl border border-border bg-card hover:border-primary/50 transition-colors overflow-hidden w-full h-full">
+    <div className="flex flex-col rounded-xl border border-border bg-card hover:border-primary/50 transition-colors overflow-hidden w-full h-full dark:bg-card">
       {/* Full-width top half image with absolutely no padding */}
-      <div className="h-48 w-full bg-muted/50 overflow-hidden">
+      <div className="h-48 w-full bg-muted/50 overflow-hidden dark:bg-muted/30">
         <img 
           src={imageUrl} 
           alt={name}
@@ -115,7 +115,7 @@ const ModelCard = ({ id, name, description, tags, parameters, image }: ModelCard
         <CardTitle className="text-lg">{name}</CardTitle>
         <div className="flex flex-wrap gap-1 mt-1">
           {tags.slice(0, 3).map((tag) => (
-            <span key={tag} className="px-1.5 py-0.5 text-xs rounded-full bg-muted text-muted-foreground">
+            <span key={tag} className="px-1.5 py-0.5 text-xs rounded-full bg-muted text-muted-foreground dark:bg-muted/50">
               {tag}
             </span>
           ))}

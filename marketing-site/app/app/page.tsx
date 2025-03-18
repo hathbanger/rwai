@@ -3,7 +3,13 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
 import { BarChart3, CreditCard, Server, Users, ArrowUpRight, ArrowDownRight, Activity, Clock, ExternalLink, MoreVertical } from "lucide-react";
-import { WhitelistOverlay } from "../../components/app-dashboard/whitelist-overlay";
+import dynamic from 'next/dynamic';
+
+// Dynamically import the WhitelistOverlay with no SSR
+const WhitelistOverlay = dynamic(
+  () => import('../../components/app-dashboard/whitelist-overlay').then(mod => mod.WhitelistOverlay),
+  { ssr: false }
+);
 
 export default function AppPage() {
   return (

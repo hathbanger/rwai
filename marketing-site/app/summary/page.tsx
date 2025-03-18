@@ -100,22 +100,22 @@ export default function SummaryPage() {
         </div>
         
         {/* Market Demand Section */}
-        <div className="mt-8">
+        <div>
           <MarketDemandSection />
         </div>
         
         {/* Business Model Section */}
-        <div className="mt-8">
+        <div>
           <BusinessModelSection />
         </div>
         
         {/* Token Sale Section */}
-        <div className="mt-8 pb-16">
+        <div className="pb-16">
           <TokenSaleSection />
         </div>
         
         {/* Revenue Modeling Section */}
-        <div className="mt-8 pb-16">
+        <div className="pb-16">
           <div className="w-full bg-gray-50 dark:bg-gray-900 py-16">
             <div className="max-w-[1100px] mx-auto px-4 md:px-6">
               <h2 className="text-3xl font-bold mb-8 font-sora text-gray-900 dark:text-white">Revenue Modeling and Projections</h2>

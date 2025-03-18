@@ -90,7 +90,7 @@ export default function RootLayout({
         />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} ${sora.variable} font-sans antialiased`}>
-        <ThemeProvider defaultTheme="dark">
+        <ThemeProvider defaultTheme="dark" storageKey="theme">
           {children}
         </ThemeProvider>
       </body>

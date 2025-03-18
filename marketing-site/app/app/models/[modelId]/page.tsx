@@ -10,16 +10,18 @@ import { Badge } from "../../../../components/ui/badge";
 import modelsData from "../../../../src/data/models.json";
 import { WhitelistOverlay } from "../../../../components/app-dashboard/whitelist-overlay";
 
-// Add debug logging
-console.log("Dynamic model page loaded");
-console.log("Models data:", modelsData ? "loaded" : "not loaded");
-console.log("Models count:", modelsData ? modelsData.length : 0);
-if (modelsData && modelsData.length > 0) {
-  console.log("Available model IDs:", modelsData.map((m: any) => m.id).join(", "));
+// Add debug logging only in development environment
+if (process.env.NODE_ENV === 'development') {
+  console.log("Dynamic model page loaded");
+  console.log("Models data:", modelsData ? `loaded (${modelsData.length} models)` : "not loaded");
+  
+  if (modelsData && modelsData.length > 0) {
+    console.log("First few model IDs:", modelsData.slice(0, 3).map((m: any) => m.id).join(", ") + (modelsData.length > 3 ? "..." : ""));
+  }
 }
 
 // Base path for static assets in subdomains
-const IMAGE_BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || "http://localhost:3000";
+const IMAGE_BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
 // Default image path
 const DEFAULT_IMAGE_PATH = "/images/texture_3.png";
@@ -75,6 +77,9 @@ const ModelLogo = ({ src, alt, className = "", width = 120, height = 120 }: {
         fill
         style={{ objectFit: 'cover' }}
         className="p-0"
+        priority={true}
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+        loading="eager"
       />
     </div>
   );
