@@ -24,10 +24,10 @@ const sora = Sora({
 
 export const metadata: Metadata = {
   title: {
-    default: "RWAI - Real World AI",
-    template: "%s | RWAI",
+    default: "RWAi",
+    template: "%s | RWAi",
   },
-  description: "Real World AI - Cutting-edge AI solutions for real-world applications",
+  description: "Tokenizing AI's Infrastructure",
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://rwai.io'),
   icons: {
     icon: [
