@@ -6,7 +6,7 @@ export interface FAQ {
 export const faqs: FAQ[] = [
   {
     question: 'Why does this opportunity exist in the market?',
-    answer: 'The constant demand of AI users in all aspects of life is growing faster then spcialized AI rigs & data centers can be built do to a lack of resources, analyst believe this trend will continue for years to come and present a strong opportunity for the limited number AI infrastructure providers available.'
+    answer: 'The constant demand from AI users in all aspects of life is growing faster than specialized AI rigs & data centers can be built, due to a lack of resources. Analysts believe this trend will continue for years to come and presents a strong opportunity for the limited number of AI infrastructure providers available.'
   },
   {
     question: 'Where are the Rigs stored?',
