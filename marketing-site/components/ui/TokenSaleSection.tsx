@@ -141,7 +141,7 @@ const TokenSaleSection: React.FC = () => {
             
             <div className="space-y-10">
               {/* Timeline Item 1 */}
-              <div className="relative pl-8 md:pl-10 border-l-2 border-orange-400">
+              <div className="relative pl-6 md:pl-6 border-l-2 border-orange-400 ml-2 md:ml-8">
                 <div className="absolute -left-3 top-0 w-6 h-6 rounded-full bg-orange-400 flex items-center justify-center">
                   <div className="w-3 h-3 rounded-full bg-white dark:bg-gray-950"></div>
                 </div>
@@ -152,7 +152,7 @@ const TokenSaleSection: React.FC = () => {
               </div>
               
               {/* Timeline Item 2 */}
-              <div className="relative pl-8 md:pl-10 border-l-2 border-orange-400">
+              <div className="relative pl-6 md:pl-6 border-l-2 border-orange-400 ml-2 md:ml-8">
                 <div className="absolute -left-3 top-0 w-6 h-6 rounded-full bg-orange-400 flex items-center justify-center">
                   <div className="w-3 h-3 rounded-full bg-white dark:bg-gray-950"></div>
                 </div>
@@ -163,7 +163,7 @@ const TokenSaleSection: React.FC = () => {
               </div>
               
               {/* Timeline Item 3 */}
-              <div className="relative pl-8 md:pl-10 border-l-2 border-orange-400">
+              <div className="relative pl-6 md:pl-6 border-l-2 border-orange-400 ml-2 md:ml-8">
                 <div className="absolute -left-3 top-0 w-6 h-6 rounded-full bg-orange-400 flex items-center justify-center">
                   <div className="w-3 h-3 rounded-full bg-white dark:bg-gray-950"></div>
                 </div>
@@ -174,7 +174,7 @@ const TokenSaleSection: React.FC = () => {
               </div>
               
               {/* Timeline Item 4 */}
-              <div className="relative pl-8 md:pl-10 border-l-2 border-orange-400">
+              <div className="relative pl-6 md:pl-6 border-l-2 border-orange-400 ml-2 md:ml-8">
                 <div className="absolute -left-3 top-0 w-6 h-6 rounded-full bg-orange-400 flex items-center justify-center">
                   <div className="w-3 h-3 rounded-full bg-white dark:bg-gray-950"></div>
                 </div>

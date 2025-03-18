@@ -11,16 +11,12 @@ interface Quote {
 
 interface AnimatedQuoteProps {
   quotes: Quote[];
-  highlightPhrase?: string;
-  highlightColor?: string;
   autoRotate?: boolean;
   rotationInterval?: number;
 }
 
 export default function AnimatedQuote({ 
   quotes, 
-  highlightPhrase = "exponentially more GPUs",
-  highlightColor = "text-orange-500",
   autoRotate = true,
   rotationInterval = 5000
 }: AnimatedQuoteProps) {
@@ -94,7 +90,8 @@ export default function AnimatedQuote({
   // Split the current quote into words when the quote changes
   useEffect(() => {
     const currentQuote = quotes[currentQuoteIndex].quote;
-    setWords(currentQuote.split(' '));
+    // Split by spaces but preserve markdown bold syntax
+    setWords(currentQuote.split(/(\*\*[^*]+\*\*|\s+)/).filter(Boolean));
   }, [currentQuoteIndex, quotes]);
   
   // Initial line animation on mount
@@ -139,25 +136,25 @@ export default function AnimatedQuote({
       // Position set for quote 0
       {
         lines: [
-          { left: 0, width: isMobile ? 250 : 350, position: 'top' },
-          { right: 0, width: isMobile ? 150 : 250, position: 'bottom' },
-          { left: 0, width: isMobile ? 180 : 280, position: 'citation' }
+          { left: 0, width: isMobile ? 120 : 350, position: 'top' },
+          { right: 0, width: isMobile ? 80 : 250, position: 'bottom' },
+          { left: 0, width: isMobile ? 100 : 280, position: 'citation' }
         ]
       },
       // Position set for quote 1
       {
         lines: [
-          { left: 0, width: isMobile ? 220 : 320, position: 'top' },
-          { right: 0, width: isMobile ? 160 : 240, position: 'bottom' },
-          { left: 0, width: isMobile ? 150 : 220, position: 'citation' }
+          { left: 0, width: isMobile ? 100 : 320, position: 'top' },
+          { right: 0, width: isMobile ? 90 : 240, position: 'bottom' },
+          { left: 0, width: isMobile ? 80 : 220, position: 'citation' }
         ]
       },
       // Position set for quote 2
       {
         lines: [
-          { left: 0, width: isMobile ? 230 : 330, position: 'top' },
-          { right: 0, width: isMobile ? 140 : 210, position: 'bottom' },
-          { left: 0, width: isMobile ? 160 : 230, position: 'citation' }
+          { left: 0, width: isMobile ? 110 : 330, position: 'top' },
+          { right: 0, width: isMobile ? 70 : 210, position: 'bottom' },
+          { left: 0, width: isMobile ? 90 : 230, position: 'citation' }
         ]
       }
     ];
@@ -171,26 +168,32 @@ export default function AnimatedQuote({
   
   // Get the highlight phrase for the current quote
   const getHighlightPhraseForQuote = (quoteText: string): string => {
-    // Default phrases to highlight for each quote if they contain these terms
+    // Key phrases about AI growth and GPU demand to highlight
     const defaultPhrases = [
+      "usage skyrocket",
       "exponentially more GPUs",
+      "billions of users",
       "insanely large GPU fleet",
-      "scale of compute",
-      "GPU capacities",
-      "scaling GPU fleets",
+      "millions of customers in real time",
+      "scale of compute that is almost unimaginable",
+      "GPU capacities that dwarf today's clusters by several orders of magnitude",
+      "no ceiling",
+      "scaling GPU fleets by orders of magnitude",
       "hundreds or even thousands of times greater",
-      "dramatically more GPUs"
+      "paradigm shift in scale",
+      "dramatically more GPUs",
+      "scaling our infrastructure by hundreds of times"
     ];
     
     // Find the first phrase that exists in the quote
     for (const phrase of defaultPhrases) {
-      if (quoteText.includes(phrase)) {
+      if (quoteText.toLowerCase().includes(phrase.toLowerCase())) {
         return phrase;
       }
     }
     
-    // If no match, return the default
-    return highlightPhrase;
+    // If no match, return empty string to avoid highlighting
+    return "";
   };
   
   // Improved touch event handlers for mobile
@@ -202,15 +205,15 @@ export default function AnimatedQuote({
   };
   
   const handleTouchMove = (e: React.TouchEvent) => {
-    if (touchDirection !== null || isAnimating) return;
+    if (isAnimating) return;
     
     const touchX = e.touches[0].clientX;
     const touchY = e.touches[0].clientY;
     const diffX = touchStartRef.current - touchX;
     const diffY = touchStartYRef.current - touchY;
     
-    // Only handle horizontal swipes (prevent conflicts with page scrolling)
-    if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 20) {
+    // Only handle horizontal swipes if the horizontal movement is greater than vertical
+    if (Math.abs(diffX) > Math.abs(diffY)) {
       // Determine swipe direction
       setTouchDirection(diffX > 0 ? 'left' : 'right');
       
@@ -220,17 +223,13 @@ export default function AnimatedQuote({
   };
   
   const handleTouchEnd = (e: React.TouchEvent) => {
-    if (isAnimating) {
-      setTouchDirection(null);
-      setTimeout(() => setIsPaused(false), 500);
-      return;
-    }
+    if (isAnimating || !touchDirection) return;
     
     const touchEnd = e.changedTouches[0].clientX;
     const diff = touchStartRef.current - touchEnd;
     
-    // Swipe detection for quote navigation
-    if (Math.abs(diff) > 50 && touchDirection !== null) { // Minimum swipe distance
+    // Swipe detection for quote navigation - reduced minimum distance
+    if (Math.abs(diff) > 30) { // Reduced from 50 to 30 for easier triggering
       if (diff > 0) {
         // Swipe left - next quote
         const nextIndex = (currentQuoteIndex + 1) % quotes.length;
@@ -247,7 +246,7 @@ export default function AnimatedQuote({
     
     // Small delay before resuming auto-rotation
     setTimeout(() => {
-    setIsPaused(false);
+      setIsPaused(false);
     }, 1000);
   };
   
@@ -255,31 +254,31 @@ export default function AnimatedQuote({
   const getLineAnimation = (pos: any, isHorizontal: boolean = true) => {
     const axis = isHorizontal ? 'x' : 'y';
     const fromLeft = pos.left !== undefined;
+    const range = isMobile ? 120 : 120; // Restore mobile range to match desktop
     
     switch (lineAnimationMode) {
       case 'entry':
         // Entry animation - from outside to center with smooth deceleration
         return {
           [axis]: fromLeft 
-            ? ['-120%', '0%'] 
-            : ['120%', '0%']
+            ? [`-${range}%`, '0%'] 
+            : [`${range}%`, '0%']
         };
       case 'exit':
         // Exit animation - from center to outside with rapid acceleration
         return {
           [axis]: fromLeft 
-            ? ['0%', '-180%'] 
-            : ['0%', '180%']
+            ? ['0%', `-${range + 60}%`] 
+            : ['0%', `${range + 60}%`]
         };
       case 'idle':
       default:
         // More noticeable idle animation with smooth transitions
-        // Reduce animation range on mobile for better performance
-        const range = isMobile ? 2 : 3;
+        const idleRange = isMobile ? 1.5 : 3;
         return {
           [axis]: fromLeft 
-            ? [`0%`, `${range}%`, `-${range}%`, `0%`] 
-            : [`0%`, `-${range}%`, `${range}%`, `0%`]
+            ? [`0%`, `${idleRange}%`, `-${idleRange}%`, `0%`] 
+            : [`0%`, `-${idleRange}%`, `${idleRange}%`, `0%`]
         };
     }
   };
@@ -391,7 +390,7 @@ export default function AnimatedQuote({
                   >
                     <motion.div 
                       className="bg-orange-500 w-full h-full"
-                      initial={{ x: pos.left !== undefined ? '-120%' : '120%' }}
+                      initial={{ x: pos.left !== undefined ? (isMobile ? '-120%' : '-120%') : (isMobile ? '120%' : '120%') }}
                       animate={getLineAnimation(pos)}
                       transition={getLineTransition(0, lineAnimationMode)}
                     />
@@ -417,11 +416,8 @@ export default function AnimatedQuote({
               }}
             >
               {words.map((word, i) => {
-                const currentHighlightPhrase = getHighlightPhraseForQuote(quotes[currentQuoteIndex].quote);
-                const isHighlighted = currentHighlightPhrase.split(' ').some(part => 
-                  word.toLowerCase().includes(part.toLowerCase()) && 
-                  currentHighlightPhrase.toLowerCase().includes(word.toLowerCase())
-                );
+                const isBold = word.startsWith('**') && word.endsWith('**');
+                const displayWord = isBold ? word.slice(2, -2) : word;
                 
                 return (
                   <motion.span
@@ -432,13 +428,13 @@ export default function AnimatedQuote({
                     exit={{ y: -20, opacity: 0 }}
                     transition={{ 
                       duration: lineAnimationMode === 'exit' ? 0.3 : 0.6, 
-                      delay: lineAnimationMode === 'entry' ? 0.6 + i * (isMobile ? 0.02 : 0.025) : i * (isMobile ? 0.01 : 0.015), // Faster staggering on mobile
+                      delay: lineAnimationMode === 'entry' ? 0.6 + i * (isMobile ? 0.02 : 0.025) : i * (isMobile ? 0.01 : 0.015),
                       ease: lineAnimationMode === 'exit' ? [0.36, 0, 0.66, -0.56] : [0.25, 0.1, 0.25, 1.0]
                     }}
                   >
-                    {isHighlighted ? (
-                      <span className={`font-medium ${highlightColor}`}>{word}</span>
-                    ) : word}
+                    {isBold ? (
+                      <span className="font-medium text-orange-500">{displayWord}</span>
+                    ) : displayWord}
                   </motion.span>
                 );
               })}
@@ -478,7 +474,7 @@ export default function AnimatedQuote({
                   >
                     <motion.div 
                       className="bg-orange-500 w-full h-full"
-                      initial={{ x: pos.left !== undefined ? '-120%' : '120%' }}
+                      initial={{ x: pos.left !== undefined ? (isMobile ? '-120%' : '-120%') : (isMobile ? '120%' : '120%') }}
                       animate={getLineAnimation(pos)}
                       transition={getLineTransition(1, lineAnimationMode)}
                     />
@@ -520,7 +516,7 @@ export default function AnimatedQuote({
                   >
                     <motion.div 
                       className="bg-orange-500 w-full h-full"
-                      initial={{ x: pos.left !== undefined ? '-120%' : '120%' }}
+                      initial={{ x: pos.left !== undefined ? (isMobile ? '-120%' : '-120%') : (isMobile ? '120%' : '120%') }}
                       animate={getLineAnimation(pos)}
                       transition={getLineTransition(2, lineAnimationMode)}
                     />

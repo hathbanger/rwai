@@ -1,36 +1,36 @@
 [
   {
-    "quote": "As AI becomes more efficient and accessible, we will see usage skyrocket—and that means we'll need exponentially more GPUs to keep up with the demand for inference compute.",
+    "quote": "As AI becomes more efficient and accessible, we will see **usage skyrocket**—and that means we'll need **exponentially more GPUs** to keep up with the demand for inference compute.",
     "author": "Satya Nadella",
     "title": "CEO of Microsoft"
   },
   {
-    "quote": "To run inference at scale across billions of users, we need an insanely large GPU fleet—far beyond what's available today.",
+    "quote": "To run inference at scale across **billions of users**, we need an **insanely large GPU fleet**—far beyond what's available today.",
     "author": "Mark Zuckerberg",
     "title": "CEO of Meta"
   },
   {
-    "quote": "The future of retail and cloud hinges on AI that can understand and serve millions of customers in real time. That vision requires not just more GPUs, but a scale of compute that is almost unimaginable today.",
+    "quote": "The future of retail and cloud hinges on AI that can understand and serve **millions of customers in real time**. That vision requires not just more GPUs, but a **scale of compute that is almost unimaginable** today.",
     "author": "Jeff Bezos",
     "title": "Founder of Amazon"
   },
   {
-    "quote": "Models push the boundaries of inference compute requirements—we anticipate needing GPU capacities that dwarf today's clusters by several orders of magnitude.",
+    "quote": "Models push the boundaries of inference compute requirements—we anticipate needing **GPU capacities that dwarf today's clusters by several orders of magnitude**.",
     "author": "Eddie Wu",
     "title": "CEO of Alibaba Group"
   },
   {
-    "quote": "There's no ceiling to how much compute we'll need—especially for inference. Our goal is to push beyond human-level reasoning, and that means scaling GPU fleets by orders of magnitude.",
+    "quote": "There's **no ceiling** to how much compute we'll need—especially for inference. Our goal is to push beyond human-level reasoning, and that means **scaling GPU fleets by orders of magnitude**.",
     "author": "Dario Amodei",
     "title": "Co-Founder of Anthropic"
   },
   {
-    "quote": "To power the next generation of language models for inference, we're looking at a compute requirement that's hundreds or even thousands of times greater than current deployments. This isn't incremental; it's a paradigm shift in scale.",
+    "quote": "To power the next generation of language models for inference, we're looking at a compute requirement that's **hundreds or even thousands of times greater** than current deployments. This isn't incremental; it's a **paradigm shift in scale**.",
     "author": "Arthur Mensch",
     "title": "Co-Founder of Mistral"
   },
   {
-    "quote": "Our breakthrough with the R1 model shows that even with fewer chips, efficiency gains are possible—but if we're to unlock true reasoning capabilities at scale, we'll need dramatically more GPUs. We're talking about scaling our infrastructure by hundreds of times.",
+    "quote": "Our breakthrough with the R1 model shows that even with fewer chips, efficiency gains are possible—but if we're to unlock true reasoning capabilities at scale, we'll need **dramatically more GPUs**. We're talking about **scaling our infrastructure by hundreds of times**.",
     "author": "Liang Wenfeng",
     "title": "CEO of DeepSeek"
   }

@@ -85,15 +85,6 @@ export default function SummaryPage() {
                   <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-3">TOKEN</h3>
                   <p className="text-lg font-medium">$RWAi</p>
                 </div>
-                
-                <div className="border-t border-gray-200 dark:border-gray-800 pt-6 flex items-center space-x-4">
-                  <div className="h-12 w-12 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
-                    <span className="text-xl">🔗</span>
-                  </div>
-                  <div className="h-12 w-12 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
-                    <span className="text-xl">📄</span>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
