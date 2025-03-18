@@ -50,13 +50,13 @@ export const metadata: Metadata = {
         url: '/rwai_fb.png',
         width: 1200,
         height: 630,
-        alt: 'RWAi - Tokenizing AI Infrastructure for Facebook',
+        alt: 'RWAi - Tokenizing AI Infrastructure',
       },
       {
         url: '/rwai_in.png',
         width: 1200,
         height: 627,
-        alt: 'RWAi - Tokenizing AI Infrastructure for LinkedIn',
+        alt: 'RWAi - Tokenizing AI Infrastructure',
       }
     ],
   },
@@ -68,7 +68,7 @@ export const metadata: Metadata = {
       url: '/rwai_x.png',
       width: 1200,
       height: 675,
-      alt: 'RWAi - Tokenizing AI Infrastructure for Twitter'
+      alt: 'RWAi - Tokenizing AI Infrastructure'
     }],
     creator: '@RWAi_xyz',
   },
