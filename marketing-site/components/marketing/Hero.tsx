@@ -58,10 +58,10 @@ const Hero = () => {
                   "transition-all duration-300 ease-out shadow-md hover:shadow-lg"
                 )}
               >
-                <Link href="/whitelist" className="py-6 px-8 flex items-center gap-2">
-                  <span className="relative z-10">Join Whitelist</span>
+                <a href="#models" className="py-6 px-8 flex items-center gap-2">
+                  <span className="relative z-10">Learn More</span>
                   <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                </Link>
+                </a>
               </Button>
             </div>
           </div>

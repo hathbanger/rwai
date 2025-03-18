@@ -12,8 +12,8 @@ const Blog = () => {
     <section id="blog" className="py-24 bg-gradient-to-b from-background to-background/90">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <h3 className="text-xl md:text-2xl font-bold mb-3 text-primary">Blog</h3>
-          <h2 className="text-3xl md:text-5xl font-bold mb-6">
+          <h3 className="text-xl md:text-2xl mb-3 text-primary">Blog</h3>
+          <h2 className="text-3xl md:text-5xl mb-6">
             Exploring the frontiers of artificial Intelligence
           </h2>
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto mb-8">

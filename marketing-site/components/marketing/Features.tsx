@@ -25,7 +25,7 @@ const Features = () => {
     <section id="features" className="py-24 bg-gradient-to-b from-background/90 to-background">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-5xl font-bold mb-6">
+          <h2 className="text-3xl md:text-5xl mb-6">
             Access <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-orange-700">
               Fully managed AI infrastructure
             </span> converted to RWA opportunity
@@ -40,7 +40,7 @@ const Features = () => {
               style={{ animationDelay: `${index * 100}ms` }}
             >
               <CardContent className="p-8">
-                <h3 className="text-xl font-bold mb-4 text-primary">{feature.title}</h3>
+                <h3 className="text-xl mb-4 text-primary">{feature.title}</h3>
                 <p className="text-muted-foreground">{feature.description}</p>
               </CardContent>
             </Card>

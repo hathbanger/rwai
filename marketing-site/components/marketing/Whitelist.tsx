@@ -8,11 +8,11 @@ const Whitelist = () => {
       <div className="container relative z-10 mx-auto px-4">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <div className="space-y-8">
-            <div className="inline-block px-4 py-2 bg-primary/20 rounded-full text-primary font-medium animate-fade-in">
+            <div className="inline-block px-4 py-2 bg-primary/20 rounded-full text-primary animate-fade-in">
               April 2024
             </div>
             
-            <h2 className="text-3xl md:text-5xl font-bold leading-tight animate-slide-up text-white">
+            <h2 className="text-3xl md:text-5xl leading-tight animate-slide-up text-white">
               Whitelist: <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-orange-500">
                 AI RIG sale
               </span>
@@ -29,10 +29,10 @@ const Whitelist = () => {
           
           <div className="lg:ml-auto lg:max-w-md">
             <div className="bg-white/90 dark:bg-gray-900/90 backdrop-blur-md rounded-xl p-8 border border-gray-200 dark:border-gray-800 shadow-xl animate-slide-up animation-delay-400">
-              <h3 className="text-xl font-bold mb-4 text-gray-900 dark:text-white">Upcoming AI Rig Sale</h3>
-              <h4 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Dell XE9680 servers with 8 H200 GPUs</h4>
+              <h3 className="text-xl mb-4 text-gray-900 dark:text-white">Upcoming AI Rig Sale</h3>
+              <h4 className="text-2xl mb-6 text-gray-900 dark:text-white">Dell XE9680 servers with 8 H200 GPUs</h4>
               
-              <div className="font-bold mb-4 text-gray-900 dark:text-white">Fractionalized into AI Compute Tokens (ACT)</div>
+              <div className="mb-4 text-gray-900 dark:text-white">Fractionalized into AI Compute Tokens (ACT)</div>
               
               <ul className="space-y-4 mb-6">
                 <li className="flex items-start gap-3">

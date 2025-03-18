@@ -109,7 +109,7 @@ const Models = () => {
     <section id="models" className="py-16 md:py-24 bg-gray-50 dark:bg-gray-900">
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 md:mb-16">
-          <h2 className="text-3xl md:text-5xl font-bold mb-6 md:mb-0">
+          <h2 className="text-3xl md:text-5xl mb-6 md:mb-0">
             <span className="text-gray-900 dark:text-white">Real World Assets that</span>
             <br />
             <span className="text-gray-900 dark:text-white">Power the </span>
@@ -117,15 +117,15 @@ const Models = () => {
           </h2>
           
           <Button asChild variant="outline" className="self-start md:self-auto border-gray-300 dark:border-gray-700 rounded-full px-6">
-            <Link href="/whitelist" className="flex items-center gap-2">
-              Join Whitelist
+            <a href={getAppUrl('models')} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
+              View Models
               <ChevronRight className="h-4 w-4" />
-            </Link>
+            </a>
           </Button>
         </div>
         
         {/* Desktop layout */}
-        <div className="hidden lg:grid grid-cols-12 gap-5 auto-rows-[180px]">
+        <div className="hidden lg:grid grid-cols-12 gap-5 auto-rows-[270px]">
           {/* Top row */}
           <div className="col-span-4">
             <ModelCard model={models[0]} priority className="h-full aspect-auto" />
@@ -148,19 +148,19 @@ const Models = () => {
         
         {/* Tablet layout */}
         <div className="hidden md:grid lg:hidden grid-cols-2 gap-5">
-          <div className="aspect-[4/3]">
+          <div className="aspect-[4/5]">
             <ModelCard model={models[0]} priority className="h-full" />
           </div>
-          <div className="aspect-[4/3]">
+          <div className="aspect-[4/5]">
             <ModelCard model={models[1]} priority className="h-full" />
           </div>
-          <div className="aspect-[4/3]">
+          <div className="aspect-[4/5]">
             <ModelCard model={models[2]} className="h-full" />
           </div>
-          <div className="aspect-[4/3]">
+          <div className="aspect-[4/5]">
             <ModelCard model={models[3]} className="h-full" />
           </div>
-          <div className="aspect-[4/3] col-span-2">
+          <div className="aspect-[16/9] col-span-2">
             <ModelCard model={models[4]} className="h-full" />
           </div>
         </div>
@@ -168,7 +168,7 @@ const Models = () => {
         {/* Mobile layout */}
         <div className="grid md:hidden grid-cols-1 gap-5">
           {models.map((model, index) => (
-            <div key={model.name} className="aspect-[4/3]">
+            <div key={model.name} className="aspect-[4/6]">
               <ModelCard model={model} priority={index < 1} className="h-full" />
             </div>
           ))}
