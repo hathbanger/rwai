@@ -1,16 +1,13 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
+
 import Link from 'next/link';
 import { Button } from '../../components/ui/button';
 import Navbar from '../../components/layout/Navbar';
 import Footer from '../../components/layout/Footer';
-import { createClient } from '@supabase/supabase-js';
-
-// Initialize Supabase client
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
+import { getSupabaseClient, hasSupabaseCredentials } from '../../lib/supabase-client';
 
 export default function WhitelistPage() {
   const [formData, setFormData] = useState({
@@ -21,6 +18,16 @@ export default function WhitelistPage() {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState({ success: false, error: null });
+  const [supabaseError, setSupabaseError] = useState(null);
+
+  // Check for Supabase initialization errors
+  useEffect(() => {
+    if (!hasSupabaseCredentials()) {
+      setSupabaseError(
+        'Unable to connect to our database. Please try again later or contact support.'
+      );
+    }
+  }, []);
 
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -36,6 +43,14 @@ export default function WhitelistPage() {
     setSubmitStatus({ success: false, error: null });
 
     try {
+      // Get Supabase client instance
+      const supabase = getSupabaseClient();
+      
+      // Check if Supabase is properly initialized
+      if (!supabase) {
+        throw new Error('Database connection is not available. Please try again later.');
+      }
+
       // Insert the data into your Supabase table
       const { data, error } = await supabase
         .from('whitelist_applications') // Replace with your actual table name
@@ -82,7 +97,18 @@ export default function WhitelistPage() {
               </p>
             </div>
             <div className="max-w-2xl mx-auto bg-card rounded-xl p-8 border border-border shadow-lg animate-slide-up animation-delay-300">
-              {submitStatus.success ? (
+              {supabaseError ? (
+                <div className="text-center py-8">
+                  <h3 className="text-2xl font-bold text-red-500 mb-4">Service Temporarily Unavailable</h3>
+                  <p className="mb-6">{supabaseError}</p>
+                  <p className="mb-6">Please check back later or contact support for assistance.</p>
+                  <Link href="/">
+                    <Button className="bg-primary hover:bg-primary/90 text-white">
+                      Return to Home Page
+                    </Button>
+                  </Link>
+                </div>
+              ) : submitStatus.success ? (
                 <div className="text-center py-8">
                   <h3 className="text-2xl font-bold text-green-500 mb-4">Application Submitted!</h3>
                   <p className="mb-6">Thank you for your interest in RWAi. We'll be in touch soon.</p>

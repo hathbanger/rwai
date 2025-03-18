@@ -29,11 +29,11 @@ const Rigs = () => {
           </div>
           
           <div className="space-y-8">
-            <div className="inline-block px-4 py-2 bg-primary/10 rounded-full text-primary font-medium animate-fade-in">
+            <div className="inline-block px-4 py-2 bg-primary/10 rounded-full text-primary animate-fade-in">
               Dell XE9680 with 8 H100 GPUs
             </div>
             
-            <h3 className="text-2xl md:text-3xl font-bold leading-tight animate-slide-up">
+            <h3 className="text-2xl md:text-3xl leading-tight animate-slide-up">
               High-Performance AI Rigs for <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-orange-700">
                 Passive Income
               </span>
@@ -46,19 +46,19 @@ const Rigs = () => {
             <div className="flex flex-wrap gap-4 animate-slide-up animation-delay-300">
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full bg-primary" />
-                <span className="text-sm font-medium">8x NVIDIA H100 GPUs</span>
+                <span className="text-sm">8x NVIDIA H100 GPUs</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full bg-primary" />
-                <span className="text-sm font-medium">2x Intel Xeon CPUs</span>
+                <span className="text-sm">2x Intel Xeon CPUs</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full bg-primary" />
-                <span className="text-sm font-medium">2TB RAM</span>
+                <span className="text-sm">2TB RAM</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full bg-primary" />
-                <span className="text-sm font-medium">100TB NVMe Storage</span>
+                <span className="text-sm">100TB NVMe Storage</span>
               </div>
             </div>
             

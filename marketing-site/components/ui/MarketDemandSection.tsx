@@ -29,7 +29,7 @@ const MarketDemandSection: React.FC = () => {
           
           {/* Right Column - Chart */}
           <div className="flex items-center justify-center">
-            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 w-full h-[400px]">
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 w-full">
               <InferenceGrowthChart />
             </div>
           </div>

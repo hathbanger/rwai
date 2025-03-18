@@ -2,7 +2,6 @@ import React from 'react';
 import Navbar from '../components/layout/Navbar';
 import Hero from '../components/marketing/Hero';
 import Partners from '../components/marketing/Partners';
-import Rigs from '../components/marketing/Rigs';
 import Models from '../components/marketing/Models';
 import Whitelist from '../components/marketing/Whitelist';
 import Features from '../components/marketing/Features';
@@ -18,7 +17,6 @@ export default function Home() {
         <Hero />
         <Models />
         <Partners />
-        <Rigs />
         <Whitelist />
         <Features />
         <FAQ />

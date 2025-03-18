@@ -20,6 +20,7 @@ import {
   Phone 
 } from "lucide-react";
 import Link from "next/link";
+import { WhitelistOverlay } from "../../../components/app-dashboard/whitelist-overlay";
 
 // Common questions for FAQ section
 const faqQuestions = [
@@ -233,6 +234,9 @@ export default function HelpPage() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Whitelist Overlay */}
+      <WhitelistOverlay />
     </div>
   );
 } 

@@ -28,6 +28,7 @@ export const metadata: Metadata = {
     template: "%s | RWAI",
   },
   description: "Real World AI - Cutting-edge AI solutions for real-world applications",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://rwai.io'),
   icons: {
     icon: [
       { url: "/favicon_io/favicon.ico" },
@@ -60,32 +61,28 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
+    <html lang="en" className="scroll-smooth dark" suppressHydrationWarning>
       <head>
         <script
           dangerouslySetInnerHTML={{
             __html: `
               // This script runs before React hydration to prevent flash of unstyled content
               try {
-                // Check if we're on the home page (/) and not on a subdomain
-                const isHomePage = window.location.pathname === "/" && !window.location.host.startsWith("app.");
+                // Check localStorage for theme preference
+                const savedTheme = localStorage.getItem('theme') || 'dark';
                 
-                if (isHomePage) {
-                  // For home page, always use light mode
+                if (savedTheme === 'light') {
                   document.documentElement.classList.remove('dark');
+                  document.documentElement.classList.add('light');
                 } else {
-                  // For other pages, check localStorage or system preference
-                  const savedTheme = localStorage.getItem('theme') || 'light';
-                  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                  
-                  if (savedTheme === 'dark' || (savedTheme === 'system' && prefersDark)) {
-                    document.documentElement.classList.add('dark');
-                  } else {
-                    document.documentElement.classList.remove('dark');
-                  }
+                  // Default to dark mode for any other value or if not set
+                  document.documentElement.classList.remove('light');
+                  document.documentElement.classList.add('dark');
                 }
               } catch (e) {
                 // Fail silently if localStorage is not available
+                // Default to dark mode
+                document.documentElement.classList.add('dark');
                 console.error('Failed to access localStorage:', e);
               }
             `,
@@ -93,7 +90,7 @@ export default function RootLayout({
         />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} ${sora.variable} font-sans antialiased`}>
-        <ThemeProvider defaultTheme="light">
+        <ThemeProvider defaultTheme="dark" storageKey="theme">
           {children}
         </ThemeProvider>
       </body>

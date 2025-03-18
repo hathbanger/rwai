@@ -85,37 +85,28 @@ export default function SummaryPage() {
                   <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-3">TOKEN</h3>
                   <p className="text-lg font-medium">$RWAi</p>
                 </div>
-                
-                <div className="border-t border-gray-200 dark:border-gray-800 pt-6 flex items-center space-x-4">
-                  <div className="h-12 w-12 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
-                    <span className="text-xl">🔗</span>
-                  </div>
-                  <div className="h-12 w-12 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
-                    <span className="text-xl">📄</span>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
         </div>
         
         {/* Market Demand Section */}
-        <div className="mt-8">
+        <div>
           <MarketDemandSection />
         </div>
         
         {/* Business Model Section */}
-        <div className="mt-8">
+        <div>
           <BusinessModelSection />
         </div>
         
         {/* Token Sale Section */}
-        <div className="mt-8 pb-16">
+        <div className="pb-16">
           <TokenSaleSection />
         </div>
         
         {/* Revenue Modeling Section */}
-        <div className="mt-8 pb-16">
+        <div className="pb-16">
           <div className="w-full bg-gray-50 dark:bg-gray-900 py-16">
             <div className="max-w-[1100px] mx-auto px-4 md:px-6">
               <h2 className="text-3xl font-bold mb-8 font-sora text-gray-900 dark:text-white">Revenue Modeling and Projections</h2>

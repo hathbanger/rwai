@@ -16,7 +16,7 @@ type ThemeProviderState = {
 };
 
 const initialState: ThemeProviderState = {
-  theme: "system",
+  theme: "dark",
   setTheme: () => null,
 };
 
@@ -24,7 +24,7 @@ const ThemeProviderContext = createContext<ThemeProviderState>(initialState);
 
 export function ThemeProvider({
   children,
-  defaultTheme = "system",
+  defaultTheme = "dark",
   storageKey = "theme",
   ...props
 }: ThemeProviderProps) {
@@ -33,26 +33,24 @@ export function ThemeProvider({
 
   // Initialize theme from localStorage or default
   useEffect(() => {
-    // Check if we're on the home page (/) and not on a subdomain
-    const isHomePage = window.location.pathname === "/" && !window.location.host.startsWith("app.");
-    
-    if (isHomePage) {
-      // For home page, always use the defaultTheme (which is "light" in the main layout)
-      setTheme(defaultTheme);
-    } else {
-      // For other pages, use the saved theme from localStorage if available
+    try {
+      // Always use the saved theme from localStorage if available
       const savedTheme = localStorage.getItem(storageKey) as Theme | null;
-      if (savedTheme) {
+      if (savedTheme && ["dark", "light", "system"].includes(savedTheme)) {
         setTheme(savedTheme);
-      } else if (defaultTheme === "system") {
-        const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches
-          ? "dark"
-          : "light";
-        setTheme(systemTheme);
+      } else {
+        // If no saved theme or invalid value, always default to dark mode
+        setTheme("dark");
+        localStorage.setItem(storageKey, "dark");
       }
+    } catch (e) {
+      // If localStorage is not available, default to dark
+      setTheme("dark");
+      console.error('Failed to access localStorage:', e);
     }
+    
     setMounted(true);
-  }, [defaultTheme, storageKey]);
+  }, [storageKey]);
 
   // Update the class on the html element when theme changes
   useEffect(() => {
@@ -69,12 +67,15 @@ export function ThemeProvider({
         ? "dark"
         : "light";
       root.classList.add(systemTheme);
+      
+      // When using system theme, save the actual applied theme
+      localStorage.setItem(storageKey, systemTheme);
     } else {
       root.classList.add(theme);
+      
+      // Save to localStorage
+      localStorage.setItem(storageKey, theme);
     }
-    
-    // Save to localStorage
-    localStorage.setItem(storageKey, theme);
   }, [theme, mounted, storageKey]);
 
   // Listen for system theme changes

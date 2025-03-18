@@ -11,61 +11,39 @@ export default function middleware(request: NextRequest) {
   const url = request.nextUrl;
   const hostname = request.headers.get('host') || '';
   const pathname = url.pathname;
-  const isDevelopment = process.env.NODE_ENV === 'development';
-
-  // Debug logging - only in development
-  if (isDevelopment) {
-    console.log('Middleware processing request:');
-    console.log('- URL:', request.url);
-    console.log('- Hostname:', hostname);
-    console.log('- Path:', pathname);
-  }
+  const isVercel = hostname.includes('vercel.app');
+  
+  // IMPORTANT: Always log essential information
+  console.log(`🔍 MIDDLEWARE - ${new Date().toISOString()}`);
+  console.log(`📌 Host: ${hostname}`);
+  console.log(`📌 Path: ${pathname}`);
+  console.log(`📌 Vercel: ${isVercel ? 'Yes' : 'No'}`);
 
   // Check if the hostname is a subdomain
   const currentHost = hostname.split(':')[0];
-
+  
   // Handle app subdomain
   if (currentHost.startsWith('app.')) {
-    if (isDevelopment) {
-      console.log(`App subdomain detected: ${hostname}`);
-    }
+    console.log(`🚀 App subdomain detected: ${hostname}`);
 
-    // Don't rewrite static assets or API routes
+    // Static assets pass-through
     if (
       pathname.startsWith('/_next/') ||
       pathname.startsWith('/favicon.ico') ||
       pathname.startsWith('/favicon_io/') ||
       pathname.startsWith('/images/')
     ) {
-      if (isDevelopment) {
-        console.log('- Static asset requested, passing through');
-      }
+      console.log('⏩ Static asset - passing through');
       return NextResponse.next();
     }
 
-    // Create a new URL for the rewrite
-    // We're rewriting to the app directory structure
+    // Create the rewrite URL
     const newUrl = new URL(`/app${pathname}`, request.url);
-
-    if (isDevelopment) {
-      console.log(`Rewriting ${hostname}${pathname} → /app${pathname}`);
-      console.log('- New URL:', newUrl.toString());
-
-      if (pathname.startsWith('/models/') && pathname.split('/').length > 2) {
-        const modelId = pathname.split('/')[2];
-        console.log('- Model ID from path:', modelId);
-      }
-
-      // For root path, explicitly log
-      if (pathname === '/') {
-        console.log('- Root path detected for app subdomain');
-        console.log('- Rewriting to /app/');
-      }
-    }
+    console.log(`➡️ Rewriting to: ${newUrl.toString()}`);
 
     return NextResponse.rewrite(newUrl);
   }
 
-  // If it's not a subdomain, proceed as normal
+  console.log('✅ Not a subdomain - proceeding normally');
   return NextResponse.next();
 } 

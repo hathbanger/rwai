@@ -15,8 +15,8 @@ const FAQ = () => {
     <section id="faq" className="py-24 bg-gradient-to-b from-background/90 to-background">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <h3 className="text-xl md:text-2xl font-bold mb-3 text-primary">FAQ</h3>
-          <h2 className="text-3xl md:text-5xl font-bold">
+          <h3 className="text-xl md:text-2xl mb-3 text-primary">FAQ</h3>
+          <h2 className="text-3xl md:text-5xl">
             Everything you need to know about RWAi
           </h2>
         </div>
@@ -33,7 +33,7 @@ const FAQ = () => {
                   className="w-full text-left p-6 flex justify-between items-center focus:outline-none"
                   onClick={() => toggleFaq(index)}
                 >
-                  <h3 className="text-lg font-medium">{faq.question}</h3>
+                  <h3 className="text-lg">{faq.question}</h3>
                   <span className="text-2xl transition-transform duration-300" style={{ transform: activeIndex === index ? 'rotate(45deg)' : 'rotate(0)' }}>+</span>
                 </button>
                 

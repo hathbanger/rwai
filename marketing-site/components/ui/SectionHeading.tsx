@@ -21,7 +21,7 @@ const SectionHeading = ({
   if (!highlightedText) {
     return (
       <div className={`text-center mb-16 ${className}`}>
-        <h2 className="text-3xl md:text-5xl font-bold mb-6">
+        <h2 className="text-3xl md:text-5xl mb-6">
           {prefix && <span>{prefix} </span>}
           {title}
         </h2>
@@ -40,7 +40,7 @@ const SectionHeading = ({
   
   return (
     <div className={`text-center mb-16 ${className}`}>
-      <h2 className="text-3xl md:text-5xl font-bold mb-6">
+      <h2 className="text-3xl md:text-5xl mb-6">
         {prefix && <span>{prefix} </span>}
         {parts[0]}
         <span className={gradientClass}>

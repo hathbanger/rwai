@@ -20,7 +20,8 @@ import {
   Check, 
   X 
 } from "lucide-react";
-import { useTheme } from "next-themes";
+import { useTheme } from "../../../components/theme-provider";
+import { WhitelistOverlay } from "../../../components/app-dashboard/whitelist-overlay";
 
 export default function SettingsPage() {
   const { theme, setTheme } = useTheme();
@@ -225,6 +226,9 @@ export default function SettingsPage() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Whitelist Overlay */}
+      <WhitelistOverlay />
     </div>
   );
 } 
