@@ -45,7 +45,7 @@ export default function WhitelistPage() {
     try {
       // Get Supabase client instance
       const supabase = getSupabaseClient();
-      
+
       // Check if Supabase is properly initialized
       if (!supabase) {
         throw new Error('Database connection is not available. Please try again later.');
@@ -159,7 +159,7 @@ export default function WhitelistPage() {
                         required
                       />
                       <span className="text-sm font-medium">
-                        I have followed <a href="https://x.com/RWAi_Official" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">@RWAi_xyz</a> on X <span className="text-red-500">*</span>
+                        I have followed <a href="https://x.com/RWAi_xyz" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">@RWAi_xyz</a> on X <span className="text-red-500">*</span>
                       </span>
                     </label>
                   </div>
