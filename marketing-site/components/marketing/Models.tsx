@@ -110,7 +110,7 @@ const Models = () => {
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 md:mb-16">
           <h2 className="text-3xl md:text-5xl mb-6 md:mb-0">
-            <span className="text-gray-900 dark:text-white">Real World Assets that</span>
+            <span className="text-gray-900 dark:text-white">Access Open Source models that</span>
             <br />
             <span className="text-gray-900 dark:text-white">Power the </span>
             <span className="text-primary">AI Revolution</span>

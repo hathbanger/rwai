@@ -39,7 +39,7 @@ RWAi addresses one of the most pressing challenges in AI today: the scarcity of 
   {
     title: "Introducing RWAi: Tokenizing AI's Infrastructure",
     slug: "introducing-rwai",
-    image: "/images/RWAi_00060_.png",
+    image: "/images/introducting_rwai.png",
     content: `
 Blockchain technology has evolved through multiple transformative stages, from decentralized finance (DeFi) and non-fungible tokens (NFTs) to the tokenization of Real World Assets (RWAs). Each phase has broadened blockchain's reach, connecting tangible value to the digital landscape. Now, a groundbreaking frontier is taking shape at the intersection of blockchain and artificial intelligence: Real World AI Infrastructure Assets, or RWAi. As the first platform to introduce RWAi as a concept, RWAi is poised to redefine how AI compute power—a resource set to underpin the global economy—is accessed and owned.
 
@@ -76,7 +76,7 @@ In an age where AI is transforming industries and unlocking economic potential, 
   {
     title: "AI Compute 101: Understanding the Engine Behind Artificial Intelligence",
     slug: "ai-compute-101",
-    image: "/images/RWAi_00131_-enhanced.png",
+    image: "/images/RWAi_00327_.png",
     content: `
 Artificial intelligence is no longer a futuristic concept—it's an integral part of our daily lives, powering everything from the voice assistants on our smartphones to life-saving medical diagnostics. But what enables these AI systems to function? The answer lies in **AI compute**—the specialized hardware and infrastructure that processes vast amounts of data, performs complex calculations, and drives the intelligence behind AI models. This article explores the critical components of AI compute, its primary use cases—training and inference—and why demand for these resources has reached unprecedented levels.
 
@@ -156,7 +156,7 @@ As AI continues to redefine industries and create new economic frontiers, the in
   {
     title: "Tokenizing AI Compute Power: The Dell XE9680 with 8 NVIDIA H100 GPUs and the RWAi.xyz Business Model",
     slug: "tokenizing-ai-compute-power",
-    image: "/images/RWAi_00060_.png",
+    image: "/images/Dell_XE9680.png",
     content: `
 As artificial intelligence (AI) continues to evolve and integrate into industries worldwide, the demand for high-performance compute power has never been greater. AI models—whether for training or inference—require immense computational resources, often involving thousands of specialized processors working in parallel. Today, we're excited to introduce the first AI rig being tokenized on the RWAi.xyz platform—the Dell XE9680 with 8 NVIDIA H100 GPUs—a powerhouse designed to meet the most demanding AI workloads.
 
