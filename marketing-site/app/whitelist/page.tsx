@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
+
 import Link from 'next/link';
 import { Button } from '../../components/ui/button';
 import Navbar from '../../components/layout/Navbar';
@@ -10,9 +11,9 @@ import { getSupabaseClient, hasSupabaseCredentials } from '../../lib/supabase-cl
 
 export default function WhitelistPage() {
   const [formData, setFormData] = useState({
-    name: '',
+    wallet_address: '',
     email: '',
-    wallet_address: ''
+    twitter_verified: false
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -55,9 +56,9 @@ export default function WhitelistPage() {
         .from('whitelist_applications') // Replace with your actual table name
         .insert([
           {
-            name: formData.name,
-            email: formData.email,
-            wallet_address: formData.wallet_address || null,
+            email: formData.email || null,
+            wallet_address: formData.wallet_address,
+            twitter_verified: formData.twitter_verified
             // created_at will be handled by Supabase automatically
           }
         ]);
@@ -67,9 +68,9 @@ export default function WhitelistPage() {
       setSubmitStatus({ success: true, error: null });
       // Reset form after successful submission
       setFormData({
-        name: '',
-        email: '',
         wallet_address: '',
+        email: '',
+        twitter_verified: false
       });
     } catch (error) {
       console.error('Error submitting form:', error);
@@ -121,36 +122,8 @@ export default function WhitelistPage() {
               ) : (
                 <form className="space-y-6" onSubmit={handleSubmit}>
                   <div className="space-y-2">
-                    <label htmlFor="name" className="block text-sm font-medium">
-                      Full Name
-                    </label>
-                    <input
-                      type="text"
-                      id="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      className="w-full px-4 py-3 rounded-lg border border-border bg-background focus:outline-none focus:ring-2 focus:ring-primary/50"
-                      placeholder="Enter your full name"
-                      required
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <label htmlFor="email" className="block text-sm font-medium">
-                      Email Address
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      className="w-full px-4 py-3 rounded-lg border border-border bg-background focus:outline-none focus:ring-2 focus:ring-primary/50"
-                      placeholder="Enter your email address"
-                      required
-                    />
-                  </div>
-                  <div className="space-y-2">
                     <label htmlFor="wallet_address" className="block text-sm font-medium">
-                      Wallet Address (Optional)
+                      Wallet Address <span className="text-red-500">*</span>
                     </label>
                     <input
                       type="text"
@@ -159,7 +132,36 @@ export default function WhitelistPage() {
                       onChange={handleChange}
                       className="w-full px-4 py-3 rounded-lg border border-border bg-background focus:outline-none focus:ring-2 focus:ring-primary/50"
                       placeholder="Enter your crypto wallet address"
+                      required
                     />
+                  </div>
+                  <div className="space-y-2">
+                    <label htmlFor="email" className="block text-sm font-medium">
+                      Email Address (Optional)
+                    </label>
+                    <input
+                      type="email"
+                      id="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 rounded-lg border border-border bg-background focus:outline-none focus:ring-2 focus:ring-primary/50"
+                      placeholder="Enter your email address"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="flex items-center space-x-2">
+                      <input
+                        type="checkbox"
+                        id="twitter_verified"
+                        checked={formData.twitter_verified}
+                        onChange={(e) => setFormData({ ...formData, twitter_verified: e.target.checked })}
+                        className="rounded border-gray-300 text-primary focus:ring-primary"
+                        required
+                      />
+                      <span className="text-sm font-medium">
+                        I have followed <a href="https://twitter.com/RWAi_Official" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">@RWAi_Official</a> on Twitter <span className="text-red-500">*</span>
+                      </span>
+                    </label>
                   </div>
 
                   {submitStatus.error && (
