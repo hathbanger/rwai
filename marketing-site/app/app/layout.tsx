@@ -15,6 +15,7 @@ import {
   DropdownMenuTrigger
 } from "../../src/components/ui/dropdown-menu";
 import Link from 'next/link';
+import { useCrossDomainNavigation } from '../../hooks/useCrossDomainNavigation';
 import '../globals.css';
 
 const geistSans = Geist({
@@ -35,14 +36,6 @@ const sora = Sora({
   variable: "--font-sora",
   weight: ["400", "500", "600", "700"],
 });
-
-// Helper function to get main domain URL (used for cross-subdomain links)
-const getMainUrl = (path: string) => {
-  // In production, this will properly handle the subdomain
-  const isProduction = process.env.NODE_ENV === 'production';
-  const baseUrl = isProduction ? 'https://rwai.xyz' : 'http://localhost:3000';
-  return `${baseUrl}${path.startsWith('/') ? path : `/${path}`}`;
-};
 
 // Recent activity data for notifications
 const recentActivity = [
@@ -90,6 +83,7 @@ export default function AppLayout({
   children: React.ReactNode;
 }>) {
   const pathname = usePathname();
+  const { isMounted, getMainDomainUrl } = useCrossDomainNavigation();
   
   // Define navigation links with dynamic active state
   const navigationLinks = [
@@ -218,8 +212,12 @@ export default function AppLayout({
                 <a href="https://x.com/RWAi_xyz" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground">
                   <Twitter className="h-4 w-4" />
                 </a>
-                <a href={getMainUrl('/terms-of-service')} className="text-sm text-muted-foreground hover:text-foreground">Terms</a>
-                <a href={getMainUrl('/privacy-policy')} className="text-sm text-muted-foreground hover:text-foreground">Privacy</a>
+                {isMounted && (
+                  <>
+                    <a href={getMainDomainUrl('/terms-of-service')} className="text-sm text-muted-foreground hover:text-foreground">Terms</a>
+                    <a href={getMainDomainUrl('/privacy-policy')} className="text-sm text-muted-foreground hover:text-foreground">Privacy</a>
+                  </>
+                )}
               </div>
             </div>
           </div>

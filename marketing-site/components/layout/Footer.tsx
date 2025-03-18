@@ -2,8 +2,11 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Twitter } from 'lucide-react';
+import { useCrossDomainNavigation } from '../../hooks/useCrossDomainNavigation';
 
 const Footer = () => {
+  const { isMounted, getAppDomainUrl } = useCrossDomainNavigation();
+
   return (
     <footer className="bg-background py-16 border-t border-border">
       <div className="container mx-auto px-4">
@@ -32,9 +35,13 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link href="/app" className="text-muted-foreground hover:text-primary transition-colors">
-                  App
-                </Link>
+                {isMounted ? (
+                  <a href={getAppDomainUrl('/')} className="text-muted-foreground hover:text-primary transition-colors">
+                    App
+                  </a>
+                ) : (
+                  <span className="text-muted-foreground">App</span>
+                )}
               </li>
               <li>
                 <Link href="/blog" className="text-muted-foreground hover:text-primary transition-colors">
