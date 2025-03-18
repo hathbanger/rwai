@@ -15,6 +15,12 @@ const IMAGE_BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || "http://localhost:3
 // Default image path
 const DEFAULT_IMAGE_PATH = "/texture_3.png";
 
+// Debug environment variables
+console.log("🔥 Environment Variables:");
+console.log("BASE_PATH:", process.env.NEXT_PUBLIC_BASE_PATH);
+console.log("SITE_URL:", process.env.NEXT_PUBLIC_SITE_URL);
+console.log("Using IMAGE_BASE_PATH:", IMAGE_BASE_PATH);
+
 // Define Model interface
 interface Model {
   id: string;

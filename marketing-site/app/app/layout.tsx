@@ -7,7 +7,8 @@ import { Logo } from '../../components/ui/logo';
 import { ThemeProvider } from '../../components/theme-provider';
 import { ThemeToggle } from '../../components/ui/theme-toggle';
 import { SidebarNav } from '../../components/app-dashboard/sidebar-nav';
-import { Bell, CreditCard, Server, Users, BarChart3, DollarSign, Menu, Twitter } from 'lucide-react';
+import { Bell, CreditCard, Server, Users, BarChart3, DollarSign, Menu } from 'lucide-react';
+import { SocialIcon } from 'react-social-icons';
 import { 
   DropdownMenu,
   DropdownMenuContent,
@@ -15,7 +16,6 @@ import {
   DropdownMenuTrigger
 } from "../../src/components/ui/dropdown-menu";
 import Link from 'next/link';
-import { useCrossDomainNavigation } from '../../hooks/useCrossDomainNavigation';
 import '../globals.css';
 
 const geistSans = Geist({
@@ -83,7 +83,6 @@ export default function AppLayout({
   children: React.ReactNode;
 }>) {
   const pathname = usePathname();
-  const { isMounted, getMainDomainUrl } = useCrossDomainNavigation();
   
   // Define navigation links with dynamic active state
   const navigationLinks = [
@@ -209,15 +208,18 @@ export default function AppLayout({
                 &copy; {new Date().getFullYear()} RWAi. All rights reserved.
               </div>
               <div className="flex space-x-6 items-center mt-4 sm:mt-0">
-                <a href="https://x.com/RWAi_xyz" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground">
-                  <Twitter className="h-4 w-4" />
-                </a>
-                {isMounted && (
-                  <>
-                    <a href={getMainDomainUrl('/terms-of-service')} className="text-sm text-muted-foreground hover:text-foreground">Terms</a>
-                    <a href={getMainDomainUrl('/privacy-policy')} className="text-sm text-muted-foreground hover:text-foreground">Privacy</a>
-                  </>
-                )}
+                <SocialIcon 
+                  url="https://x.com/RWAi_xyz" 
+                  network="x"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ height: 24, width: 24 }}
+                  bgColor="transparent"
+                  fgColor="currentColor"
+                  className="text-muted-foreground hover:text-foreground"
+                />
+                <a href="/terms-of-service" className="text-sm text-muted-foreground hover:text-foreground">Terms</a>
+                <a href="/privacy-policy" className="text-sm text-muted-foreground hover:text-foreground">Privacy</a>
               </div>
             </div>
           </div>

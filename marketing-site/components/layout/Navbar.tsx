@@ -54,6 +54,7 @@ const Navbar = () => {
           <div className="flex items-center space-x-4">
             <SocialIcon 
               url="https://x.com/rwai_xyz" 
+              network="x"
               target="_blank"
               rel="noopener noreferrer"
               style={{ height: 32, width: 32 }}
@@ -158,6 +159,7 @@ const Navbar = () => {
                   <span className="text-gray-600 dark:text-gray-400">
                     <SocialIcon 
                       url="https://x.com/rwai_xyz" 
+                      network="x"
                       target="_blank"
                       rel="noopener noreferrer"
                       style={{ height: 24, width: 24 }}

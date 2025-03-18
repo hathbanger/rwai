@@ -1,17 +1,14 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Twitter } from 'lucide-react';
-import { useCrossDomainNavigation } from '../../hooks/useCrossDomainNavigation';
+import { SocialIcon } from 'react-social-icons';
 
 const Footer = () => {
-  const { isMounted, getAppDomainUrl } = useCrossDomainNavigation();
-
   return (
     <footer className="bg-background py-16 border-t border-border">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
-          <div className="col-span-1 md:col-span-2">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+          <div>
             <Link href="/" className="inline-block mb-6">
               <Image 
                 src="/images/RWAi_logo-xs.png" 
@@ -26,34 +23,27 @@ const Footer = () => {
             </p>
           </div>
           
-          <div className="col-span-1 md:col-span-2">
-            <h3 className="font-bold text-lg mb-4">Quick Links</h3>
-            <ul className="space-y-2 grid grid-cols-2">
-              <li>
-                <Link href="/" className="text-muted-foreground hover:text-primary transition-colors">
-                  Home
-                </Link>
-              </li>
-              <li>
-                {isMounted ? (
-                  <a href={getAppDomainUrl('/')} className="text-muted-foreground hover:text-primary transition-colors">
-                    App
-                  </a>
-                ) : (
-                  <span className="text-muted-foreground">App</span>
-                )}
-              </li>
-              <li>
-                <Link href="/blog" className="text-muted-foreground hover:text-primary transition-colors">
-                  Blog
-                </Link>
-              </li>
-              <li>
-                <Link href="/whitelist" className="text-muted-foreground hover:text-primary transition-colors">
-                  Whitelist
-                </Link>
-              </li>
-            </ul>
+          <div className="flex flex-col items-end">
+            <div className="text-right">
+              <h3 className="font-bold text-lg mb-4">Quick Links</h3>
+              <ul className="space-y-2">
+                <li>
+                  <Link href="/" className="text-muted-foreground hover:text-primary transition-colors">
+                    Home
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/whitelist" className="text-muted-foreground hover:text-primary transition-colors">
+                    Whitelist
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/blog" className="text-muted-foreground hover:text-primary transition-colors">
+                    Blog
+                  </Link>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
         
@@ -62,9 +52,16 @@ const Footer = () => {
             © {new Date().getFullYear()} RWAi. All rights reserved.
           </div>
           <div className="flex gap-4 items-center">
-            <Link href="https://x.com/RWAi_xyz" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
-              <Twitter className="h-5 w-5" />
-            </Link>
+            <SocialIcon 
+              url="https://x.com/RWAi_xyz" 
+              network="x"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ height: 30, width: 30 }}
+              bgColor="transparent"
+              fgColor="currentColor"
+              className="text-muted-foreground hover:text-primary transition-colors"
+            />
             <Link href="/privacy-policy" className="text-sm text-muted-foreground hover:text-primary transition-colors">
               Privacy Policy
             </Link>
