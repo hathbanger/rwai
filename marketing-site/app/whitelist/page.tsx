@@ -159,7 +159,7 @@ export default function WhitelistPage() {
                         required
                       />
                       <span className="text-sm font-medium">
-                        I have followed <a href="https://x.com/RWAi_Official" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">@RWAi_Official</a> on X <span className="text-red-500">*</span>
+                        I have followed <a href="https://x.com/RWAi_Official" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">@RWAi_xyz</a> on X <span className="text-red-500">*</span>
                       </span>
                     </label>
                   </div>
