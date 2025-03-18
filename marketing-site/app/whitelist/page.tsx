@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '../../components/ui/button';
 import Navbar from '../../components/layout/Navbar';
@@ -39,7 +38,7 @@ export default function WhitelistPage() {
     try {
       // Insert the data into your Supabase table
       const { data, error } = await supabase
-        .from('whitelist') // Replace with your actual table name
+        .from('whitelist_applications') // Replace with your actual table name
         .insert([
           {
             email: formData.email || null,
