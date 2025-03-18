@@ -13,7 +13,7 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
-    domains: ['localhost', 'app.localhost', 'rwai-eight.vercel.app', 'app.rwai-eight.vercel.app', 'potence.ai', 'app.potence.ai'],
+    domains: ['localhost', 'app.localhost', 'rwai-eight.vercel.app', 'app.rwai-eight.vercel.app'],
     dangerouslyAllowSVG: true,
     contentDispositionType: 'attachment',
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
@@ -85,17 +85,6 @@ const nextConfig = {
           {
             type: 'host',
             value: 'app.localhost:3000',
-          },
-        ],
-        destination: '/app/:path*',
-      },
-      // Handle app.potence.ai subdomain
-      {
-        source: '/:path*',
-        has: [
-          {
-            type: 'host',
-            value: 'app.potence.ai',
           },
         ],
         destination: '/app/:path*',
