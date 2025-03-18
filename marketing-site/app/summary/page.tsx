@@ -519,7 +519,7 @@ export default function SummaryPage() {
                   <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-6">
                     <h3 className="text-xl font-bold mb-2 text-gray-900 dark:text-white">Chris Johnston - Product Designer</h3>
                     <p className="text-gray-700 dark:text-gray-300">
-                      A product designer bridging creativity with machine intelligence, Chris leads Applied AI and Community Relations, ensuring AI feels like an intuitive extension of human creativity. With over 15 years of experience in scalable product development and AI-driven solutions, he previously directed product teams delivering custom software for venture-backed and pre-exit companies. Chris frequently contributes to South Florida PBS, translating AI advancements into accessible insights. He also founded AI Uncorked, a community initiative hosting interactive generative AI discussions, and is pioneering "vibe coding" to craft immersive, human-centered experiences.
+                      A product designer bridging creativity with machine intelligence, Chris leads Applied AI and Community Relations, ensuring AI feels like an intuitive extension of human creativity. With over 15 years of experience in scalable product development, he previously directed product teams delivering custom software for venture-backed and pre-exit companies. Chris frequently contributes to South Florida PBS, translating AI advancements into accessible insights. He is pioneering "vibe coding" as a craft to create immersive, human-centered experiences.
                     </p>
                   </div>
                   

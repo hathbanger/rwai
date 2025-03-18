@@ -23,12 +23,66 @@ const sora = Sora({
 });
 
 export const metadata: Metadata = {
-  title: {
-    default: "RWAi",
-    template: "%s | RWAi",
+  title: "RWAi | Tokenizing AI's Infrastructure",
+  description: "RWAi enables fractional ownership of AI infrastructure through tokenization. Invest in GPU clusters, data centers, and AI computing resources with our innovative Web3 platform. Join the future of decentralized AI infrastructure ownership and earn passive income from high-demand computing resources.",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://rwai.xyz'),
+  keywords: [
+    "AI infrastructure",
+    "GPU tokenization",
+    "fractional ownership",
+    "Web3",
+    "blockchain",
+    "data centers",
+    "passive income",
+    "AI computing",
+    "decentralized infrastructure",
+    "GPU investment"
+  ],
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    url: 'https://rwai.xyz',
+    siteName: 'RWAi',
+    title: 'RWAi | Tokenizing AI\'s Infrastructure',
+    description: 'RWAi enables fractional ownership of AI infrastructure through tokenization. Invest in GPU clusters, data centers, and AI computing resources.',
+    images: [
+      {
+        url: '/rwai_fb.png',
+        width: 1200,
+        height: 630,
+        alt: 'RWAi - Tokenizing AI Infrastructure for Facebook',
+      },
+      {
+        url: '/rwai_in.png',
+        width: 1200,
+        height: 627,
+        alt: 'RWAi - Tokenizing AI Infrastructure for LinkedIn',
+      }
+    ],
   },
-  description: "Tokenizing AI's Infrastructure",
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://rwai.io'),
+  twitter: {
+    card: 'summary_large_image',
+    title: 'RWAi | Tokenizing AI\'s Infrastructure',
+    description: 'RWAi enables fractional ownership of AI infrastructure through tokenization. Invest in GPU clusters, data centers, and AI computing resources.',
+    images: [{
+      url: '/rwai_x.png',
+      width: 1200,
+      height: 675,
+      alt: 'RWAi - Tokenizing AI Infrastructure for Twitter'
+    }],
+    creator: '@RWAi_xyz',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
   icons: {
     icon: [
       { url: "/favicon_io/favicon.ico" },
