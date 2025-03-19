@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
+  reactStrictMode: false,
   // Remove basePath as it can interfere with subdomain routing
   // basePath: process.env.NODE_ENV === 'production' ? '/app' : '',
   trailingSlash: false,
