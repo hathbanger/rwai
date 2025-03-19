@@ -66,6 +66,18 @@ export default function WhitelistPage() {
 
       if (error) throw error;
 
+      // Push form submission event to dataLayer for GTM using type assertion
+      if (typeof window !== 'undefined') {
+        // Type assertion for window.dataLayer
+        const w = window as any;
+        if (w.dataLayer) {
+          w.dataLayer.push({
+            'event': 'whitelist_submission',
+            'formId': 'whitelist-application'
+          });
+        }
+      }
+
       setSubmitStatus({ success: true, error: null });
       // Reset form after successful submission
       setFormData({
