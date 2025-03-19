@@ -2,10 +2,15 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export const config = {
   matcher: [
-    // Match all request paths
-    '/(.*)',
+    // Match all paths except internals and static files
+    '/((?!api|_next|_static|_vercel|[\\w-]+\\.\\w+).*)',
   ],
 };
+
+// Fast check for tracking parameters
+function hasTrackingParams(urlString: string): boolean {
+  return /_g[al]/.test(urlString);
+}
 
 export default function middleware(request: NextRequest) {
   const url = request.nextUrl;
@@ -37,38 +42,44 @@ export default function middleware(request: NextRequest) {
       return NextResponse.next();
     }
 
-    // Get GA tracking parameters from the URL
-    const glParam = url.searchParams.get('_gl');
-    const gaParam = url.searchParams.get('_ga');
+    // If we have tracking parameters, handle them
+    if (hasTrackingParams(request.url)) {
+      // Fast parameter extraction using Set for O(1) lookup
+      const TRACKING_PARAMS = new Set(['_gl', '_ga', '_ga_3RT06YPS1M']);
+      const trackingParams: Record<string, string> = {};
+      
+      // Single iteration over search params
+      for (const [key, value] of url.searchParams.entries()) {
+        if (TRACKING_PARAMS.has(key)) {
+          trackingParams[key] = value;
+          url.searchParams.delete(key);
+        }
+      }
 
-    // Create the rewrite URL without query parameters
-    const newUrl = new URL(`/app${pathname}`, request.url);
-    console.log(`➡️ Rewriting to: ${newUrl.toString()}`);
+      // Create clean URL preserving the original pathname
+      const cleanUrl = new URL(pathname + url.search, request.url);
+      console.log(`➡️ Redirecting to clean URL: ${cleanUrl.toString()}`);
+      const response = NextResponse.redirect(cleanUrl);
 
-    // Create response with rewrite
-    const response = NextResponse.rewrite(newUrl);
-
-    // If we have tracking parameters, set them as cookies instead
-    if (glParam || gaParam) {
-      if (glParam) {
-        response.cookies.set('_gl', glParam, {
+      // Batch cookie operations
+      Object.entries(trackingParams).forEach(([param, value]) => {
+        console.log(`🍪 Setting cookie: ${param}`);
+        response.cookies.set(param, value, {
           domain: '.rwai.xyz',
           path: '/',
           secure: true,
-          sameSite: 'none'
+          sameSite: 'none',
+          maxAge: 2592000 // 30 days
         });
-      }
-      if (gaParam) {
-        response.cookies.set('_ga', gaParam, {
-          domain: '.rwai.xyz',
-          path: '/',
-          secure: true,
-          sameSite: 'none'
-        });
-      }
+      });
+
+      return response;
     }
 
-    return response;
+    // For app subdomain without tracking params, rewrite to app directory
+    const newUrl = new URL(`/app${pathname}`, request.url);
+    console.log(`➡️ Rewriting app subdomain request to: ${newUrl.toString()}`);
+    return NextResponse.rewrite(newUrl);
   }
 
   console.log('✅ Not a subdomain - proceeding normally');
