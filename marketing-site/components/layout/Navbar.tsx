@@ -64,7 +64,7 @@ const Navbar = () => {
             />
             <Button asChild className="bg-primary hover:bg-primary/90 text-white">
               <a href={getAppUrl('models')}>
-                <span className="hidden md:inline">Launch </span>App
+                <span className="hidden md:inline -mr-[3px]">Launch</span>App
               </a>
             </Button>
           </div>

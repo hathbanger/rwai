@@ -101,11 +101,12 @@ const ModelCard = ({ id, name, description, tags, parameters, image }: ModelCard
   return (
     <div className="flex flex-col rounded-xl border border-border bg-card hover:border-primary/50 transition-colors overflow-hidden w-full h-full dark:bg-card">
       {/* Full-width top half image with absolutely no padding */}
-      <div className="h-48 w-full bg-muted/50 overflow-hidden dark:bg-muted/30">
-        <img 
+      <div className="h-48 w-full bg-muted/50 overflow-hidden dark:bg-muted/30 relative">
+        <Image 
           src={imageUrl} 
           alt={name}
-          className="h-full w-full object-cover"
+          fill
+          className="object-cover"
           onError={() => setImgError(true)}
         />
       </div>
