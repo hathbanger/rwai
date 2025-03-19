@@ -111,14 +111,41 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth dark" suppressHydrationWarning>
       <head>
-        {/* Google Tag Manager */}
+        {/* Google Tag Manager with enhanced configuration */}
         <Script id="gtm-script" strategy="afterInteractive">
           {`
-            (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            
+            (function(w,d,s,l,i){
+              w[l]=w[l]||[];
+              w[l].push({
+                'gtm.start': new Date().getTime(),
+                event:'gtm.js',
+                'config': {
+                  'cookie_domain': '.rwai.xyz',
+                  'cookie_flags': 'SameSite=None;Secure',
+                  'cookie_update': true,
+                  'send_page_view': true
+                }
+              });
+              var f=d.getElementsByTagName(s)[0],
+              j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';
+              j.async=true;
+              j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
+              f.parentNode.insertBefore(j,f);
             })(window,document,'script','dataLayer','GTM-KBSN67QN');
+
+            // Configure GA4 for cross-domain tracking
+            gtag('config', 'G-3RT06YPS1M', {
+              'cookie_domain': '.rwai.xyz',
+              'cookie_flags': 'SameSite=None;Secure',
+              'linker': {
+                'domains': ['rwai.xyz', 'app.rwai.xyz'],
+                'decorate_forms': true,
+                'accept_incoming': true
+              }
+            });
           `}
         </Script>
         
@@ -134,7 +161,7 @@ export default function RootLayout({
                   'event': 'scroll_depth',
                   'scroll_depth_threshold': scrollPercentage,
                   'scroll_depth_units': 'percent',
-                  'page_location': window.location.href,
+                  'page_location': window.location.pathname, // Changed to pathname only
                   'page_title': document.title
                 });
               }
