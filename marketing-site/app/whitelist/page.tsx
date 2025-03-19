@@ -20,6 +20,7 @@ export default function WhitelistPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState({ success: false, error: null });
   const [supabaseError, setSupabaseError] = useState(null);
+  const [hasInteracted, setHasInteracted] = useState(false);
 
   // Check for Supabase initialization errors
   useEffect(() => {
@@ -30,7 +31,51 @@ export default function WhitelistPage() {
     }
   }, []);
 
+  // Track form abandonment
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (hasInteracted && !submitStatus.success) {
+        // Push form abandonment event to dataLayer
+        const w = window as any;
+        if (w.dataLayer) {
+          w.dataLayer.push({
+            'event': 'whitelist_form_abandon',
+            'event_category': 'Whitelist',
+            'event_action': 'abandon',
+            'form_id': 'whitelist-application',
+            'form_type': 'whitelist',
+            'has_partial_data': !!(formData.wallet_address || formData.email),
+            'timestamp': new Date().toISOString()
+          });
+        }
+      }
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+  }, [hasInteracted, submitStatus.success, formData]);
+
+  // Track form interaction
+  const handleInteraction = () => {
+    if (!hasInteracted) {
+      setHasInteracted(true);
+      // Push form start event to dataLayer
+      const w = window as any;
+      if (w.dataLayer) {
+        w.dataLayer.push({
+          'event': 'whitelist_form_start',
+          'event_category': 'Whitelist',
+          'event_action': 'start',
+          'form_id': 'whitelist-application',
+          'form_type': 'whitelist',
+          'timestamp': new Date().toISOString()
+        });
+      }
+    }
+  };
+
   const handleChange = (e) => {
+    handleInteraction(); // Track first interaction
     const { id, value } = e.target;
     setFormData(prev => ({
       ...prev,
@@ -66,14 +111,20 @@ export default function WhitelistPage() {
 
       if (error) throw error;
 
-      // Push form submission event to dataLayer for GTM using type assertion
+      // Enhanced form submission event to dataLayer for GTM
       if (typeof window !== 'undefined') {
-        // Type assertion for window.dataLayer
         const w = window as any;
         if (w.dataLayer) {
           w.dataLayer.push({
             'event': 'whitelist_submission',
-            'formId': 'whitelist-application'
+            'event_category': 'Whitelist',
+            'event_action': 'submit',
+            'event_label': 'success',
+            'form_id': 'whitelist-application',
+            'form_type': 'whitelist',
+            'has_email': !!formData.email,
+            'has_twitter': formData.twitter_verified,
+            'timestamp': new Date().toISOString()
           });
         }
       }
