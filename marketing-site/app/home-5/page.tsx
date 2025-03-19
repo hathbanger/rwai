@@ -143,9 +143,9 @@ export default function HomeFive() {
           <div className="container mx-auto px-8">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
               <div>
-                <h2 className="text-2xl font-light text-zinc-900 mb-8">About RWAI</h2>
+                <h2 className="text-2xl font-light text-zinc-900 mb-8">About RWAi</h2>
                 <p className="text-zinc-600 mb-8 text-lg leading-relaxed">
-                  RWAI is pioneering the tokenization of AI infrastructure, creating a bridge between 
+                  RWAi is pioneering the tokenization of AI infrastructure, creating a bridge between 
                   digital assets and physical computing power. Our platform enables investors to own 
                   real-world AI hardware while earning consistent yields.
                 </p>
@@ -159,7 +159,7 @@ export default function HomeFive() {
               <div className="relative h-[500px]">
                 <Image
                   src="/images/RWAi_00307_.png"
-                  alt="RWAI Infrastructure"
+                  alt="RWAi Infrastructure"
                   fill
                   style={{objectFit: 'cover'}}
                   className="rounded-sm"

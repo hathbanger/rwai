@@ -8,6 +8,7 @@ import { Button } from '../../components/ui/button';
 import Navbar from '../../components/layout/Navbar';
 import Footer from '../../components/layout/Footer';
 import { getSupabaseClient, hasSupabaseCredentials } from '../../lib/supabase-client';
+import { ErrorEasterEgg } from '../../components/ui/error-easter-egg';
 
 export default function WhitelistPage() {
   const [formData, setFormData] = useState({
@@ -99,14 +100,7 @@ export default function WhitelistPage() {
             <div className="max-w-2xl mx-auto bg-card rounded-xl p-8 border border-border shadow-lg animate-slide-up animation-delay-300">
               {supabaseError ? (
                 <div className="text-center py-8">
-                  <h3 className="text-2xl font-bold text-red-500 mb-4">Service Temporarily Unavailable</h3>
-                  <p className="mb-6">{supabaseError}</p>
-                  <p className="mb-6">Please check back later or contact support for assistance.</p>
-                  <Link href="/">
-                    <Button className="bg-primary hover:bg-primary/90 text-white">
-                      Return to Home Page
-                    </Button>
-                  </Link>
+                  <ErrorEasterEgg />
                 </div>
               ) : submitStatus.success ? (
                 <div className="text-center py-8">

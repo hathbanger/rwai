@@ -30,7 +30,7 @@ export default function HomeThree() {
                 Earn Passive Yield.
               </h1>
               <p className="text-xl mb-10 text-gray-300 max-w-2xl">
-                RWAI tokenizes high-performance AI infrastructure, allowing investors to own real-world assets that generate consistent USDC yield.
+                RWAi tokenizes high-performance AI infrastructure, allowing investors to own real-world assets that generate consistent USDC yield.
               </p>
               <div className="flex flex-wrap gap-6">
                 <Link href="/whitelist" className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-8 py-4 rounded-lg font-medium hover:from-purple-700 hover:to-blue-700 transition duration-300">
@@ -48,7 +48,7 @@ export default function HomeThree() {
         <section id="how-it-works" className="py-24 bg-gray-900">
           <div className="container mx-auto px-8">
             <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold mb-6">How RWAI Works</h2>
+              <h2 className="text-4xl font-bold mb-6">How RWAi Works</h2>
               <p className="text-xl text-gray-400 max-w-3xl mx-auto">
                 A simple three-step process that connects investors with high-yield AI infrastructure
               </p>
@@ -59,7 +59,7 @@ export default function HomeThree() {
                 <div className="absolute -top-6 -left-6 w-12 h-12 rounded-full bg-gradient-to-r from-purple-600 to-blue-600 flex items-center justify-center text-2xl font-bold">1</div>
                 <h3 className="text-2xl font-bold mb-4 mt-4">Purchase Tokens</h3>
                 <p className="text-gray-400">
-                  Join our whitelist to gain early access to RWAI tokens. Each token represents fractional ownership of real AI hardware.
+                  Join our whitelist to gain early access to RWAi tokens. Each token represents fractional ownership of real AI hardware.
                 </p>
                 <div className="mt-8">
                   <Image 
@@ -93,7 +93,7 @@ export default function HomeThree() {
                 <div className="absolute -top-6 -left-6 w-12 h-12 rounded-full bg-gradient-to-r from-purple-600 to-blue-600 flex items-center justify-center text-2xl font-bold">3</div>
                 <h3 className="text-2xl font-bold mb-4 mt-4">Earn USDC Yield</h3>
                 <p className="text-gray-400">
-                  RWAI leases the hardware back, generating revenue that's distributed to token holders as USDC yield on a regular basis.
+                  RWAi leases the hardware back, generating revenue that's distributed to token holders as USDC yield on a regular basis.
                 </p>
                 <div className="mt-8">
                   <Image 
@@ -277,7 +277,7 @@ export default function HomeThree() {
                   <div className="bg-gray-800 p-6 rounded-lg">
                     <h3 className="text-xl font-bold mb-2">Lease-Back Model</h3>
                     <p className="text-gray-400">
-                      RWAI leases the hardware from token holders, generating consistent revenue that's distributed as yield.
+                      RWAi leases the hardware from token holders, generating consistent revenue that's distributed as yield.
                     </p>
                   </div>
                   <div className="bg-gray-800 p-6 rounded-lg">

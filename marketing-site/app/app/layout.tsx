@@ -17,6 +17,7 @@ import {
 } from "../../src/components/ui/dropdown-menu";
 import Link from 'next/link';
 import '../globals.css';
+import { getMainUrl } from '../../lib/url-utils';
 
 // Import Head and useEffect
 import Head from 'next/head';
@@ -141,7 +142,9 @@ export default function AppLayout({
                 
                 {/* Logo */}
                 <div className="h-6 md:h-7">
-                  <Logo height={24} className="md:h-7" />
+                  <a href={getMainUrl()} className="block">
+                    <Logo height={24} className="md:h-7" />
+                  </a>
                 </div>
               </div>
               

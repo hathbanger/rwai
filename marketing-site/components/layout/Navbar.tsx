@@ -64,7 +64,7 @@ const Navbar = () => {
             />
             {/* Launch App button - now visible on all screen sizes */}
             <Button asChild className="bg-primary hover:bg-primary/90 text-white">
-              <a href={getAppUrl('models')} target="_blank" rel="noopener noreferrer">
+              <a href={getAppUrl('models')}>
                 <span className="hidden md:inline">Launch </span>App
               </a>
             </Button>

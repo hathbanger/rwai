@@ -45,20 +45,12 @@ export const metadata: Metadata = {
     siteName: 'RWAi',
     title: 'RWAi | Tokenizing AI\'s Infrastructure',
     description: 'RWAi enables fractional ownership of AI infrastructure through tokenization. Invest in GPU clusters, data centers, and AI computing resources.',
-    images: [
-      {
-        url: '/images/rwai_fb.png',
-        width: 1200,
-        height: 630,
-        alt: 'RWAi - Tokenizing AI Infrastructure',
-      },
-      {
-        url: '/images/rwai_in.png',
-        width: 1200,
-        height: 627,
-        alt: 'RWAi - Tokenizing AI Infrastructure',
-      }
-    ],
+    images: [{
+      url: '/images/rwai_fb.png',
+      width: 1200,
+      height: 630,
+      alt: 'RWAi - Tokenizing AI Infrastructure',
+    }],
   },
   twitter: {
     card: 'summary_large_image',
