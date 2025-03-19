@@ -37,11 +37,38 @@ export default function middleware(request: NextRequest) {
       return NextResponse.next();
     }
 
-    // Create the rewrite URL
+    // Get GA tracking parameters from the URL
+    const glParam = url.searchParams.get('_gl');
+    const gaParam = url.searchParams.get('_ga');
+
+    // Create the rewrite URL without query parameters
     const newUrl = new URL(`/app${pathname}`, request.url);
     console.log(`➡️ Rewriting to: ${newUrl.toString()}`);
 
-    return NextResponse.rewrite(newUrl);
+    // Create response with rewrite
+    const response = NextResponse.rewrite(newUrl);
+
+    // If we have tracking parameters, set them as cookies instead
+    if (glParam || gaParam) {
+      if (glParam) {
+        response.cookies.set('_gl', glParam, {
+          domain: '.rwai.xyz',
+          path: '/',
+          secure: true,
+          sameSite: 'none'
+        });
+      }
+      if (gaParam) {
+        response.cookies.set('_ga', gaParam, {
+          domain: '.rwai.xyz',
+          path: '/',
+          secure: true,
+          sameSite: 'none'
+        });
+      }
+    }
+
+    return response;
   }
 
   console.log('✅ Not a subdomain - proceeding normally');

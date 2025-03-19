@@ -111,7 +111,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth dark" suppressHydrationWarning>
       <head>
-        {/* Google Tag Manager with enhanced configuration */}
+        {/* Google Tag Manager with cookie-based tracking */}
         <Script id="gtm-script" strategy="afterInteractive">
           {`
             window.dataLayer = window.dataLayer || [];
@@ -126,7 +126,8 @@ export default function RootLayout({
                   'cookie_domain': '.rwai.xyz',
                   'cookie_flags': 'SameSite=None;Secure',
                   'cookie_update': true,
-                  'send_page_view': true
+                  'send_page_view': true,
+                  'use_amp_client_id': true
                 }
               });
               var f=d.getElementsByTagName(s)[0],
@@ -136,15 +137,19 @@ export default function RootLayout({
               f.parentNode.insertBefore(j,f);
             })(window,document,'script','dataLayer','GTM-KBSN67QN');
 
-            // Configure GA4 for cross-domain tracking
+            // Configure GA4 for cookie-based cross-domain tracking
             gtag('config', 'G-3RT06YPS1M', {
               'cookie_domain': '.rwai.xyz',
               'cookie_flags': 'SameSite=None;Secure',
               'linker': {
                 'domains': ['rwai.xyz', 'app.rwai.xyz'],
                 'decorate_forms': true,
-                'accept_incoming': true
-              }
+                'accept_incoming': true,
+                'url_position': 'none'
+              },
+              'transport_url': 'https://rwai.xyz',
+              'allow_google_signals': true,
+              'allow_ad_personalization_signals': false
             });
           `}
         </Script>
