@@ -72,63 +72,59 @@ Critical Note: We currently have both direct GA4 implementation and GTM running.
 
 Note: Currently using direct gtag.js implementation. Need to migrate to GTM for better management and flexibility.
 
-### 3. Cross-Domain Tracking Configuration ❌
+### 3. Cross-Domain Tracking Configuration
 - **Requirement**: Track users across main domain and app subdomain
 - **Implementation Steps**:
 
   1. **GA4 Property Configuration**:
-    - Go to GA4 Admin > Data Streams
-    - Add two data streams:
-      1. Main domain (rwai.xyz)
-      2. App subdomain (app.rwai.xyz)
-    - Note both Measurement IDs
+    - Go to GA4 Admin > Data Streams ✅
+    - Verify two data streams are set up:
+      1. Main domain stream (rwai.xyz) ✅
+      2. App subdomain stream (app.rwai.xyz) ✅
+    - Each stream needs its own configuration ✅
 
   2. **GTM Configuration Tag Setup**:
     - In your GA4 Configuration tag:
       ```javascript
       Fields to Set:
-      cookie_domain: auto
-      allow_google_signals: true
-      ```
-    - Add these domains to internal traffic settings:
-      ```
-      rwai.xyz
-      app.rwai.xyz
-      *.rwai.xyz
+      cookie_domain: auto        ✅
+      allow_google_signals: true ✅
       ```
 
-  3. **Domain Configuration**:
-    - In GA4 Admin > Property Settings:
-      - Add both domains to "List unwanted referrals"
-      - Enable "Session timeout when exceeding referral exclusion list"
+  3. **Cross-Domain Linking**:
+    - Enable cross-domain measurement in GA4 for both streams: ✅
+      - In rwai.xyz stream:
+        - Configure domains:
+          - "Exactly matches" app.rwai.xyz ✅
+      - In app.rwai.xyz stream:
+        - Configure domains:
+          - "Exactly matches" rwai.xyz ✅
 
-  4. **GTM Variables Setup**:
-    - Create constant variable "Main Domain": rwai.xyz
-    - Create constant variable "App Domain": app.rwai.xyz
-    - Create custom JavaScript variable for domain detection:
-      ```javascript
-      function() {
-        return window.location.hostname;
-      }
-      ```
+  4. **Internal Traffic Configuration**:
+    - In GA4 Admin > Data Streams > Configure tag settings > Define Internal Traffic:
+      - Create rule "RWAi Team Traffic" ✅
+      - Set traffic_type as "internal" ✅
+      - Add team member IP addresses:
+        - Format for IPv4: [IP]/32
+        - Format for IPv6: [IP]/64
+      - Status: Rule created, ready for team IPs ⚠️
+    
+    - In GA4 Admin > Data Filters:
+      - Internal Traffic Filter: Set to Testing ✅
+      - Can be set to Active when ready to exclude internal traffic
 
-  5. **Link Decoration**:
-    - Enable cross-domain measurement in GA4:
-      - Admin > Data Streams > [Select Stream] > More Tagging Settings
-      - Enable "Configure your domains"
-      - Add both domains
-    - Ensure all internal links between domains use:
-      ```html
-      <a href="https://app.rwai.xyz" data-gtm-link="cross-domain">
-      ```
+  5. **Testing Checklist**:
+    - Verify cookie persistence between domains ❌
+    - Check session continuation when switching domains ❌
+    - Validate referral data exclusion ❌
+    - Test user journey tracking across domains ❌
 
-  6. **Testing Checklist**:
-    - ❌ Verify cookie persistence between domains
-    - ❌ Check session continuation when switching domains
-    - ❌ Validate referral data exclusion
-    - ❌ Test user journey tracking across domains
-
-Note: This setup is critical for tracking the complete user journey, especially for users who start on the main site and move to the app subdomain for the whitelist form.
+Current Status:
+- Data Streams Setup: ✅ DONE
+- Cross-Domain Linking: ✅ DONE
+- GTM Configuration: ✅ DONE
+- Internal Traffic Setup: ⚠️ PARTIAL (framework ready, needs team IPs)
+- Testing: ❌ NOT STARTED
 
 ## Tracking Implementation in GTM
 
