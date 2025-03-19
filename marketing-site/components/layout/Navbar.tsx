@@ -50,9 +50,8 @@ const Navbar = () => {
             </Link>
           </div>
           
-          {/* Right section - Theme Toggle, X icon, Profile, and Launch App button */}
+          {/* Right section - X icon and Launch App button */}
           <div className="flex items-center gap-4">
-            <ThemeToggle variant="icon" />
             <SocialIcon 
               url="https://x.com/rwai_xyz" 
               network="x"
@@ -63,19 +62,6 @@ const Navbar = () => {
               fgColor="currentColor"
               className="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors"
             />
-            <Button
-              variant="ghost"
-              size="icon"
-              className="text-gray-700 dark:text-gray-300"
-              asChild
-            >
-              <Link href="/app/profile">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                  <circle cx="12" cy="7" r="4" />
-                </svg>
-              </Link>
-            </Button>
             <Button asChild className="bg-primary hover:bg-primary/90 text-white">
               <a href={getAppUrl('models')}>
                 <span className="hidden md:inline">Launch </span>App

@@ -155,12 +155,6 @@ export default function AppLayout({
                   <span className="text-sm font-medium text-green-500 dark:text-green-400">489.12</span>
                 </Link>
                 
-                {/* Theme toggle */}
-                <ThemeToggle 
-                  variant="icon" 
-                  className="text-muted-foreground hover:text-foreground hover:bg-muted focus:outline-none rounded-full transition-colors"
-                />
-                
                 {/* Notification bell with dropdown */}
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
