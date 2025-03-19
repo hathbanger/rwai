@@ -215,9 +215,15 @@ export function GameOfLifeBackground({ containerRef }: { containerRef: React.Ref
 
     const cols = Math.floor(dimensions.width / CELL_SIZE);
     const rows = Math.floor(dimensions.height / CELL_SIZE);
-    gridRef.current = initGrid(cols, rows);
-    growthCountRef.current = 0;
-    isGrowingRef.current = true;
+    
+    // Only initialize grid if it doesn't exist or dimensions have changed significantly
+    if (!gridRef.current || 
+        gridRef.current.length !== rows || 
+        gridRef.current[0].length !== cols) {
+      gridRef.current = initGrid(cols, rows);
+      growthCountRef.current = 0;
+      isGrowingRef.current = true;
+    }
 
     const canvas = canvasRef.current;
     const ctx = canvas?.getContext('2d');
