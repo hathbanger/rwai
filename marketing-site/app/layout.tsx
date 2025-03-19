@@ -122,6 +122,26 @@ export default function RootLayout({
           `}
         </Script>
         
+        {/* Initialize scroll tracking */}
+        <Script id="scroll-tracking" strategy="afterInteractive">
+          {`
+            window.addEventListener('scroll', function() {
+              if (typeof window.dataLayer !== 'undefined') {
+                const scrollPercentage = Math.round(
+                  (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100
+                );
+                window.dataLayer.push({
+                  'event': 'scroll_depth',
+                  'scroll_depth_threshold': scrollPercentage,
+                  'scroll_depth_units': 'percent',
+                  'page_location': window.location.href,
+                  'page_title': document.title
+                });
+              }
+            }, { passive: true });
+          `}
+        </Script>
+        
         <script
           dangerouslySetInnerHTML={{
             __html: `
