@@ -11,11 +11,6 @@ import AnimatedQuote from '../../components/ui/AnimatedQuote';
 import quotes from '../../data/quotes.json';
 import { ResponsiveTable, ResponsiveTableBody, ResponsiveTableRow, ResponsiveTableCell } from "../../components/ui/responsive-table";
 
-export const metadata = {
-  title: 'Executive Summary | RWAi',
-  description: 'Executive summary of RWAi - the first platform for fractional ownership of AI GPU rigs',
-};
-
 export default function SummaryPage() {
   return (
     <div className="min-h-screen bg-white dark:bg-gray-950">
