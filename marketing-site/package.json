@@ -25,6 +25,7 @@
     "@types/d3": "^7.4.3",
     "@types/d3-sankey": "^0.12.4",
     "@types/three": "^0.174.0",
+    "@vercel/speed-insights": "^1.2.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "d3": "^7.9.0",
