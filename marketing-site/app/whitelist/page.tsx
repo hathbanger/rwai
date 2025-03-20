@@ -202,7 +202,7 @@ export default function WhitelistPage() {
                 <form className="space-y-6" onSubmit={handleSubmit}>
                   <div className="space-y-2">
                     <label htmlFor="wallet_address" className="block text-sm font-medium">
-                      Wallet Address <span className="text-red-500">*</span>
+                      ETH Wallet Address <span className="text-red-500">*</span>
                     </label>
                     <input
                       type="text"
@@ -210,7 +210,7 @@ export default function WhitelistPage() {
                       value={formData.wallet_address}
                       onChange={handleChange}
                       className="w-full px-4 py-3 rounded-lg border border-border bg-background focus:outline-none focus:ring-2 focus:ring-primary/50"
-                      placeholder="Enter your crypto wallet address"
+                      placeholder="Enter your ETH wallet address"
                       required
                     />
                   </div>
