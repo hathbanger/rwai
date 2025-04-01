@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { Button } from '../ui/button';
 import { cn } from '@/lib/utils';
 import { ArrowRight } from 'lucide-react';
+import { ShaderCanvas } from '../shaders/ShaderCanvas';
 
 const Hero = () => {
   // Safe client-side theme detection
@@ -16,16 +17,18 @@ const Hero = () => {
   }, []);
 
   return (
-    <section className="relative w-full pt-24 pb-16 lg:pt-32 lg:pb-24 flex flex-col bg-gray-50 dark:bg-gray-950">
+    <section className="relative w-full pt-24 pb-16 lg:pt-32 lg:pb-24 flex flex-col bg-transparent overflow-hidden">
+      <ShaderCanvas />
+      
       {/* Main Content Grid */}
       <div className="container grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 relative z-10 mb-12">
         {/* Left Column - Typography & Headings */}
         <div className="flex flex-col justify-center space-y-4">
           <h1 className="tracking-tight animate-slide-up font-normal">
-            <span className="block text-4xl md:text-5xl lg:text-6xl text-gray-800 dark:text-gray-200 leading-tight">
+            <span className="block text-4xl md:text-5xl lg:text-6xl text-gray-100 leading-tight">
               Decentralizing
             </span>
-            <span className="block text-4xl md:text-5xl lg:text-6xl text-gray-800 dark:text-gray-200 leading-tight">
+            <span className="block text-4xl md:text-5xl lg:text-6xl text-gray-100 leading-tight">
               Ownership of
             </span>
             <span className="block text-4xl md:text-5xl lg:text-6xl text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-600 dark:from-blue-300 dark:to-blue-500 leading-tight">
@@ -40,11 +43,11 @@ const Hero = () => {
         {/* Right Column - Content */}
         <div className="flex flex-col justify-center space-y-8 animate-fade-in animation-delay-200">
           <div className="space-y-6">
-            <p className="text-lg md:text-xl text-gray-700 dark:text-gray-300 leading-relaxed">
+            <p className="text-lg md:text-xl text-gray-100 leading-relaxed">
               RWAi is the first platform where anyone can access, own, and earn passive income from state-of-the-art AI Rigs that run top open-source models like DeepSeek & Llama, delivering inference and other AI optimized compute services to a high demand market.
             </p>
             
-            <p className="text-lg md:text-xl text-gray-700 dark:text-gray-300 leading-relaxed">
+            <p className="text-lg md:text-xl text-gray-100 leading-relaxed">
               By 2028, the AI infrastructure market is expected to reach $1 trillion, RWAi is positioned to capture this explosive growth.
             </p>
 
@@ -54,8 +57,8 @@ const Hero = () => {
                 size="lg" 
                 variant="default"
                 className={cn(
-                  "group relative overflow-hidden bg-gray-900 text-white hover:bg-gray-800 dark:bg-gray-800 dark:hover:bg-gray-700",
-                  "transition-all duration-300 ease-out shadow-md hover:shadow-lg"
+                  "group relative overflow-hidden bg-gray-900/80 text-white hover:bg-gray-800 dark:bg-gray-800/80 dark:hover:bg-gray-700",
+                  "transition-all duration-300 ease-out shadow-md hover:shadow-lg backdrop-blur-sm"
                 )}
               >
                 <a href="#models" className="py-6 px-8 flex items-center gap-2">
