@@ -9,7 +9,6 @@ import { ArrowRight } from 'lucide-react';
 import { ShaderCanvas } from '../shaders/ShaderCanvas';
 
 const Hero = () => {
-  // Safe client-side theme detection
   const [mounted, setMounted] = useState(false);
   
   useEffect(() => {
@@ -17,13 +16,15 @@ const Hero = () => {
   }, []);
 
   return (
-    <section className="relative w-full pt-24 pb-16 lg:pt-32 lg:pb-24 flex flex-col bg-transparent overflow-hidden">
-      <ShaderCanvas />
+    <section className="relative min-h-[100svh] w-full flex flex-col bg-transparent overflow-hidden">
+      <div className="absolute inset-0">
+        <ShaderCanvas />
+      </div>
       
       {/* Main Content Grid */}
-      <div className="container grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 relative z-10 mb-12">
+      <div className="container flex-1 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 relative z-10 py-12 lg:py-16">
         {/* Left Column - Typography & Headings */}
-        <div className="flex flex-col justify-center space-y-4">
+        <div className="flex flex-col justify-center space-y-4 mt-12 lg:mt-0">
           <h1 className="tracking-tight animate-slide-up font-normal">
             <span className="block text-4xl md:text-5xl lg:text-6xl text-gray-100 leading-tight">
               Decentralizing
@@ -70,21 +71,8 @@ const Hero = () => {
           </div>
         </div>
       </div>
-
-      {/* Bottom GPU Image */}
-      <div className="w-full container px-4 md:px-6 mt-4">
-        <div className="relative w-full h-[300px] lg:h-[400px]">
-          <Image
-            src="/images/RWAi_00060_.png"
-            alt="AI GPU Infrastructure"
-            fill
-            priority
-            className="object-cover object-center rounded-lg shadow-lg"
-          />
-        </div>
-      </div>
     </section>
   );
 };
 
-export default Hero; 
+export default Hero;
