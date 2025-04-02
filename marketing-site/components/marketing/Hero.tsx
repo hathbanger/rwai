@@ -32,10 +32,10 @@ const Hero = () => {
             <span className="block text-4xl md:text-5xl lg:text-6xl text-gray-100 leading-tight">
               Ownership of
             </span>
-            <span className="block text-4xl md:text-5xl lg:text-6xl text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-600 dark:from-blue-300 dark:to-blue-500 leading-tight">
+            <span className="block text-4xl md:text-5xl lg:text-6xl text-transparent bg-clip-text bg-gradient-to-r from-primary to-orange-500 leading-tight">
               AI Infrastructure
             </span>
-            <span className="block text-4xl md:text-5xl lg:text-6xl text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 dark:from-purple-300 dark:via-pink-400 dark:to-red-400 leading-tight">
+            <span className="block text-4xl md:text-5xl lg:text-6xl text-transparent bg-clip-text bg-gradient-to-r from-primary to-orange-700 leading-tight">
               with RWA Tokenization
             </span>
           </h1>

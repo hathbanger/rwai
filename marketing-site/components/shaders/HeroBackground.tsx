@@ -1,137 +1,109 @@
-import { useRef, useMemo } from 'react'
+import { useRef, useMemo, useEffect } from 'react'
 import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
+import { useTheme } from '../theme-provider'
 
 const fragmentShader = `
   uniform float iTime;
   uniform vec2 iResolution;
+  uniform vec4 overlayColor;
 
-  // Utility: 2D rotation matrix
-  mat2 m(float a) {
-      float c = cos(a), s = sin(a);
-      return mat2(c, -s, s, c);
+  float rand(vec2 p) {
+    return fract(sin(dot(p, vec2(12.543,514.123)))*4732.12);
   }
 
-  // Enhanced easing function with bounce
-  float easeInOut(float t) {
-      float bounce = sin(t * 6.28318) * 0.05;
-      return (t < 0.5 ? 4.0 * t * t * t : 1.0 - pow(-2.0 * t + 2.0, 3.0) * 0.5) + bounce;
+  float noise(vec2 p) {
+    vec2 f = smoothstep(0.0, 1.0, fract(p));
+    vec2 i = floor(p);
+    
+    float a = rand(i);
+    float b = rand(i+vec2(1.0,0.0));
+    float c = rand(i+vec2(0.0,1.0));
+    float d = rand(i+vec2(1.0,1.0));
+    
+    return mix(mix(a, b, f.x), mix(c, d, f.x), f.y);
   }
 
-  // Wave function for fluid motion
-  float wave(float x, float freq, float speed) {
-      return sin(x * freq + iTime * speed) * 0.5 + 0.5;
-  }
-
-  // Map function
-  float map(vec3 p) {
-      // Multiple time scales for different motion layers
-      float slowTime = iTime * 0.2;
-      float medTime = iTime * 0.4;
-      float fastTime = iTime * 0.8;
-      
-      // Dynamic coordinate scaling
-      float scale = 0.5 + sin(slowTime * 0.3) * 0.51;
-      p *= scale;
-      
-      // Complex rotation patterns
-      float rotX = sin(slowTime * 0.3) * 0.2 + cos(medTime * 0.2) * 0.1;
-      float rotY = cos(slowTime * 0.2) * 0.15 + sin(medTime * 0.3) * 0.08;
-      float rotZ = sin(medTime * 0.25) * 0.1;
-
-      // Apply layered rotations with -90 degree base rotation
-      p.xz *= m(-1.5708 + rotX);  // -90 degrees in radians
-      p.xy *= m(0.05 + rotY);
-      p.yz *= m(rotZ);
-
-      // Dynamic pattern animation
-      vec3 q = p * 1.25 + vec3(
-          easeInOut(wave(p.x, 1.0, 0.3)),
-          easeInOut(wave(p.y, 1.2, 0.4)),
-          easeInOut(wave(p.z, 0.8, 0.5))
-      );
-
-      // Layered shape with dynamic motion
-      float baseShape = p.x * p.y * length(p + vec3(sin(slowTime * 0.1))) * log(length(p) + 1.0) * 0.5 +
-                      sin(q.x + sin(q.z + sin(q.y))) * 0.15;
-
-      // Enhanced particle system
-      float particleDensity = sin(3.0 * p.x + fastTime) * 
-                             sin(3.0 * p.y + fastTime * 0.7) * 
-                             sin(3.0 * p.z + fastTime * 0.5);
-      
-      // Dynamic vapor motion
-      float vaporPulse = easeInOut(sin(slowTime + length(p.xy)) * 0.5 + 0.5) *
-                        wave(length(p), 2.0, 0.2);
-      
-      // Combine with temporal variation
-      float vapor = particleDensity * (0.15 + sin(medTime) * 0.05) * vaporPulse;
-
-      // Add subtle swirling motion
-      float swirl = sin(atan(p.y, p.x) * 3.0 + slowTime) * 0.05;
-      
-      return (baseShape + vapor + swirl) * 0.7;
-  }
-
-  void mainImage(out vec4 fragColor, in vec2 fragCoord) {
-      vec2 p = (fragCoord - 0.5 * iResolution.xy) / min(iResolution.x, iResolution.y);
-      p *= 6.0;
-      // Using the secondary color: oklch(0.279 0.041 260.031) converted to RGB
-      vec3 cl = vec3(0.067, 0.067, 0.279);  // Exact match to secondary color
-      float d = 3.0;
-
-      for (int i = 0; i <= 5; i++) {
-          // Camera movement to the right
-          float camX = 2.0 * iTime + sin(iTime * 0.1) * 0.5;  // Positive multiplier for rightward motion
-          float camY = cos(iTime * 0.15) * 0.3;
-          // Rotated -90 degrees by swapping and negating appropriate coordinates
-          vec3 pp = vec3(camX, camY, -8.0) + normalize(vec3(-p.y, p.x, 3.0)) * d;
-
-          float rz = map(pp);
-
-          float edgeTime = cos(iTime * 0.05) * sin(iTime * 0.03);
-          float f = clamp((rz - map(pp + 0.15)) * 0.4 * edgeTime * pp.x, -0.1, 1.0);
-
-          // Color palette based on secondary color
-          vec3 l = vec3(0.067, 0.067, 0.279) -  // Base secondary color
-                   vec3(0.1, 0.1, 0.3) * f +  // Subtle variation maintaining purple tone
-                   vec3(sin(iTime * 0.2) * 0.02);  // Very subtle variation
-          
-          float blend = 1.0 - smoothstep(0.0, 3.0, rz);
-          cl = cl * l + blend * 0.45 * l;  // Reduced blend to maintain color integrity
-
-          d += min(rz, 1.5);
-      }
-
-      // Subtle pulsing that maintains the base color character
-      float pulse = 0.5 + sin(iTime * 0.2) * 0.02;
-      fragColor = vec4(cl, 1.0) * pulse;
+  void mainImage( out vec4 fragColor, in vec2 fragCoord ) {
+    float n = 2.0;
+    vec2 uv = fragCoord/iResolution.y;
+    vec2 uvp = fragCoord/iResolution.xy;
+    uv += 0.75*noise(uv*3.0+iTime/2.0+noise(uv*7.0-iTime/3.0)/2.0)/2.0;
+    float grid = (mod(floor((uvp.x)*iResolution.x/n),2.0)==0.0?1.0:0.0)*(mod(floor((uvp.y)*iResolution.y/n),2.0)==0.0?1.0:0.0);
+    
+    // Base color #000414
+    vec3 backgroundColor = vec3(0.0, 0.0157, 0.0784);
+    // Softer highlight color
+    vec3 highlightColor = vec3(0.1, 0.2, 0.4);
+    
+    // Reduce the intensity multiplier from 5.0 to 2.0 and adjust the power for softer transitions
+    vec3 col = mix(backgroundColor, highlightColor, 2.0*vec3(pow(1.0-noise(uv*4.0-vec2(0.0, iTime/2.0)),3.0)));
+    col *= grid;
+    col = pow(col, vec3(1.0/2.2));
+    
+    // Apply the theme-based color overlay
+    fragColor = vec4(mix(col, overlayColor.rgb, overlayColor.a), 1.0);
   }
 
   void main() {
-      mainImage(gl_FragColor, gl_FragCoord.xy);
+    mainImage(gl_FragColor, gl_FragCoord.xy);
   }
 `
 
 const vertexShader = `
-  varying vec2 vUv;
-  
   void main() {
-    vUv = uv;
     gl_Position = vec4(position, 1.0);
   }
 `
 
+// Convert OKLCH to RGB
+function oklchToRGB(l: number, c: number, h: number) {
+  // For dark mode: oklch(0.129 0.042 264.695)
+  // For light mode: oklch(1 0 0)
+  
+  if (l === 1 && c === 0 && h === 0) {
+    // Light mode - pure white
+    return { r: 1, g: 1, b: 1 }
+  }
+  
+  // Dark mode specific conversion
+  // These values are tuned specifically for the dark mode background color
+  return {
+    r: l * 0.2,  // Slightly blue tinted
+    g: l * 0.15,
+    b: l * 0.4   // More blue for the dark theme
+  }
+}
+
 export function HeroBackground() {
   const meshRef = useRef<THREE.Mesh>(null)
+  const { theme } = useTheme()
+  
   const uniformsRef = useRef({
     iTime: { value: 0 },
-    iResolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) }
+    iResolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
+    overlayColor: { value: new THREE.Vector4(0, 0, 0, 1) }
   })
+
+  // Update overlay color based on theme
+  useEffect(() => {
+    // Get the computed background color from CSS variables
+    const root = document.documentElement
+    const computedStyle = getComputedStyle(root)
+    const bgColor = computedStyle.getPropertyValue('--background').trim()
+    
+    // Parse the OKLCH color
+    const match = bgColor.match(/oklch\(([\d.]+)\s+([\d.]+)\s+([\d.]+)\)/)
+    if (match) {
+      const [_, l, c, h] = match.map(Number)
+      const rgb = oklchToRGB(l, c, h)
+      uniformsRef.current.overlayColor.value.set(rgb.r, rgb.g, rgb.b, 0.75)
+    }
+  }, [theme])
 
   useFrame((state) => {
     if (!meshRef.current) return
-    uniformsRef.current.iTime.value = state.clock.elapsedTime * 1.74  // Slightly faster base animation
+    uniformsRef.current.iTime.value = state.clock.elapsedTime
     uniformsRef.current.iResolution.value.set(window.innerWidth, window.innerHeight)
   })
 

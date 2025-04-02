@@ -12,7 +12,7 @@ const FAQ = () => {
   };
 
   return (
-    <section id="faq" className="py-24 bg-gradient-to-b from-background/90 to-background">
+    <section id="faq" className="py-24 bg-gray-50 dark:bg-gray-900/80">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h3 className="text-xl md:text-2xl mb-3 text-primary">FAQ</h3>
@@ -25,7 +25,7 @@ const FAQ = () => {
           {faqs.map((faq, index) => (
             <Card 
               key={index} 
-              className="mb-4 border-none shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out animate-slide-up dark:bg-gray-800/80"
+              className="mb-4 bg-white/90 dark:bg-gray-900/90 backdrop-blur-md rounded-xl p-8 border border-gray-200 dark:border-gray-800 shadow-xl animate-slide-up animation-delay-400"
               style={{ animationDelay: `${index * 100}ms` }}
             >
               <CardContent className="p-0">

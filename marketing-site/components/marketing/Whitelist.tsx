@@ -1,10 +1,14 @@
+"use client";
+
 import React from 'react';
 import { Button } from '../ui/button';
 import Link from 'next/link';
+import { ShaderCanvas } from '../shaders/ShaderCanvas';
 
 const Whitelist = () => {
   return (
-    <section id="whitelist" className="relative py-24 bg-[#000414] dark:bg-[#000414]">
+    <section id="whitelist" className="relative py-24">
+      <ShaderCanvas />
       <div className="container relative z-10 mx-auto px-4">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <div className="space-y-8">

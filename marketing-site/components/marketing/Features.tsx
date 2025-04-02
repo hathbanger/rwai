@@ -22,7 +22,7 @@ const features = [
 
 const Features = () => {
   return (
-    <section id="features" className="py-24 bg-gradient-to-b from-background/90 to-background">
+    <section id="features" className="py-24 lg:px-48 bg-gray-50 dark:bg-gray-900/80">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-5xl mb-6">
@@ -36,7 +36,7 @@ const Features = () => {
           {features.map((feature, index) => (
             <Card 
               key={feature.title}
-              className="border-none shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out animate-slide-up dark:bg-gray-800/80"
+              className="bg-white/90 dark:bg-gray-900/90 backdrop-blur-md rounded-xl p-8 border border-gray-200 dark:border-gray-800 shadow-xl animate-slide-up animation-delay-400"
               style={{ animationDelay: `${index * 100}ms` }}
             >
               <CardContent className="p-8">
