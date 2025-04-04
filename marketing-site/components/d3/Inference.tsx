@@ -6,6 +6,7 @@ import * as d3 from 'd3';
 interface Node extends d3.SimulationNodeDatum {
   id: string;
   image: string;
+  label?: string;
   x?: number;
   y?: number;
   fx?: number | null;
@@ -44,31 +45,44 @@ export const Inference = () => {
       return result;
     };
 
-    const uniquePics = getUniqueRandomPics(5, 14);
+    // User types for tooltips
+    const userTypes = [
+      "AI Research Lead",
+      "Startup Founder",
+      "ML Engineer",
+      "Data Scientist",
+      "Product Manager",
+      "Tech Entrepreneur",
+      "Innovation Director"
+    ];
+
+    const uniquePics = getUniqueRandomPics(7, 14);
     
     // Create profile nodes (top row)
-    const profileNodes: Node[] = Array.from({ length: 5 }, (_, i) => ({
+    const profileNodes: Node[] = Array.from({ length: 7 }, (_, i) => ({
       id: `User ${i + 1}`,
       image: `/images/user-pic-${uniquePics[i]}.png`,
-      size: 45,
-      type: 'profile'
+      size: 65,
+      type: 'profile',
+      label: userTypes[i]
     }));
 
     // Create model logo nodes (bottom row)
     const modelNodes: Node[] = [
-      { id: "llama", image: "/images/logo-llana.png", size: 45, type: 'model' },
-      { id: "mistral", image: "/images/logo_mistral.png", size: 45, type: 'model' },
-      { id: "deepseek", image: "/images/logo_deepseek.png", size: 45, type: 'model' },
-      { id: "blackforest", image: "/images/logo_black-forest.png", size: 45, type: 'model' }
+      { id: "llama", image: "/images/logo-llana.png", size: 100, type: 'model', label: "Llama 2" },
+      { id: "mistral", image: "/images/logo_mistral.png", size: 100, type: 'model', label: "Mistral AI" },
+      { id: "deepseek", image: "/images/logo_deepseek.png", size: 100, type: 'model', label: "DeepSeek" },
+      { id: "blackforest", image: "/images/logo_black-forest.png", size: 100, type: 'model', label: "Black Forest" }
     ];
 
     // Create central logo node
     const centralNode: Node = {
       id: "logo",
       image: "/images/RWAi_custom-logo-1.png",
-      size: 80,
+      size: 180,
       type: 'central',
-      fixed: true
+      fixed: true,
+      label: "RWAi"
     };
 
     // Combine all nodes
@@ -91,9 +105,10 @@ export const Inference = () => {
     ];
 
     // SVG dimensions
-    const width = 1000;
-    const height = 500; // Increased height to accommodate bottom row
-    const spacing = 120; // Spacing between nodes in a row
+    const width = 1600;
+    const height = 1200;
+    const spacing = 160;
+    const modelSpacing = 240;
 
     // Create SVG
     const svg = d3.select(svgRef.current)
@@ -106,21 +121,21 @@ export const Inference = () => {
     const profileStartX = (width - totalProfileRowWidth) / 2;
 
     // Calculate positions for bottom row (model nodes)
-    const totalModelRowWidth = (modelNodes.length - 1) * spacing;
+    const totalModelRowWidth = (modelNodes.length - 1) * modelSpacing;
     const modelStartX = (width - totalModelRowWidth) / 2;
 
     // Position profile nodes in a straight horizontal line at the top
     profileNodes.forEach((node, i) => {
       node.x = profileStartX + i * spacing;
-      node.y = height * 0.2; // Top 20%
+      node.y = height * 0.12; // Moved higher up
       node.fx = node.x; // Fix X position
       node.fy = node.y; // Fix Y position
     });
 
     // Position model nodes in a straight horizontal line at the bottom
     modelNodes.forEach((node, i) => {
-      node.x = modelStartX + i * spacing;
-      node.y = height * 0.8; // Bottom 20%
+      node.x = modelStartX + i * modelSpacing;
+      node.y = height * 0.9; // Moved even lower
       node.fx = node.x; // Fix X position
       node.fy = node.y; // Fix Y position
     });
@@ -170,22 +185,68 @@ export const Inference = () => {
         .attr("height", 1)
         .append("image")
         .attr("href", node.image)
-        .attr("width", (node.size || 45) * 2)
-        .attr("height", (node.size || 45) * 2)
+        .attr("width", (node.size || 65) * 2)
+        .attr("height", (node.size || 65) * 2)
         .attr("preserveAspectRatio", "xMidYMid slice");
     });
 
-    // Create all nodes as circles
+    // Create tooltip div
+    const tooltip = d3.select("body").append("div")
+      .attr("class", "absolute hidden")
+      .style("position", "absolute")
+      .style("padding", "8px 12px")
+      .style("background", "rgba(0, 0, 0, 0.85)")
+      .style("color", "white")
+      .style("border", "1px solid #FF4500")
+      .style("border-radius", "6px")
+      .style("font-size", "14px")
+      .style("pointer-events", "none")
+      .style("transform", "translate(-50%, -100%)")
+      .style("transition", "opacity 0.2s")
+      .style("z-index", "1000")
+      .style("white-space", "nowrap");
+
+    // Create all nodes as circles with hover effects
     const node = svg.append("g")
       .selectAll("circle")
       .data(nodes)
       .join("circle")
       .attr("r", d => d.size || 45)
       .style("fill", (d, i) => `url(#node-${i})`)
-      .style("stroke", "#FF4500") // Theme color
+      .style("stroke", "#FF4500")
       .style("stroke-width", 1.25)
       .style("stroke-opacity", 0.8)
-      .style("cursor", "default");
+      .style("cursor", "pointer")
+      .on("mouseover", function(event, d) {
+        d3.select(this)
+          .transition()
+          .duration(200)
+          .style("stroke-width", "2.5")
+          .style("stroke-opacity", "1");
+
+        tooltip
+          .style("display", "block")
+          .style("opacity", 1)
+          .html(d.label || d.id)
+          .style("left", (event.pageX) + "px")
+          .style("top", (event.pageY - 28) + "px");
+      })
+      .on("mousemove", function(event) {
+        tooltip
+          .style("left", (event.pageX) + "px")
+          .style("top", (event.pageY - 28) + "px");
+      })
+      .on("mouseout", function() {
+        d3.select(this)
+          .transition()
+          .duration(200)
+          .style("stroke-width", "1.25")
+          .style("stroke-opacity", "0.8");
+
+        tooltip
+          .style("display", "none")
+          .style("opacity", 0);
+      });
 
     // Modify the simulation to maintain fixed positions and properly handle links
     const simulation = d3.forceSimulation<Node>(nodes)
@@ -206,6 +267,7 @@ export const Inference = () => {
     // Cleanup
     return () => {
       simulation.stop();
+      tooltip.remove(); // Clean up tooltip
     };
   }, []);
 

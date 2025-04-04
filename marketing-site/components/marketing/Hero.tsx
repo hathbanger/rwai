@@ -23,9 +23,9 @@ const Hero = () => {
       </div>
       
       {/* Main Content Grid */}
-      <div className="container flex-1 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 relative z-10 py-12 lg:py-16">
+      <div className="container flex-1 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 relative z-10 py-12 lg:py-16">
         {/* Left Column - All Content */}
-        <div className="flex flex-col justify-center space-y-8 mt-12 lg:mt-0">
+        <div className="lg:col-span-5 flex flex-col justify-center space-y-8 mt-12 lg:mt-0">
           <h1 className="tracking-tight animate-slide-up font-normal">
             <span className="block text-4xl md:text-5xl lg:text-6xl text-gray-100 leading-tight">
               Decentralizing
@@ -70,7 +70,7 @@ const Hero = () => {
         </div>
 
         {/* Right Column - Force Graph */}
-        <div className="flex items-center justify-center w-full h-full">
+        <div className="lg:col-span-7 flex items-center justify-center w-full h-full">
           <div className="relative w-full aspect-square max-w-[600px] overflow-visible">
             <Inference />
           </div>
