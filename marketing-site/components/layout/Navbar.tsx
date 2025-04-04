@@ -19,7 +19,7 @@ const Navbar = () => {
   return (
     <>
       {/* Main Navbar */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-white dark:bg-gray-950 py-4 px-6 md:px-12 border-b border-gray-200 dark:border-gray-800 shadow-sm">
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/70 dark:bg-gray-950/70 py-4 px-6 md:px-12 border-b border-gray-200 dark:border-gray-800 shadow-sm backdrop-blur-sm">
         <div className="w-full flex items-center justify-between">
           {/* Left section - Hamburger and Logo */}
           <div className="flex items-center gap-4">
@@ -45,7 +45,7 @@ const Navbar = () => {
                 height={40} 
                 style={{ width: 'auto', height: 'auto', maxHeight: '32px' }}
                 priority
-                className="dark:invert w-[90px] md:w-[110px] h-auto object-contain"
+                className="w-[90px] md:w-[110px] h-auto object-contain [.dark_&]:invert"
               />
             </Link>
           </div>
@@ -91,7 +91,7 @@ const Navbar = () => {
                 width={100} 
                 height={32} 
                 style={{ width: 'auto', height: 'auto', maxHeight: '28px' }}
-                className="dark:invert w-[80px] h-auto object-contain"
+                className="w-[80px] h-auto object-contain [.dark_&]:invert"
               />
             </div>
             <Button
