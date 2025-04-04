@@ -43,12 +43,12 @@ const Hero = () => {
 
           <div className="space-y-6 animate-fade-in animation-delay-200">
             <p className="text-lg md:text-xl text-gray-100 leading-relaxed">
-              RWAi is the first platform where anyone can access, own, and earn passive income from state-of-the-art AI Rigs that run top open-source models like DeepSeek & Llama, delivering inference and other AI optimized compute services to a high demand market.
+              RWAi is the first platform where anyone can access, own, and earn passive income from state-of-the-art AI Rigs that run top open-source models.
             </p>
-            
+{/*             
             <p className="text-lg md:text-xl text-gray-100 leading-relaxed">
               By 2028, the AI infrastructure market is expected to reach $1 trillion, RWAi is positioned to capture this explosive growth.
-            </p>
+            </p> */}
 
             <div className="pt-4">
               <Button 
