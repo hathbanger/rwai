@@ -7,6 +7,7 @@ import { Button } from '../ui/button';
 import { cn } from '@/lib/utils';
 import { ArrowRight } from 'lucide-react';
 import { ShaderCanvas } from '../shaders/ShaderCanvas';
+import Inference from '../d3/Inference';
 
 const Hero = () => {
   const [mounted, setMounted] = useState(false);
@@ -23,8 +24,8 @@ const Hero = () => {
       
       {/* Main Content Grid */}
       <div className="container flex-1 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 relative z-10 py-12 lg:py-16">
-        {/* Left Column - Typography & Headings */}
-        <div className="flex flex-col justify-center space-y-4 mt-12 lg:mt-0">
+        {/* Left Column - All Content */}
+        <div className="flex flex-col justify-center space-y-8 mt-12 lg:mt-0">
           <h1 className="tracking-tight animate-slide-up font-normal">
             <span className="block text-4xl md:text-5xl lg:text-6xl text-gray-100 leading-tight">
               Decentralizing
@@ -39,11 +40,8 @@ const Hero = () => {
               with RWA Tokenization
             </span>
           </h1>
-        </div>
 
-        {/* Right Column - Content */}
-        <div className="flex flex-col justify-center space-y-8 animate-fade-in animation-delay-200">
-          <div className="space-y-6">
+          <div className="space-y-6 animate-fade-in animation-delay-200">
             <p className="text-lg md:text-xl text-gray-100 leading-relaxed">
               RWAi is the first platform where anyone can access, own, and earn passive income from state-of-the-art AI Rigs that run top open-source models like DeepSeek & Llama, delivering inference and other AI optimized compute services to a high demand market.
             </p>
@@ -68,6 +66,13 @@ const Hero = () => {
                 </a>
               </Button>
             </div>
+          </div>
+        </div>
+
+        {/* Right Column - Force Graph */}
+        <div className="flex items-center justify-center w-full h-full">
+          <div className="relative w-full aspect-square max-w-[600px] overflow-visible">
+            <Inference />
           </div>
         </div>
       </div>
