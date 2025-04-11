@@ -12,8 +12,8 @@ import {
   Settings,
   HelpCircle
 } from "lucide-react";
-import { ThemeToggle } from "../../components/ui/theme-toggle";
-import { Logo } from '../../components/ui/logo';
+import { ThemeToggle } from "../ui/theme-toggle";
+import { Logo } from '../ui/logo';
 import { getMainUrl } from '../../lib/url-utils';
 
 interface NavigationLink {

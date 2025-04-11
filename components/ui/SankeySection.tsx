@@ -6,13 +6,13 @@ import { sankeyData } from '../../data/sankey-data';
 
 // Import the Sankey diagram component with dynamic import to avoid SSR issues with D3
 const SankeyDiagram = dynamic(
-  () => import('../../components/ui/SankeyDiagram'),
+  () => import('./SankeyDiagram'),
   { ssr: false }
 );
 
 // Import the Sankey legend component
 const SankeyLegend = dynamic(
-  () => import('../../components/ui/SankeyLegend'),
+  () => import('./SankeyLegend'),
   { ssr: false }
 );
 
