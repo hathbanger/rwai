@@ -3,6 +3,24 @@
 import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
 
+// User profiles data
+const userProfiles = [
+  { image: "/images/user-pic-1.png", title: "AI Research Lead" },
+  { image: "/images/user-pic-2.png", title: "Startup Founder" },
+  { image: "/images/user-pic-3.png", title: "ML Engineer" },
+  { image: "/images/user-pic-4.png", title: "Data Scientist" },
+  { image: "/images/user-pic-5.png", title: "Product Manager" },
+  { image: "/images/user-pic-6.png", title: "Tech Entrepreneur" },
+  { image: "/images/user-pic-7.png", title: "Innovation Director" },
+  { image: "/images/user-pic-8.png", title: "AI Developer" },
+  { image: "/images/user-pic-9.png", title: "Research Scientist" },
+  { image: "/images/user-pic-10.png", title: "AI Consultant" },
+  { image: "/images/user-pic-11.png", title: "ML Architect" },
+  { image: "/images/user-pic-12.png", title: "AI Strategist" },
+  { image: "/images/user-pic-13.png", title: "Tech Lead" },
+  { image: "/images/user-pic-14.png", title: "AI Engineer" }
+];
+
 interface Node extends d3.SimulationNodeDatum {
   id: string;
   image: string;
@@ -31,40 +49,22 @@ export const Inference = () => {
     // Clear any existing SVG content
     d3.select(svgRef.current).selectAll("*").remove();
 
-    // Get unique profile pictures
-    const getUniqueRandomPics = (count: number, max: number) => {
-      const available = Array.from({ length: max }, (_, i) => i + 1);
-      const result = [];
-      
-      for (let i = 0; i < count; i++) {
-        const randomIndex = Math.floor(Math.random() * available.length);
-        result.push(available[randomIndex]);
-        available.splice(randomIndex, 1);
-      }
-      
-      return result;
+    // Get random user profiles
+    const getRandomUserProfiles = (count: number) => {
+      const shuffled = [...userProfiles].sort(() => 0.5 - Math.random());
+      return shuffled.slice(0, count);
     };
 
-    // User types for tooltips
-    const userTypes = [
-      "AI Research Lead",
-      "Startup Founder",
-      "ML Engineer",
-      "Data Scientist",
-      "Product Manager",
-      "Tech Entrepreneur",
-      "Innovation Director"
-    ];
-
-    const uniquePics = getUniqueRandomPics(7, 14);
+    // Initial user profiles
+    const initialProfiles = getRandomUserProfiles(7);
     
     // Create profile nodes (top row)
-    const profileNodes: Node[] = Array.from({ length: 7 }, (_, i) => ({
+    const profileNodes: Node[] = initialProfiles.map((profile, i) => ({
       id: `User ${i + 1}`,
-      image: `/images/user-pic-${uniquePics[i]}.png`,
+      image: profile.image,
       size: 65,
       type: 'profile',
-      label: userTypes[i]
+      label: profile.title
     }));
 
     // Create model logo nodes (bottom row)
@@ -82,7 +82,7 @@ export const Inference = () => {
       size: 180,
       type: 'central',
       fixed: true,
-      label: "RWAi"
+      label: "RWAi GPUs"
     };
 
     // Combine all nodes
@@ -107,7 +107,7 @@ export const Inference = () => {
     // SVG dimensions
     const width = 1400;
     const height = 1200;
-    const spacing = 160;
+    const spacing = 180;
     const modelSpacing = 260;
 
     // Create SVG
@@ -181,58 +181,21 @@ export const Inference = () => {
       );
     };
 
-    // Function to animate a dot along a path
-    const animateAlongPath = (
-      pathElement: d3.Selection<SVGPathElement, Link, SVGGElement, unknown>,
-      dot: d3.Selection<SVGCircleElement, unknown, null, undefined>,
-      direction: 'user-to-logo' | 'logo-to-model' | 'model-to-logo' | 'logo-to-user',
-      duration = 400,
-      onComplete?: () => void
-    ) => {
-      const pathNode = pathElement.node();
-      if (!pathNode) return;
-      
-      const length = pathNode.getTotalLength();
-      const pathData = pathElement.datum();
-      
-      // Determine which direction to animate
-      let reverse = false;
-      
-      // For user-to-logo: if path goes from logo to user, we need to reverse
-      if (direction === 'user-to-logo' && pathData.source === centralNode) {
-        reverse = true;
-      }
-      
-      // For logo-to-model: if path goes from model to logo, we need to reverse
-      if (direction === 'logo-to-model' && pathData.source !== centralNode) {
-        reverse = true;
-      }
-      
-      // For model-to-logo: if path goes from logo to model, we need to reverse
-      if (direction === 'model-to-logo' && pathData.source === centralNode) {
-        reverse = true;
-      }
-      
-      // For logo-to-user: if path goes from user to logo, we need to reverse
-      if (direction === 'logo-to-user' && pathData.source !== centralNode) {
-        reverse = true;
-      }
-      
-      dot.transition()
-        .duration(duration)
-        .ease(d3.easeLinear)
-        .attrTween("transform", () => {
-          return (t) => {
-            const point = pathNode.getPointAtLength(
-              reverse ? length * (1 - t) : length * t
-            );
-            return `translate(${point.x},${point.y})`;
-          };
-        })
-        .on("end", () => {
-          if (onComplete) onComplete();
-        });
-    };
+    // Create defs for image patterns
+    const defs = svg.append("defs");
+
+    // Add motion blur filter
+    const filter = defs.append("filter")
+      .attr("id", "motionBlur")
+      .attr("width", "300%")
+      .attr("height", "300%")
+      .attr("x", "-100%")
+      .attr("y", "-100%");
+
+    filter.append("feGaussianBlur")
+      .attr("class", "blur")
+      .attr("in", "SourceGraphic")
+      .attr("stdDeviation", "4 0.1");
 
     // Function to create and run the full animation sequence
     const animateDot = (sourceNode: Node, nextAnimation: () => void) => {
@@ -240,11 +203,21 @@ export const Inference = () => {
       const randomModelIndex = Math.floor(Math.random() * modelNodes.length);
       const modelNode = modelNodes[randomModelIndex];
 
-      // Create the dot in the dots layer
-      const dot = dotsGroup.append("circle")
+      // Create the dot group to hold both the main dot and its blur
+      const dotGroup = dotsGroup.append("g");
+
+      // Create the dot with motion blur
+      const dot = dotGroup.append("circle")
         .attr("r", 8)
         .attr("fill", "#FF4500")
-        .attr("opacity", 0.9);
+        .attr("opacity", 0.9)
+        .style("filter", "url(#motionBlur)");
+
+      // Create a copy of the dot without blur for better visibility
+      const dotOverlay = dotGroup.append("circle")
+        .attr("r", 4)
+        .attr("fill", "#FF4500")
+        .attr("opacity", 1);
 
       // Find the actual paths we'll be using
       const userToLogoPath = findPath(sourceNode, centralNode);
@@ -252,56 +225,186 @@ export const Inference = () => {
 
       if (!userToLogoPath.node() || !logoToModelPath.node()) {
         console.error('Could not find required paths');
-        dot.remove();
+        dotGroup.remove();
         nextAnimation();
         return;
       }
 
+      // Modified animateAlongPath to handle both dots
+      const animateAlongPath = (
+        pathElement: d3.Selection<SVGPathElement, Link, SVGGElement, unknown>,
+        dotGroup: d3.Selection<SVGGElement, unknown, null, undefined>,
+        direction: 'user-to-logo' | 'logo-to-model' | 'model-to-logo' | 'logo-to-user',
+        duration = 400,
+        onComplete?: () => void
+      ) => {
+        const pathNode = pathElement.node();
+        if (!pathNode) return;
+        
+        const length = pathNode.getTotalLength();
+        const pathData = pathElement.datum();
+        
+        // Determine which direction to animate
+        let reverse = false;
+        
+        // Direction logic remains the same...
+        if (direction === 'user-to-logo' && pathData.source === centralNode) {
+          reverse = true;
+        }
+        if (direction === 'logo-to-model' && pathData.source !== centralNode) {
+          reverse = true;
+        }
+        if (direction === 'model-to-logo' && pathData.source === centralNode) {
+          reverse = true;
+        }
+        if (direction === 'logo-to-user' && pathData.source !== centralNode) {
+          reverse = true;
+        }
+
+        // Calculate the angle for the blur based on path direction
+        const startPoint = pathNode.getPointAtLength(reverse ? length : 0);
+        const endPoint = pathNode.getPointAtLength(reverse ? 0 : length);
+        const angle = Math.atan2(endPoint.y - startPoint.y, endPoint.x - startPoint.x) * (180 / Math.PI);
+        
+        // Update the motion blur angle
+        filter.select(".blur")
+          .attr("stdDeviation", "4 0.1")
+          .attr("x", () => Math.cos(angle * Math.PI / 180) * 2)
+          .attr("y", () => Math.sin(angle * Math.PI / 180) * 2);
+        
+        dotGroup.transition()
+          .duration(duration)
+          .ease(d3.easeLinear)
+          .attrTween("transform", () => {
+            return (t) => {
+              const point = pathNode.getPointAtLength(
+                reverse ? length * (1 - t) : length * t
+              );
+              return `translate(${point.x},${point.y})`;
+            };
+          })
+          .on("end", () => {
+            if (onComplete) onComplete();
+          });
+      };
+
       // Step 1: User to Logo
-      animateAlongPath(userToLogoPath, dot, 'user-to-logo', 400, () => {
+      animateAlongPath(userToLogoPath, dotGroup, 'user-to-logo', 250, () => {
         // Step 2: Logo to Model
-        animateAlongPath(logoToModelPath, dot, 'logo-to-model', 400, () => {
+        animateAlongPath(logoToModelPath, dotGroup, 'logo-to-model', 250, () => {
           // Step 3: Short pause at model
           setTimeout(() => {
             // Step 4: Model back to Logo
-            animateAlongPath(logoToModelPath, dot, 'model-to-logo', 400, () => {
+            animateAlongPath(logoToModelPath, dotGroup, 'model-to-logo', 250, () => {
               // Step 5: Logo back to User
-              animateAlongPath(userToLogoPath, dot, 'logo-to-user', 400, () => {
-                // Clean up and immediately start next animation without delay
-                dot.remove();
-                nextAnimation(); // Removed setTimeout to eliminate delay
+              animateAlongPath(userToLogoPath, dotGroup, 'logo-to-user', 250, () => {
+                dotGroup.remove();
+                
+                // Start user transition after 2 seconds
+                setTimeout(() => {
+                  // Get a new random user profile
+                  const newProfile = userProfiles[Math.floor(Math.random() * userProfiles.length)];
+                  
+                  // Find the node in the visualization
+                  const nodeSelection = nodesGroup.select(`circle[data-id="${sourceNode.id}"]`);
+                  
+                  // Create a temporary overlapping node for the crossfade
+                  const tempNode = nodesGroup.append("circle")
+                    .attr("r", sourceNode.size || 65)
+                    .attr("cx", sourceNode.x)
+                    .attr("cy", sourceNode.y)
+                    .style("fill", (d, i) => {
+                      // Create a new pattern for the temp node
+                      const tempPatternId = `temp-pattern-${Date.now()}`;
+                      defs.append("pattern")
+                        .attr("id", tempPatternId)
+                        .attr("width", 1)
+                        .attr("height", 1)
+                        .append("image")
+                        .attr("href", newProfile.image)
+                        .attr("width", (sourceNode.size || 65) * 2)
+                        .attr("height", (sourceNode.size || 65) * 2)
+                        .attr("preserveAspectRatio", "xMidYMid slice");
+                      return `url(#${tempPatternId})`;
+                    })
+                    .style("stroke", "#FF4500")
+                    .style("stroke-width", 1.25)
+                    .style("stroke-opacity", 0.8)
+                    .style("opacity", 0);
+
+                  // Crossfade between the nodes
+                  nodeSelection
+                    .transition()
+                    .duration(500)
+                    .style("opacity", 0);
+
+                  tempNode
+                    .transition()
+                    .duration(500)
+                    .style("opacity", 1)
+                    .on("end", () => {
+                      // Update the original node's pattern
+                      const nodeIndex = nodes.indexOf(sourceNode);
+                      defs.select(`#node-${nodeIndex} image`)
+                        .attr("href", newProfile.image);
+                      
+                      // Update node data
+                      sourceNode.image = newProfile.image;
+                      sourceNode.label = newProfile.title;
+                      
+                      // Show original node and remove temp
+                      nodeSelection.style("opacity", 1);
+                      tempNode.remove();
+                      
+                      // Clean up temporary pattern
+                      defs.selectAll("pattern[id^='temp-pattern-']").remove();
+                    });
+                }, 2000);
+                
+                // Continue with next animation immediately
+                nextAnimation();
               });
             });
-          }, 200);
+          }, 100);
         });
       });
     };
 
     // Function to run animations sequentially
     const animateSequentially = () => {
-      let currentIndex = 0;
+      // Create a shuffled queue of indices
+      let remainingIndices: number[] = [];
+      
+      const shuffleNewSequence = () => {
+        // Create array of indices and shuffle it
+        remainingIndices = Array.from({ length: profileNodes.length }, (_, i) => i);
+        for (let i = remainingIndices.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [remainingIndices[i], remainingIndices[j]] = [remainingIndices[j], remainingIndices[i]];
+        }
+      };
+      
+      // Initialize with first shuffled sequence
+      shuffleNewSequence();
       
       const runNextAnimation = () => {
-        if (currentIndex >= profileNodes.length) {
-          currentIndex = 0; // Reset to first user when all are done
+        // If we've used all indices, create a new shuffled sequence
+        if (remainingIndices.length === 0) {
+          shuffleNewSequence();
         }
         
-        const sourceNode = profileNodes[currentIndex];
-        currentIndex++;
+        // Pop a random index from our remaining indices
+        const nextIndex = remainingIndices.pop()!;
+        const sourceNode = profileNodes[nextIndex];
         
-        // Run the animation for this user
         animateDot(sourceNode, runNextAnimation);
       };
       
-      // Start the sequential animations
       runNextAnimation();
     };
 
     // Start the animation sequence
     animateSequentially();
-
-    // Create defs for image patterns
-    const defs = svg.append("defs");
 
     // Create patterns for each node
     nodes.forEach((node, i) => {
@@ -338,6 +441,7 @@ export const Inference = () => {
       .data(nodes)
       .join("circle")
       .attr("r", d => d.size || 45)
+      .attr("data-id", d => d.id) // Add data-id for easier selection
       .style("fill", (d, i) => `url(#node-${i})`)
       .style("stroke", "#FF4500")
       .style("stroke-width", 1.25)
