@@ -4,6 +4,7 @@ import { Sora } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "../components/theme-provider";
 import Script from "next/script";
+import { Analytics } from '@vercel/analytics/react';
 
 const sora = Sora({
   subsets: ["latin"],
@@ -202,6 +203,7 @@ export default function RootLayout({
         <ThemeProvider defaultTheme="dark" storageKey="theme">
           {children}
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );
