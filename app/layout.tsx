@@ -15,7 +15,7 @@ const sora = Sora({
 export const metadata: Metadata = {
   title: "RWAi | Tokenizing AI's Infrastructure",
   description: "RWAi enables fractional ownership of AI infrastructure through tokenization. Invest in GPU clusters, data centers, and AI computing resources with our innovative Web3 platform. Join the future of decentralized AI infrastructure ownership and earn passive income from high-demand computing resources.",
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://rwai.xyz'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_MAIN_URL || 'https://rwai.xyz'),
   keywords: [
     "AI infrastructure",
     "GPU tokenization",

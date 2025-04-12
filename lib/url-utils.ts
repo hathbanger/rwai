@@ -14,29 +14,52 @@ export function isVercel(): boolean {
 }
 
 /**
+ * Get the appropriate URL based on the environment
+ */
+export function getEnvironmentUrl(type: 'main' | 'app'): string {
+  const isDevelopment = process.env.NODE_ENV === 'development';
+  
+  if (type === 'main') {
+    return isDevelopment 
+      ? process.env.NEXT_PUBLIC_DEV_MAIN_URL || 'http://localhost:3000'
+      : process.env.NEXT_PUBLIC_MAIN_URL || 'https://rwai.xyz';
+  }
+  
+  return isDevelopment
+    ? process.env.NEXT_PUBLIC_DEV_APP_URL || 'http://app.localhost:3000'
+    : process.env.NEXT_PUBLIC_APP_URL || 'https://app.rwai.xyz';
+}
+
+/**
+ * Normalize a path by ensuring it starts with a forward slash
+ */
+export function normalizePath(path: string): string {
+  return path.startsWith('/') ? path : `/${path}`;
+}
+
+/**
  * Get the app subdomain URL
  * Works for:
  * - Local development (app.localhost:3000)
  * - Vercel deployments (app.rwai-eight.vercel.app)
- * - Production (app.yourdomain.com)
+ * - Production (app.rwai.xyz)
  */
 export function getAppUrl(path = ''): string {
   if (typeof window === 'undefined') {
-    return ''; // Return empty string for SSR
+    // Server-side: use environment variables
+    return `${getEnvironmentUrl('app')}${normalizePath(path)}`;
   }
 
   const { protocol, host } = window.location;
-  const normalizedPath = path.startsWith('/') ? path : `/${path}`;
+  const normalizedPath = normalizePath(path);
   
   // If already on app subdomain, just use current host
   if (host.startsWith('app.')) {
     return `${protocol}//${host}${normalizedPath}`;
   }
   
-  // For Vercel deployments - hardcode the proper format
+  // For Vercel deployments
   if (isVercel()) {
-    // For Vercel deployment to rwai-eight.vercel.app
-    // We want to ensure it's app.rwai-eight.vercel.app
     return `${protocol}//app.rwai-eight.vercel.app${normalizedPath}`;
   }
   
@@ -45,15 +68,16 @@ export function getAppUrl(path = ''): string {
 }
 
 /**
- * Get the main domain URL from an app subdomain
+ * Get the main domain URL
  */
 export function getMainUrl(path = ''): string {
   if (typeof window === 'undefined') {
-    return ''; // Return empty string for SSR
+    // Server-side: use environment variables
+    return `${getEnvironmentUrl('main')}${normalizePath(path)}`;
   }
 
   const { protocol, host } = window.location;
-  const normalizedPath = path.startsWith('/') ? path : `/${path}`;
+  const normalizedPath = normalizePath(path);
   
   // If not on app subdomain, just use current host
   if (!host.startsWith('app.')) {
@@ -63,10 +87,31 @@ export function getMainUrl(path = ''): string {
   // Remove 'app.' prefix from host
   const mainHost = host.replace(/^app\./, '');
   
-  // For Vercel deployments - hardcode the proper format if needed
+  // For Vercel deployments
   if (isVercel()) {
     return `${protocol}//rwai-eight.vercel.app${normalizedPath}`;
   }
+  
+  return `${protocol}//${mainHost}${normalizedPath}`;
+}
+
+/**
+ * Get the base path for static assets
+ */
+export function getBasePath(): string {
+  const isDevelopment = process.env.NODE_ENV === 'development';
+  return isDevelopment
+    ? process.env.NEXT_PUBLIC_DEV_MAIN_URL || 'http://localhost:3000'
+    : process.env.NEXT_PUBLIC_BASE_PATH || 'https://rwai.xyz';
+}
+
+/**
+ * Get the appropriate URL for a given path based on the host
+ */
+export function getUrlForPath(path: string = '/', host?: string): string {
+  const normalizedPath = normalizePath(path);
+  const protocol = process.env.NODE_ENV === 'development' ? 'http:' : 'https:';
+  const mainHost = host || 'rwai.xyz';
   
   return `${protocol}//${mainHost}${normalizedPath}`;
 } 

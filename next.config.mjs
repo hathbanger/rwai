@@ -1,16 +1,16 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: false,
+  reactStrictMode: true,
   // Remove basePath as it can interfere with subdomain routing
   // basePath: process.env.NODE_ENV === 'production' ? '/app' : '',
   trailingSlash: false,
-  // Disable ESLint during build
+  // Enable error checking for better code quality
   eslint: {
-    ignoreDuringBuilds: true,
+    ignoreDuringBuilds: false,
   },
   // Disable TypeScript errors during build
   typescript: {
-    ignoreBuildErrors: true,
+    ignoreBuildErrors: false,
   },
   images: {
     domains: ['localhost', 'app.localhost', 'rwai.xyz', 'app.rwai.xyz'],
@@ -43,11 +43,11 @@ const nextConfig = {
         pathname: '/**',
       }
     ],
-    unoptimized: true,
+    unoptimized: process.env.NODE_ENV === 'development',
     path: '',
     loader: 'default'
   },
-  // Enable hostname rewrites for development
+  // Enable experimental features safely
   experimental: {
     turbo: {
       rules: {
@@ -60,30 +60,33 @@ const nextConfig = {
   },
   // Subdomain configuration
   async rewrites() {
+    const isProduction = process.env.NODE_ENV === 'production';
     return [
-      // Handle app.rwai.xyz subdomain
+      // Handle app.rwai.xyz subdomain in production
       {
         source: '/:path*',
         has: [
           {
             type: 'host',
-            value: 'app.rwai.xyz',
-          },
-        ],
-        destination: '/app/:path*',
-      },
-      // Handle app.localhost:3000 subdomain for local development
-      {
-        source: '/:path*',
-        has: [
-          {
-            type: 'host',
-            value: 'app.localhost:3000',
+            value: isProduction ? 'app.rwai.xyz' : 'app.localhost:3000',
           },
         ],
         destination: '/app/:path*',
       }
     ];
+  },
+  // Add webpack configuration for better optimization
+  webpack: (config, { dev, isServer }) => {
+    // Optimize CSS
+    if (!dev && !isServer) {
+      config.optimization.splitChunks.cacheGroups.styles = {
+        name: 'styles',
+        test: /\.(css|scss)$/,
+        chunks: 'all',
+        enforce: true,
+      };
+    }
+    return config;
   },
 };
 
