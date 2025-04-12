@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "echo 'Starting Next build...' && next build",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
@@ -33,10 +33,10 @@
     "embla-carousel-react": "^8.5.2",
     "framer-motion": "^12.5.0",
     "lucide-react": "^0.479.0",
-    "next": "15.2.1",
+    "next": "14.1.0",
     "next-themes": "^0.4.5",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-markdown": "^10.1.0",
     "react-social-icons": "^6.22.0",
     "tailwind-merge": "^3.0.2",
@@ -45,12 +45,12 @@
   },
   "devDependencies": {
     "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
     "autoprefixer": "^10.4.21",
     "cssnano": "^7.0.6",
-    "eslint": "^9",
-    "eslint-config-next": "15.2.1",
+    "eslint": "^8",
+    "eslint-config-next": "14.1.0",
     "gltfjsx": "^6.5.3",
     "postcss": "^8.5.3",
     "postcss-import": "^16.1.0",
@@ -58,5 +58,8 @@
     "postcss-nesting": "^13.0.1",
     "tailwindcss": "^3.3.0",
     "typescript": "^5"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }
