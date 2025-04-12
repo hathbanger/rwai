@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "echo 'Starting build process...' && npm install --verbose && echo 'Install complete, starting Next build...' && next build",
+    "build": "echo 'Starting Next build...' && next build",
     "start": "next start",
     "lint": "next lint"
   },
