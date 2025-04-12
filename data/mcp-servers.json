@@ -1,0 +1,316 @@
+[
+  {
+    "id": "mcp-server-1",
+    "name": "Production MCP",
+    "type": "Primary Production Server",
+    "description": "Main production MCP server with high availability and redundancy. This server handles all production workloads and is optimized for performance and reliability.",
+    "status": "active",
+    "connectionDetails": {
+      "type": "REST API",
+      "url": "https://api.mcp.example.com/v1",
+      "authMethod": "oauth2",
+      "authDetails": {
+        "clientId": "YOUR_CLIENT_ID",
+        "scopes": ["read", "write", "execute"]
+      }
+    },
+    "tools": [
+      {
+        "name": "getConsoleLogs",
+        "description": "Retrieves browser console logs from the connected client",
+        "parameters": [
+          {
+            "name": "random_string",
+            "type": "string",
+            "description": "Dummy parameter for no-parameter tools"
+          }
+        ],
+        "returnType": "Array<LogEntry>"
+      },
+      {
+        "name": "getConsoleErrors",
+        "description": "Retrieves browser console error logs from the connected client",
+        "parameters": [
+          {
+            "name": "random_string",
+            "type": "string",
+            "description": "Dummy parameter for no-parameter tools"
+          }
+        ],
+        "returnType": "Array<ErrorLogEntry>"
+      },
+      {
+        "name": "takeScreenshot",
+        "description": "Captures a screenshot of the current browser viewport",
+        "parameters": [
+          {
+            "name": "random_string",
+            "type": "string",
+            "description": "Dummy parameter for no-parameter tools"
+          }
+        ],
+        "returnType": "ImageData"
+      },
+      {
+        "name": "getNetworkLogs",
+        "description": "Retrieves network request logs from the connected client",
+        "parameters": [
+          {
+            "name": "filter",
+            "type": "string",
+            "description": "Optional filter to apply to network logs (e.g., 'errors', 'success')"
+          }
+        ],
+        "returnType": "Array<NetworkLogEntry>"
+      }
+    ],
+    "stats": {
+      "requestsPerDay": 15420,
+      "avgResponseTime": "120ms",
+      "lastConnected": "2023-10-15T14:32:17Z"
+    },
+    "tags": ["production", "high-availability", "primary"],
+    "image": "/images/mcp/production-server.jpg",
+    "createdAt": "2023-01-10T09:00:00Z",
+    "updatedAt": "2023-10-15T14:32:17Z"
+  },
+  {
+    "id": "mcp-server-2",
+    "name": "Development MCP",
+    "type": "Development Environment",
+    "description": "Development environment MCP server for testing new features and integrations. This server is used by the development team to test new functionality before it is deployed to production.",
+    "status": "active",
+    "connectionDetails": {
+      "type": "WebSocket",
+      "url": "wss://dev-api.mcp.example.com/ws",
+      "authMethod": "api-key",
+      "authDetails": {
+        "headerName": "X-API-Key",
+        "description": "API key must be included in the header"
+      }
+    },
+    "tools": [
+      {
+        "name": "getConsoleLogs",
+        "description": "Retrieves browser console logs from the connected client",
+        "parameters": [
+          {
+            "name": "random_string",
+            "type": "string",
+            "description": "Dummy parameter for no-parameter tools"
+          }
+        ],
+        "returnType": "Array<LogEntry>"
+      },
+      {
+        "name": "getSelectedElement",
+        "description": "Gets the currently selected DOM element from the browser",
+        "parameters": [
+          {
+            "name": "random_string",
+            "type": "string",
+            "description": "Dummy parameter for no-parameter tools"
+          }
+        ],
+        "returnType": "ElementData"
+      },
+      {
+        "name": "wipeLogs",
+        "description": "Clears all logs from memory",
+        "parameters": [
+          {
+            "name": "random_string",
+            "type": "string",
+            "description": "Dummy parameter for no-parameter tools"
+          }
+        ],
+        "returnType": "boolean"
+      }
+    ],
+    "stats": {
+      "requestsPerDay": 5280,
+      "avgResponseTime": "95ms",
+      "lastConnected": "2023-10-16T10:15:42Z"
+    },
+    "tags": ["development", "testing", "sandbox"],
+    "image": "/images/mcp/dev-server.jpg",
+    "createdAt": "2023-02-15T11:30:00Z",
+    "updatedAt": "2023-10-16T10:15:42Z"
+  },
+  {
+    "id": "mcp-server-3",
+    "name": "Staging MCP",
+    "type": "Pre-Production Environment",
+    "description": "Staging environment that mirrors production for final testing before deployment. This server is configured identically to production to ensure accurate testing results.",
+    "status": "active",
+    "connectionDetails": {
+      "type": "REST API",
+      "url": "https://staging-api.mcp.example.com/v1",
+      "authMethod": "oauth2",
+      "authDetails": {
+        "clientId": "YOUR_STAGING_CLIENT_ID",
+        "scopes": ["read", "write", "execute"]
+      }
+    },
+    "tools": [
+      {
+        "name": "getConsoleLogs",
+        "description": "Retrieves browser console logs from the connected client",
+        "parameters": [
+          {
+            "name": "random_string",
+            "type": "string",
+            "description": "Dummy parameter for no-parameter tools"
+          }
+        ],
+        "returnType": "Array<LogEntry>"
+      },
+      {
+        "name": "getConsoleErrors",
+        "description": "Retrieves browser console error logs from the connected client",
+        "parameters": [
+          {
+            "name": "random_string",
+            "type": "string",
+            "description": "Dummy parameter for no-parameter tools"
+          }
+        ],
+        "returnType": "Array<ErrorLogEntry>"
+      },
+      {
+        "name": "getNetworkErrorLogs",
+        "description": "Retrieves network error logs from the connected client",
+        "parameters": [
+          {
+            "name": "random_string",
+            "type": "string",
+            "description": "Dummy parameter for no-parameter tools"
+          }
+        ],
+        "returnType": "Array<NetworkErrorLogEntry>"
+      },
+      {
+        "name": "getNetworkSuccessLogs",
+        "description": "Retrieves successful network request logs from the connected client",
+        "parameters": [
+          {
+            "name": "random_string",
+            "type": "string",
+            "description": "Dummy parameter for no-parameter tools"
+          }
+        ],
+        "returnType": "Array<NetworkSuccessLogEntry>"
+      }
+    ],
+    "stats": {
+      "requestsPerDay": 8750,
+      "avgResponseTime": "110ms",
+      "lastConnected": "2023-10-14T18:45:33Z"
+    },
+    "tags": ["staging", "pre-production", "testing"],
+    "image": "/images/mcp/staging-server.jpg",
+    "createdAt": "2023-01-20T14:15:00Z",
+    "updatedAt": "2023-10-14T18:45:33Z"
+  },
+  {
+    "id": "mcp-server-4",
+    "name": "Legacy MCP",
+    "type": "Legacy System",
+    "description": "Legacy MCP server maintained for backward compatibility with older systems. This server is being phased out but is still necessary for some legacy integrations.",
+    "status": "inactive",
+    "connectionDetails": {
+      "type": "SOAP",
+      "url": "https://legacy-api.mcp.example.com/soap",
+      "authMethod": "basic-auth",
+      "authDetails": {
+        "description": "Basic authentication with username and password"
+      }
+    },
+    "tools": [
+      {
+        "name": "getConsoleLogs",
+        "description": "Retrieves browser console logs from the connected client",
+        "parameters": [
+          {
+            "name": "random_string",
+            "type": "string",
+            "description": "Dummy parameter for no-parameter tools"
+          }
+        ],
+        "returnType": "Array<LogEntry>"
+      }
+    ],
+    "stats": {
+      "requestsPerDay": 320,
+      "avgResponseTime": "350ms",
+      "lastConnected": "2023-09-30T11:20:05Z"
+    },
+    "tags": ["legacy", "deprecated", "maintenance-mode"],
+    "image": "/images/mcp/legacy-server.jpg",
+    "createdAt": "2022-05-10T08:45:00Z",
+    "updatedAt": "2023-09-30T11:20:05Z"
+  },
+  {
+    "id": "mcp-server-5",
+    "name": "Analytics MCP",
+    "type": "Specialized Analytics Server",
+    "description": "Dedicated MCP server for analytics processing and data visualization. This server is optimized for handling large datasets and complex analytical queries.",
+    "status": "active",
+    "connectionDetails": {
+      "type": "GraphQL",
+      "url": "https://analytics-api.mcp.example.com/graphql",
+      "authMethod": "jwt",
+      "authDetails": {
+        "tokenLifetime": "8h",
+        "description": "JWT token must be included in the Authorization header"
+      }
+    },
+    "tools": [
+      {
+        "name": "getConsoleLogs",
+        "description": "Retrieves browser console logs from the connected client",
+        "parameters": [
+          {
+            "name": "random_string",
+            "type": "string",
+            "description": "Dummy parameter for no-parameter tools"
+          }
+        ],
+        "returnType": "Array<LogEntry>"
+      },
+      {
+        "name": "takeScreenshot",
+        "description": "Captures a screenshot of the current browser viewport",
+        "parameters": [
+          {
+            "name": "random_string",
+            "type": "string",
+            "description": "Dummy parameter for no-parameter tools"
+          }
+        ],
+        "returnType": "ImageData"
+      },
+      {
+        "name": "getSelectedElement",
+        "description": "Gets the currently selected DOM element from the browser",
+        "parameters": [
+          {
+            "name": "random_string",
+            "type": "string",
+            "description": "Dummy parameter for no-parameter tools"
+          }
+        ],
+        "returnType": "ElementData"
+      }
+    ],
+    "stats": {
+      "requestsPerDay": 9840,
+      "avgResponseTime": "180ms",
+      "lastConnected": "2023-10-16T09:05:22Z"
+    },
+    "tags": ["analytics", "data-processing", "visualization"],
+    "image": "/images/mcp/analytics-server.jpg",
+    "createdAt": "2023-03-05T16:20:00Z",
+    "updatedAt": "2023-10-16T09:05:22Z"
+  }
+] 
