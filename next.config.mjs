@@ -63,16 +63,16 @@ const nextConfig = {
     const isProduction = process.env.NODE_ENV === 'production';
     return [
       // Handle app.rwai.xyz subdomain in production
-      {
-        source: '/:path*',
-        has: [
-          {
-            type: 'host',
-            value: isProduction ? 'app.rwai.xyz' : 'app.localhost:3000',
-          },
-        ],
-        destination: '/app/:path*',
-      }
+      // {
+      //   source: '/:path*',
+      //   has: [
+      //     {
+      //       type: 'host',
+      //       value: isProduction ? 'app.rwai.xyz' : 'app.localhost:3000',
+      //     },
+      //   ],
+      //   destination: '/app/:path*',
+      // }
     ];
   },
   // Add webpack configuration for better optimization
