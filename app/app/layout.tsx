@@ -1,7 +1,8 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { Geist, Geist_Mono, Sora } from "next/font/google";
+import { GeistSans, GeistMono } from 'geist/font';
+import { Sora } from "next/font/google";
 import { UserAccountDropdown } from '../../components/app-dashboard/user-account-dropdown';
 import { Logo } from '../../components/ui/logo';
 import { ThemeProvider } from '../../components/theme-provider';
@@ -23,18 +24,6 @@ import { getMainUrl } from '../../lib/url-utils';
 // Import Head and useEffect
 import Head from 'next/head';
 import { useEffect } from 'react';
-
-const geistSans = Geist({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-geist-sans",
-});
-
-const geistMono = Geist_Mono({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-geist-mono",
-});
 
 const sora = Sora({
   subsets: ["latin"],
@@ -154,7 +143,7 @@ export default function AppLayout({
 
   return (
     <ThemeProvider defaultTheme="dark" storageKey="theme">
-      <div className={`${geistSans.variable} ${geistMono.variable} ${sora.variable} min-h-screen flex flex-col bg-background text-foreground`}>
+      <div className={`${GeistSans.variable} ${GeistMono.variable} ${sora.variable} min-h-screen flex flex-col bg-background text-foreground`}>
         {/* Top header with logo and user dropdown */}
         <header className="bg-card border-b border-border sticky top-0 z-50">
           <div className="mx-auto max-w-7xl px-4 py-3 sm:px-6 lg:px-8">
