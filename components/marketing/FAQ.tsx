@@ -12,7 +12,7 @@ const FAQ = () => {
   };
 
   return (
-    <section id="faq" className="py-24 bg-gray-50 dark:bg-gray-900/80">
+    <section id="faq" className="py-24 bg-gray-50 dark:bg-gray-900">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h3 className="text-xl md:text-2xl mb-3 text-primary">FAQ</h3>

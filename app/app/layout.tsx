@@ -9,12 +9,13 @@ import { ThemeToggle } from '../../components/ui/theme-toggle';
 import { SidebarNav } from '../../components/app-dashboard/sidebar-nav';
 import { Bell, CreditCard, Server, Users, BarChart3, DollarSign, Menu } from 'lucide-react';
 import { SocialIcon } from 'react-social-icons';
-import { 
+import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
   DropdownMenuLabel,
-  DropdownMenuTrigger
-} from "../../src/components/ui/dropdown-menu";
+} from "@/components/ui/dropdown-menu";
 import Link from 'next/link';
 import '../globals.css';
 import { getMainUrl } from '../../lib/url-utils';

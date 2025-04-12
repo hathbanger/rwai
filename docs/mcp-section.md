@@ -70,7 +70,7 @@ Located at `marketing-site/app/app/mcp/[serverId]/page.tsx`, this page provides 
 
 ## Data Structure
 
-MCP server data is stored in `marketing-site/src/data/mcp-servers.json` with the following structure:
+MCP server data is stored in `data/mcp-servers.json` with the following structure:
 
 ```typescript
 interface MCPServer {

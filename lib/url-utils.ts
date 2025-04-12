@@ -22,18 +22,14 @@ export function isVercel(): boolean {
  */
 export function getAppUrl(path = ''): string {
   if (typeof window === 'undefined') {
-    console.log('getAppUrl called during SSR');
     return ''; // Return empty string for SSR
   }
 
   const { protocol, host } = window.location;
   const normalizedPath = path.startsWith('/') ? path : `/${path}`;
   
-  console.log(`getAppUrl: generating URL for path: ${path}`);
-  
   // If already on app subdomain, just use current host
   if (host.startsWith('app.')) {
-    console.log(`Already on app subdomain: ${host}`);
     return `${protocol}//${host}${normalizedPath}`;
   }
   
@@ -41,13 +37,10 @@ export function getAppUrl(path = ''): string {
   if (isVercel()) {
     // For Vercel deployment to rwai-eight.vercel.app
     // We want to ensure it's app.rwai-eight.vercel.app
-    const appUrl = `${protocol}//app.rwai-eight.vercel.app${normalizedPath}`;
-    console.log(`Vercel deployment, using hardcoded app URL: ${appUrl}`);
-    return appUrl;
+    return `${protocol}//app.rwai-eight.vercel.app${normalizedPath}`;
   }
   
   // For local development and other environments
-  console.log(`Standard environment: creating app.${host}`);
   return `${protocol}//app.${host}${normalizedPath}`;
 }
 
@@ -72,9 +65,7 @@ export function getMainUrl(path = ''): string {
   
   // For Vercel deployments - hardcode the proper format if needed
   if (isVercel()) {
-    const mainUrl = `${protocol}//rwai-eight.vercel.app${normalizedPath}`;
-    console.log(`Converting from app subdomain to main domain on Vercel: ${mainUrl}`);
-    return mainUrl;
+    return `${protocol}//rwai-eight.vercel.app${normalizedPath}`;
   }
   
   return `${protocol}//${mainHost}${normalizedPath}`;

@@ -54,7 +54,7 @@ export function MCPServerCard({
       {/* 
         TEMPORARILY HIDDEN: Server image section
         The image URLs are currently broken. To fix this:
-        1. Update the image paths in src/data/mcp-servers.json
+        1. Update the image paths in data/mcp-servers.json
         2. Ensure images are properly stored in the public directory
         3. Verify the IMAGE_BASE_PATH environment variable is correctly set
       */}

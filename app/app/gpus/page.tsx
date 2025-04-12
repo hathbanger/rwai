@@ -5,7 +5,7 @@ import { Search, Filter, ArrowUpDown, Info } from "lucide-react";
 import Link from "next/link";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { GpuCard } from "../../../components/ui/gpu-card";
-import gpusData from "../../../src/data/gpus.json";
+import gpusData from "../../../data/gpus.json";
 
 // Base path for static assets in subdomains
 const IMAGE_BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || "http://localhost:3000";

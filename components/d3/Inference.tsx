@@ -247,7 +247,6 @@ export const Inference = () => {
         // Determine which direction to animate
         let reverse = false;
         
-        // Direction logic remains the same...
         if (direction === 'user-to-logo' && pathData.source === centralNode) {
           reverse = true;
         }
@@ -299,68 +298,6 @@ export const Inference = () => {
               // Step 5: Logo back to User
               animateAlongPath(userToLogoPath, dotGroup, 'logo-to-user', 250, () => {
                 dotGroup.remove();
-                
-                // Start user transition after 2 seconds
-                setTimeout(() => {
-                  // Get a new random user profile
-                  const newProfile = userProfiles[Math.floor(Math.random() * userProfiles.length)];
-                  
-                  // Find the node in the visualization
-                  const nodeSelection = nodesGroup.select(`circle[data-id="${sourceNode.id}"]`);
-                  
-                  // Create a temporary overlapping node for the crossfade
-                  const tempNode = nodesGroup.append("circle")
-                    .attr("r", sourceNode.size || 65)
-                    .attr("cx", sourceNode.x)
-                    .attr("cy", sourceNode.y)
-                    .style("fill", (d, i) => {
-                      // Create a new pattern for the temp node
-                      const tempPatternId = `temp-pattern-${Date.now()}`;
-                      defs.append("pattern")
-                        .attr("id", tempPatternId)
-                        .attr("width", 1)
-                        .attr("height", 1)
-                        .append("image")
-                        .attr("href", newProfile.image)
-                        .attr("width", (sourceNode.size || 65) * 2)
-                        .attr("height", (sourceNode.size || 65) * 2)
-                        .attr("preserveAspectRatio", "xMidYMid slice");
-                      return `url(#${tempPatternId})`;
-                    })
-                    .style("stroke", "#FF4500")
-                    .style("stroke-width", 1.25)
-                    .style("stroke-opacity", 0.8)
-                    .style("opacity", 0);
-
-                  // Crossfade between the nodes
-                  nodeSelection
-                    .transition()
-                    .duration(500)
-                    .style("opacity", 0);
-
-                  tempNode
-                    .transition()
-                    .duration(500)
-                    .style("opacity", 1)
-                    .on("end", () => {
-                      // Update the original node's pattern
-                      const nodeIndex = nodes.indexOf(sourceNode);
-                      defs.select(`#node-${nodeIndex} image`)
-                        .attr("href", newProfile.image);
-                      
-                      // Update node data
-                      sourceNode.image = newProfile.image;
-                      sourceNode.label = newProfile.title;
-                      
-                      // Show original node and remove temp
-                      nodeSelection.style("opacity", 1);
-                      tempNode.remove();
-                      
-                      // Clean up temporary pattern
-                      defs.selectAll("pattern[id^='temp-pattern-']").remove();
-                    });
-                }, 2000);
-                
                 // Continue with next animation immediately
                 nextAnimation();
               });

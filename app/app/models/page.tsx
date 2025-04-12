@@ -7,7 +7,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../../components/ui/card";
 import { ResponsiveTable, ResponsiveTableBody, ResponsiveTableRow, ResponsiveTableCell } from "../../../components/ui/responsive-table";
-import modelsData from "../../../src/data/models.json";
+import modelsData from "../../../data/models.json";
 
 // Base path for static assets in subdomains
 const IMAGE_BASE_PATH = "/";

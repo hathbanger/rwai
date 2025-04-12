@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import modelsData from '../../../../src/data/models.json';
+import modelsData from '../../../../data/models.json';
 
 export async function GET(
   request: NextRequest,

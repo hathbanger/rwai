@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import modelsData from "../../../../src/data/models.json";
+import modelsData from "../../../../data/models.json";
 
 export default function ModelItemPage({ params }: { params: { itemId: string } }) {
   const { itemId } = params;

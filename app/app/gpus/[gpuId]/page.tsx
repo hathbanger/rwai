@@ -6,7 +6,7 @@ import Link from "next/link";
 import { notFound, useParams } from "next/navigation";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "../../../../components/ui/badge";
-import gpusData from "../../../../src/data/gpus.json";
+import gpusData from "../../../../data/gpus.json";
 import { WhitelistOverlay } from "../../../../components/app-dashboard/whitelist-overlay";
 import Image from "next/image";
 

@@ -5,7 +5,7 @@ import { Search, Filter, ArrowUpDown, Info, Plus } from "lucide-react";
 import Link from "next/link";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { MCPServerCard } from "../../../components/ui/mcp-server-card";
-import mcpServersData from "../../../src/data/mcp-servers.json";
+import mcpServersData from "../../../data/mcp-servers.json";
 import { WhitelistOverlay } from "../../../components/app-dashboard/whitelist-overlay";
 
 // Base path for static assets in subdomains

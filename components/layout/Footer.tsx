@@ -5,17 +5,17 @@ import { SocialIcon } from 'react-social-icons';
 
 const Footer = () => {
   return (
-    <footer className="bg-background py-16 border-t border-border">
+    <footer className="bg-gray-50 dark:bg-gray-900 py-16 border-t border-border">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
           <div className="md:col-span-2">
             <Link href="/" className="inline-block mb-6">
               <Image 
                 src="/images/RWAi_logo-xs.png" 
-                alt="RWAi" 
-                width={120} 
+                alt="RWAi Logo" 
+                width={100} 
                 height={40}
-                className="h-10 w-auto dark:invert"
+                className="w-auto h-8 dark:invert"
               />
             </Link>
             <p className="text-muted-foreground mb-6 max-w-md">

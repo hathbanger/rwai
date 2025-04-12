@@ -22,13 +22,14 @@ const features = [
 
 const Features = () => {
   return (
-    <section id="features" className="py-24 lg:px-48 bg-gray-50 dark:bg-gray-900/80">
+    <section id="features" className="py-24 lg:px-48 bg-gray-50 dark:bg-gray-900">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-5xl mb-6">
-            Access <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-orange-700">
+            {/* Access <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-orange-700"> */}
               Fully managed AI infrastructure
-            </span> converted to RWA opportunity
+            {/* </span>  */}
+            converted to RWA opportunity
           </h2>
         </div>
         

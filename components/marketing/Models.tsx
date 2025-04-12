@@ -60,14 +60,6 @@ const ModelCard = ({ model, priority = false, className = "" }: { model: ModelTy
   // Construct the full URL to the app subdomain
   const href = getAppUrl(model.path);
   
-  // Debug logs moved to console
-  console.log('ModelCard rendering:', {
-    model: model.name,
-    path: model.path,
-    href,
-    isVercel: isVercel()
-  });
-
   return (
     <a 
       href={href}
