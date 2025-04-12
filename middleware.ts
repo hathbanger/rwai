@@ -41,6 +41,9 @@ export default function middleware(request: NextRequest) {
   console.log(`🔍 MIDDLEWARE - ${new Date().toISOString()}`);
   console.log(`📌 Host: ${hostname}`);
   console.log(`📌 Path: ${pathname}`);
+  console.log(`📌 Method: ${request.method}`);
+  console.log(`📌 User Agent: ${request.headers.get('user-agent')}`);
+  console.log(`📌 Referrer: ${request.headers.get('referer') || 'Direct'}`);
 
   // Get the current host without port
   const currentHost = hostname.split(':')[0];
@@ -51,6 +54,8 @@ export default function middleware(request: NextRequest) {
   
   if (isAppSubdomain) {
     console.log(`🚀 App subdomain detected: ${hostname}`);
+    console.log(`📍 Root domain: ${rootDomain}`);
+    console.log(`🔗 Full URL: ${request.url}`);
 
     // Static assets pass-through
     if (

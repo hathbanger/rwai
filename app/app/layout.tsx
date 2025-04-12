@@ -127,6 +127,31 @@ export default function AppLayout({
     document.head.appendChild(preloadAvatar);
   }, []);
 
+  useEffect(() => {
+    // Log page navigation and environment info
+    console.log(`📱 App Navigation - ${new Date().toISOString()}`);
+    console.log(`📍 Path: ${pathname}`);
+    console.log(`🌍 Environment: ${process.env.NODE_ENV}`);
+    console.log(`🔗 Base URL: ${process.env.NEXT_PUBLIC_APP_URL}`);
+  }, [pathname]);
+
+  // Error boundary for deployment issues
+  useEffect(() => {
+    const handleError = (error: ErrorEvent) => {
+      console.error('🚨 App Error:', {
+        message: error.message,
+        filename: error.filename,
+        lineno: error.lineno,
+        colno: error.colno,
+        timestamp: new Date().toISOString(),
+        path: pathname,
+      });
+    };
+
+    window.addEventListener('error', handleError);
+    return () => window.removeEventListener('error', handleError);
+  }, [pathname]);
+
   return (
     <ThemeProvider defaultTheme="dark" storageKey="theme">
       <div className={`${geistSans.variable} ${geistMono.variable} ${sora.variable} min-h-screen flex flex-col bg-background text-foreground`}>
