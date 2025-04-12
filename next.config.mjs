@@ -13,7 +13,7 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
-    domains: ['localhost', 'app.localhost', 'rwai-eight.vercel.app', 'app.rwai-eight.vercel.app', 'rwai.xyz', 'app.rwai.xyz'],
+    domains: ['localhost', 'app.localhost', 'rwai.xyz', 'app.rwai.xyz'],
     dangerouslyAllowSVG: true,
     contentDispositionType: 'attachment',
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
@@ -31,21 +31,15 @@ const nextConfig = {
         port: '3000',
         pathname: '/**',
       },
-      // Vercel patterns
+      // Production patterns
       {
         protocol: 'https',
-        hostname: 'rwai-eight.vercel.app',
+        hostname: 'rwai.xyz',
         pathname: '/**',
       },
       {
         protocol: 'https',
-        hostname: 'app.rwai-eight.vercel.app',
-        pathname: '/**',
-      },
-      // Wildcard pattern for all domains in production
-      {
-        protocol: 'https',
-        hostname: '**',
+        hostname: 'app.rwai.xyz',
         pathname: '/**',
       }
     ],
@@ -67,13 +61,13 @@ const nextConfig = {
   // Subdomain configuration
   async rewrites() {
     return [
-      // Handle app.rwai-eight.vercel.app subdomain
+      // Handle app.rwai.xyz subdomain
       {
         source: '/:path*',
         has: [
           {
             type: 'host',
-            value: 'app.rwai-eight.vercel.app',
+            value: 'app.rwai.xyz',
           },
         ],
         destination: '/app/:path*',

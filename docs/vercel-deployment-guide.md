@@ -34,7 +34,7 @@ Before deploying to Vercel, ensure you have:
 In the configuration screen:
 
 1. **Framework Preset**: Ensure "Next.js" is selected
-2. **Root Directory**: Set to `marketing-site` if your repository contains multiple projects
+2. **Root Directory**: Set to `/` 
 3. **Build Command**: Leave as default (`next build`) or customize if needed
 4. **Output Directory**: Leave as default (`.next`)
 5. **Install Command**: Leave as default (`npm install`) or change to `yarn install` if using Yarn

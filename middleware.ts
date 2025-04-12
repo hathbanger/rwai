@@ -35,77 +35,28 @@ function getRootDomain(hostname: string): string {
 export default function middleware(request: NextRequest) {
   const url = request.nextUrl;
   const hostname = request.headers.get('host') || '';
-  const pathname = url.pathname;
   
-  // IMPORTANT: Always log essential information
-  console.log(`🔍 MIDDLEWARE - ${new Date().toISOString()}`);
-  console.log(`📌 Host: ${hostname}`);
-  console.log(`📌 Path: ${pathname}`);
-  console.log(`📌 Method: ${request.method}`);
-  console.log(`📌 User Agent: ${request.headers.get('user-agent')}`);
-  console.log(`📌 Referrer: ${request.headers.get('referer') || 'Direct'}`);
-
   // Get the current host without port
   const currentHost = hostname.split(':')[0];
-  const rootDomain = getRootDomain(currentHost);
   
   // Check if this is an app subdomain request
   const isAppSubdomain = currentHost.startsWith('app.');
   
   if (isAppSubdomain) {
-    console.log(`🚀 App subdomain detected: ${hostname}`);
-    console.log(`📍 Root domain: ${rootDomain}`);
-    console.log(`🔗 Full URL: ${request.url}`);
-
     // Static assets pass-through
     if (
-      pathname.startsWith('/_next/') ||
-      pathname.startsWith('/favicon.ico') ||
-      pathname.startsWith('/favicon_io/') ||
-      pathname.startsWith('/images/')
+      url.pathname.startsWith('/_next/') ||
+      url.pathname.startsWith('/favicon.ico') ||
+      url.pathname.startsWith('/favicon_io/') ||
+      url.pathname.startsWith('/images/')
     ) {
-      console.log('⏩ Static asset - passing through');
       return NextResponse.next();
     }
 
-    // Handle tracking parameters
-    if (hasTrackingParams(request.url)) {
-      const TRACKING_PARAMS = new Set(['_gl', '_ga', '_ga_3RT06YPS1M']);
-      const trackingParams: Record<string, string> = {};
-      
-      for (const [key, value] of url.searchParams.entries()) {
-        if (TRACKING_PARAMS.has(key)) {
-          trackingParams[key] = value;
-          url.searchParams.delete(key);
-        }
-      }
-
-      // Create clean URL preserving the original pathname
-      const cleanUrl = new URL(pathname + url.search, request.url);
-      console.log(`➡️ Redirecting to clean URL: ${cleanUrl.toString()}`);
-      const response = NextResponse.redirect(cleanUrl);
-
-      // Set cookies using the detected root domain
-      Object.entries(trackingParams).forEach(([param, value]) => {
-        console.log(`🍪 Setting cookie: ${param} for domain: ${rootDomain}`);
-        response.cookies.set(param, value, {
-          domain: `.${rootDomain}`,
-          path: '/',
-          secure: true,
-          sameSite: 'none',
-          maxAge: 2592000 // 30 days
-        });
-      });
-
-      return response;
-    }
-
-    // For app subdomain without tracking params, rewrite to app directory
-    const newUrl = new URL(`/app${pathname}`, request.url);
-    console.log(`➡️ Rewriting app subdomain request to: ${newUrl.toString()}`);
+    // For app subdomain, rewrite to app directory
+    const newUrl = new URL(`/app${url.pathname}`, request.url);
     return NextResponse.rewrite(newUrl);
   }
 
-  console.log('✅ Not a subdomain - proceeding normally');
   return NextResponse.next();
 } 

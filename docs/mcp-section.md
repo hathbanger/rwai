@@ -15,7 +15,7 @@ The MCP section allows users to:
 
 ### MCP Server Card
 
-The `MCPServerCard` component (`marketing-site/components/ui/mcp-server-card.tsx`) displays a summary of an MCP server, including:
+The `MCPServerCard` component (`components/ui/mcp-server-card.tsx`) displays a summary of an MCP server, including:
 
 - Server name and type
 - Status badge (active/inactive)
@@ -50,7 +50,7 @@ The card is designed to provide a quick overview of the server's capabilities an
 
 ### MCP Main Page
 
-Located at `marketing-site/app/app/mcp/page.tsx`, this page displays a grid of MCP server cards with filtering and sorting capabilities:
+Located at `app/app/mcp/page.tsx`, this page displays a grid of MCP server cards with filtering and sorting capabilities:
 
 - Status filter (All, Active, Inactive)
 - Search functionality
@@ -59,7 +59,7 @@ Located at `marketing-site/app/app/mcp/page.tsx`, this page displays a grid of M
 
 ### MCP Server Detail Page
 
-Located at `marketing-site/app/app/mcp/[serverId]/page.tsx`, this page provides detailed information about a specific MCP server:
+Located at `app/app/mcp/[serverId]/page.tsx`, this page provides detailed information about a specific MCP server:
 
 - Hero section with server image
 - Server metadata (name, type, description, tags)
@@ -109,8 +109,8 @@ interface MCPServer {
 
 ## Layouts
 
-- Main MCP layout (`marketing-site/app/app/mcp/layout.tsx`): Provides a full-width container for the MCP main page
-- MCP Server Detail layout (`marketing-site/app/app/mcp/[serverId]/layout.tsx`): Provides a container with maximum width and padding for the server detail page
+- Main MCP layout (`app/app/mcp/layout.tsx`): Provides a full-width container for the MCP main page
+- MCP Server Detail layout (`app/app/mcp/[serverId]/layout.tsx`): Provides a container with maximum width and padding for the server detail page
 
 ## Future Enhancements
 

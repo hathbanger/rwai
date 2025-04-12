@@ -84,7 +84,6 @@ The project uses a combination of Tailwind CSS and custom CSS variables for styl
 1. Clone the repository:
    ```bash
    git clone https://github.com/cjohndesign/rwai.git
-   cd rwai/marketing-site
    ```
 
 2. Install dependencies:

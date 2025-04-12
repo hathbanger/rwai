@@ -18,22 +18,22 @@ const nextjsAppRouterBestPractices = [
 // Folder structure with subdomain support
 
 const folderStructure = `
-marketing-site/
-├── app/                      # Main Next.js App Router directory
-│   ├── page.tsx              # Main marketing site homepage
-│   ├── layout.tsx            # Main marketing site layout
-│   ├── globals.css           # Global CSS styles
-│   ├── app/                  # App subdomain content
-│   │   ├── page.tsx          # App dashboard page
-│   │   ├── layout.tsx        # App dashboard layout
-│   │   ├── models/           # Models section for app subdomain
-│   │   ├── components/       # App-specific components
-│   │   └── ...               # Other app subdomain pages
-│   └── ...                   # Other marketing site pages
-├── components/               # Shared UI components
-├── middleware.ts             # Middleware for handling subdomain routing
-├── next.config.mjs           # Next.js configuration with subdomain rewrites
-└── public/                   # Static assets
+
+app/                      # Main Next.js App Router directory
+├── page.tsx              # Main marketing site homepage
+├── layout.tsx            # Main marketing site layout
+├── globals.css           # Global CSS styles
+├── app/                  # App subdomain content
+│   ├── page.tsx          # App dashboard page
+│   ├── layout.tsx        # App dashboard layout
+│   ├── models/           # Models section for app subdomain
+│   ├── components/       # App-specific components
+│   └── ...               # Other app subdomain pages
+└── ...                   # Other marketing site pages
+components/               # Shared UI components
+middleware.ts             # Middleware for handling subdomain routing
+next.config.mjs           # Next.js configuration with subdomain rewrites
+public/                   # Static assets
 `;
 
 // Subdomain routing implementation
