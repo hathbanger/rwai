@@ -1,12 +1,13 @@
 {
-  "name": "marketing-site",
+  "name": "rwai",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "postinstall": "npm run build"
   },
   "dependencies": {
     "@fontsource/sora": "^5.2.5",
