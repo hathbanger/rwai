@@ -58,36 +58,6 @@ const nextConfig = {
       },
     },
   },
-  // Subdomain configuration
-  async rewrites() {
-    const isProduction = process.env.NODE_ENV === 'production';
-    return [
-      // Handle app.rwai.xyz subdomain in production
-      // {
-      //   source: '/:path*',
-      //   has: [
-      //     {
-      //       type: 'host',
-      //       value: isProduction ? 'app.rwai.xyz' : 'app.localhost:3000',
-      //     },
-      //   ],
-      //   destination: '/app/:path*',
-      // }
-    ];
-  },
-  // Add webpack configuration for better optimization
-  webpack: (config, { dev, isServer }) => {
-    // Optimize CSS
-    if (!dev && !isServer) {
-      config.optimization.splitChunks.cacheGroups.styles = {
-        name: 'styles',
-        test: /\.(css|scss)$/,
-        chunks: 'all',
-        enforce: true,
-      };
-    }
-    return config;
-  },
 };
 
 export default nextConfig; 
